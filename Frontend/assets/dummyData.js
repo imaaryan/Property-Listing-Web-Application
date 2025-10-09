@@ -163,3 +163,16 @@ const dashboardData = {
     activeAreas: 19,
     activeEnquiries: 3,
 };
+
+const sellerEnquiries = [
+    {
+    _id: "671834a0b1e3f8a5a2e1b4c90",
+    name: "Aaryan Pandey",
+    email: "aaryan@email.com",
+    phone: 8899889999,
+    address: "056 Smart Town, Rishikesh, Uttrakhand",
+    propertyType: "Apartment",
+    message: "Want to sell my old flat on your platform",
+    isRead: true,
+}
+];
