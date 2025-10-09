@@ -14,7 +14,7 @@ const propertyToBuy = [
       ],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c93",
-    amenityIds: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
+    amenitiesId: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
     propertyType: "Residential Plot",
     bedrooms: 0,
     bathrooms: 0,
@@ -79,7 +79,7 @@ const propertyToBuy = [
       ],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c94",
-    amenityIds: ["6718da0b1e3f8a5a2e1b4ca3"],
+    amenitiesId: ["6718da0b1e3f8a5a2e1b4ca3"],
     propertyType: "Independent House",
     bedrooms: 4,
     bathrooms: 4,
@@ -137,7 +137,7 @@ const propertyToBuy = [
       imageGallery: ["property3img2.jpg", "property3img3.jpg"],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c99",
-    amenityIds: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
+    amenitiesId: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
     propertyType: "Commercial Shop",
     bedrooms: 0,
     bathrooms: 1,
@@ -203,7 +203,7 @@ const propertyForRent = [
       ],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c93",
-    amenityIds: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
+    amenitiesId: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
     propertyType: "Residential Apartment",
     bedrooms: 3,
     bathrooms: 2,
@@ -247,7 +247,7 @@ const propertyForRent = [
       imageGallery: ["rental2img2.jpg", "rental2img3.jpg"],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c96",
-    amenityIds: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
+    amenitiesId: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
     propertyType: "Independent Floor",
     bedrooms: 2,
     bathrooms: 2,
@@ -285,14 +285,10 @@ const propertyForRent = [
       "Plug-and-Play Office in Rishikesh Get your business running immediately with this fully furnished office space. Features 15 workstations, a manager's cabin, a conference room, and a pantry. Breathtaking views of the Ganges.",
     images: {
       featuredImage: "rental3img1.jpg",
-      imageGallery: [
-        "rental3img2.jpg",
-        "rental3img3.jpg",
-        "rental3img4.jpg",
-      ],
+      imageGallery: ["rental3img2.jpg", "rental3img3.jpg", "rental3img4.jpg"],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c98",
-    amenityIds: ["6718da0b1e3f8a5a2e1b4ca3"],
+    amenitiesId: ["6718da0b1e3f8a5a2e1b4ca3"],
     propertyType: "Commercial Office Space",
     bedrooms: 0,
     bathrooms: 2,
@@ -365,11 +361,11 @@ const amenities = [
 ];
 
 const dashboardData = {
-    activePropertiesToSell: 15,
-    activePropertiesToRent: 5,
-    activeCities: 3,
-    activeAreas: 19,
-    activeEnquiries: 3,
+  activePropertiesToSell: 15,
+  activePropertiesToRent: 5,
+  activeCities: 3,
+  activeAreas: 19,
+  activeEnquiries: 3,
 };
 
 const sellerEnquiries = [
