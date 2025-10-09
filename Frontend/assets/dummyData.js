@@ -74,12 +74,12 @@ const propertyForRent = [
     shortDescription:
       "<h1>A Simple Step-by-Step Guide to Managing Your Lifestyle</h1><p>If you're looking to improve your health, boost productivity, and create a balanced life, managing your lifestyle intentionally is key. Here's a short guide to help you take control of your daily habits and overall well-being.</p><h2>1. Assess Your Current Lifestyle</h2><p>Track your habits for a week. Note your energy levels, sleep, diet, and daily routines. Reflect on what's working and what needs change.</p>",
     images: {
-      featuredImage: property1img2,
+      featuredImage: "property1img2",
       imageGallery: [
-        property1img3,
-        property1img4,
-        property1img5,
-        property1img1,
+        "property1img3",
+        "property1img4",
+        "property1img5",
+        "property1img1",
       ],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c93",
@@ -155,3 +155,11 @@ const amenities = [
     _id: "6718da0b1e3f8a5a2e1b4ca3",
   },
 ];
+
+const dashboardData = {
+    activePropertiesToSell: 15,
+    activePropertiesToRent: 5,
+    activeCities: 3,
+    activeAreas: 19,
+    activeEnquiries: 3,
+};
