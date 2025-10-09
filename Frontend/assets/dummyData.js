@@ -347,15 +347,15 @@ const area = [
 
 const amenities = [
   {
-    amenitie: "Swimming Pool",
+    name: "Swimming Pool",
     _id: "6718da0b1e3f8a5a2e1b4ca1",
   },
   {
-    amenitie: "Play Ground",
+    name: "Play Ground",
     _id: "6718da0b1e3f8a5a2e1b4ca2",
   },
   {
-    amenitie: "Indoor Games",
+    name: "Indoor Games",
     _id: "6718da0b1e3f8a5a2e1b4ca3",
   },
 ];
