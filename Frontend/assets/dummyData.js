@@ -3,7 +3,7 @@ const propertyToBuy = [
     _id: "6718da0b1e3f8a5a2e1b4c90",
     title: "A detailed step by step guide to manage your lifestyle",
     shortDescription:
-      "<h1>A Simple Step-by-Step Guide to Managing Your Lifestyle</h1><p>If you're looking to improve your health, boost productivity, and create a balanced life, managing your lifestyle intentionally is key. Here's a short guide to help you take control of your daily habits and overall well-being.</p><h2>1. Assess Your Current Lifestyle</h2><p>Track your habits for a week. Note your energy levels, sleep, diet, and daily routines. Reflect on what's working and what needs change.</p>",
+      "A Simple Step-by-Step Guide to Managing Your Lifestyle If you're looking to improve your health, boost productivity, and create a balanced life, managing your lifestyle intentionally is key. Here's a short guide to help you take control of your daily habits and overall well-being. Assess Your Current Lifestyle Track your habits for a week. Note your energy levels, sleep, diet, and daily routines. Reflect on what's working and what needs change.",
     images: {
       featuredImage: "property1img2.jpg",
       imageGallery: [
@@ -69,7 +69,7 @@ const propertyToBuy = [
     _id: "6718da0b1e3f8a5a2e1b4d01",
     title: "Spacious 4BHK Independent House on GMS Road",
     shortDescription:
-      "<h1>Luxurious Living in the Heart of Dehradun</h1><p>Experience comfort and elegance in this beautiful 4-bedroom independent house. Perfect for a large family, this property boasts modern architecture and premium fittings. Located in a prime area with easy access to schools, hospitals, and markets.</p>",
+      "Luxurious Living in the Heart of DehradunExperience comfort and elegance in this beautiful 4-bedroom independent house. Perfect for a large family, this property boasts modern architecture and premium fittings. Located in a prime area with easy access to schools, hospitals, and markets.",
     images: {
       featuredImage: "property2img1.jpg",
       imageGallery: [
@@ -131,7 +131,7 @@ const propertyToBuy = [
     _id: "6718da0b1e3f8a5a2e1b4d02",
     title: "Prime Commercial Shop in Tapovan, Rishikesh",
     shortDescription:
-      "<h1>High Footfall Commercial Space</h1><p>An excellent opportunity to own a commercial shop in the bustling area of Tapovan, Rishikesh. Ideal for cafes, yoga studios, or retail stores. Close to major ashrams and tourist spots.</p>",
+      "High Footfall Commercial Space An excellent opportunity to own a commercial shop in the bustling area of Tapovan, Rishikesh. Ideal for cafes, yoga studios, or retail stores. Close to major ashrams and tourist spots.",
     images: {
       featuredImage: "property3img1.jpg",
       imageGallery: ["property3img2.jpg", "property3img3.jpg"],
@@ -192,7 +192,7 @@ const propertyForRent = [
     _id: "6718da0b1e3f8a5a2e1b4c90",
     title: "A detailed step by step guide to manage your lifestyle",
     shortDescription:
-      "<h1>A Simple Step-by-Step Guide to Managing Your Lifestyle</h1><p>If you're looking to improve your health, boost productivity, and create a balanced life, managing your lifestyle intentionally is key. Here's a short guide to help you take control of your daily habits and overall well-being.</p><h2>1. Assess Your Current Lifestyle</h2><p>Track your habits for a week. Note your energy levels, sleep, diet, and daily routines. Reflect on what's working and what needs change.</p>",
+      "A Simple Step-by-Step Guide to Managing Your Lifestyle If you're looking to improve your health, boost productivity, and create a balanced life, managing your lifestyle intentionally is key. Here's a short guide to help you take control of your daily habits and overall well-being. Assess Your Current Lifestyle Track your habits for a week. Note your energy levels, sleep, diet, and daily routines. Reflect on what's working and what needs change.",
     images: {
       featuredImage: "property1img2.jpg",
       imageGallery: [
@@ -241,7 +241,7 @@ const propertyForRent = [
     _id: "6718da0b1e3f8a5a2e1b4e01",
     title: "Cozy 2BHK Independent Floor in Govind Vihar",
     shortDescription:
-      "<h1>Peaceful and Well-Connected Living</h1><p>This 2BHK independent floor is perfect for small families or working professionals. Located in a quiet neighborhood with great connectivity to the main city. Comes with a modular kitchen and dedicated parking space.</p>",
+      "Peaceful and Well-Connected Living This 2BHK independent floor is perfect for small families or working professionals. Located in a quiet neighborhood with great connectivity to the main city. Comes with a modular kitchen and dedicated parking space.",
     images: {
       featuredImage: "rental2img1.jpg",
       imageGallery: ["rental2img2.jpg", "rental2img3.jpg"],
@@ -282,7 +282,7 @@ const propertyForRent = [
     _id: "6718da0b1e3f8a5a2e1b4e02",
     title: "Fully Furnished Office Space near Laxman Jhula",
     shortDescription:
-      "<h1>Plug-and-Play Office in Rishikesh</h1><p>Get your business running immediately with this fully furnished office space. Features 15 workstations, a manager's cabin, a conference room, and a pantry. Breathtaking views of the Ganges.</p>",
+      "Plug-and-Play Office in Rishikesh Get your business running immediately with this fully furnished office space. Features 15 workstations, a manager's cabin, a conference room, and a pantry. Breathtaking views of the Ganges.",
     images: {
       featuredImage: "rental3img1.jpg",
       imageGallery: [
