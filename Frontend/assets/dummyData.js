@@ -5,12 +5,11 @@ const propertyToBuy = [
     shortDescription:
       "A Simple Step-by-Step Guide to Managing Your Lifestyle If you're looking to improve your health, boost productivity, and create a balanced life, managing your lifestyle intentionally is key. Here's a short guide to help you take control of your daily habits and overall well-being. Assess Your Current Lifestyle Track your habits for a week. Note your energy levels, sleep, diet, and daily routines. Reflect on what's working and what needs change.",
     images: {
-      featuredImage: "property1img2.jpg",
+      featuredImage: "./img/buyProperty/property1/1.png",
       imageGallery: [
-        "property1img3.jpg",
-        "property1img4.jpg",
-        "property1img5.jpg",
-        "property1img1.jpg",
+        "./img/buyProperty/property1/1.png",
+        "./img/buyProperty/property1/2.png",
+        "./img/buyProperty/property1/3.png",
       ],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c93",
@@ -71,10 +70,10 @@ const propertyToBuy = [
     shortDescription:
       "Luxurious Living in the Heart of DehradunExperience comfort and elegance in this beautiful 4-bedroom independent house. Perfect for a large family, this property boasts modern architecture and premium fittings. Located in a prime area with easy access to schools, hospitals, and markets.",
     images: {
-      featuredImage: "property2img1.jpg",
+      featuredImage: "./img/buyProperty/property2/1.png",
       imageGallery: [
-        "property2img2.jpg",
-        "property2img3.jpg",
+        "./img/buyProperty/property2/1.png",
+        "./img/buyProperty/property1/3.png",
         "property2img4.jpg",
       ],
     },
@@ -133,8 +132,8 @@ const propertyToBuy = [
     shortDescription:
       "High Footfall Commercial Space An excellent opportunity to own a commercial shop in the bustling area of Tapovan, Rishikesh. Ideal for cafes, yoga studios, or retail stores. Close to major ashrams and tourist spots.",
     images: {
-      featuredImage: "property3img1.jpg",
-      imageGallery: ["property3img2.jpg", "property3img3.jpg"],
+      featuredImage: "./img/buyProperty/property3/1.png",
+      imageGallery: ["./img/buyProperty/property3/1.png", "./img/buyProperty/property1/3.png"],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c99",
     amenitiesId: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
@@ -194,12 +193,11 @@ const propertyForRent = [
     shortDescription:
       "A Simple Step-by-Step Guide to Managing Your Lifestyle If you're looking to improve your health, boost productivity, and create a balanced life, managing your lifestyle intentionally is key. Here's a short guide to help you take control of your daily habits and overall well-being. Assess Your Current Lifestyle Track your habits for a week. Note your energy levels, sleep, diet, and daily routines. Reflect on what's working and what needs change.",
     images: {
-      featuredImage: "property1img2.jpg",
+      featuredImage: "./img/rentProperty/property1/1.png",
       imageGallery: [
-        "property1img3.jpg",
-        "property1img4.jpg",
-        "property1img5.jpg",
-        "property1img1.jpg",
+        "./img/rentProperty/property1/1.png",
+        "./img/rentProperty/property1/2.png",
+        "./img/rentProperty/property1/3.png",
       ],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c93",
@@ -243,8 +241,8 @@ const propertyForRent = [
     shortDescription:
       "Peaceful and Well-Connected Living This 2BHK independent floor is perfect for small families or working professionals. Located in a quiet neighborhood with great connectivity to the main city. Comes with a modular kitchen and dedicated parking space.",
     images: {
-      featuredImage: "rental2img1.jpg",
-      imageGallery: ["rental2img2.jpg", "rental2img3.jpg"],
+      featuredImage: "./img/rentProperty/property2/1.png",
+      imageGallery: ["./img/rentProperty/property2/1.png", "./img/rentProperty/property1/2.png"],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c96",
     amenitiesId: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
@@ -284,8 +282,8 @@ const propertyForRent = [
     shortDescription:
       "Plug-and-Play Office in Rishikesh Get your business running immediately with this fully furnished office space. Features 15 workstations, a manager's cabin, a conference room, and a pantry. Breathtaking views of the Ganges.",
     images: {
-      featuredImage: "rental3img1.jpg",
-      imageGallery: ["rental3img2.jpg", "rental3img3.jpg", "rental3img4.jpg"],
+      featuredImage: "./img/rentProperty/property3/1.png",
+      imageGallery: ["./img/rentProperty/property3/1.png", "./img/rentProperty/property1/2.png",],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c98",
     amenitiesId: ["6718da0b1e3f8a5a2e1b4ca3"],
