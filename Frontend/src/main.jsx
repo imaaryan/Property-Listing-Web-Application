@@ -7,9 +7,14 @@ import App from "./App.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Theme>
+    <Theme
+      accentColor="indigo"
+      grayColor="slate"
+      panelBackground="solid"
+      scaling="100%"
+      radius="medium"
+    >
       <App />
-
     </Theme>
   </StrictMode>
 );
