@@ -133,7 +133,10 @@ const propertyToBuy = [
       "High Footfall Commercial Space An excellent opportunity to own a commercial shop in the bustling area of Tapovan, Rishikesh. Ideal for cafes, yoga studios, or retail stores. Close to major ashrams and tourist spots.",
     images: {
       featuredImage: "./img/buyProperty/property3/1.png",
-      imageGallery: ["./img/buyProperty/property3/1.png", "./img/buyProperty/property1/3.png"],
+      imageGallery: [
+        "./img/buyProperty/property3/1.png",
+        "./img/buyProperty/property1/3.png",
+      ],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c99",
     amenitiesId: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
@@ -242,7 +245,10 @@ const propertyForRent = [
       "Peaceful and Well-Connected Living This 2BHK independent floor is perfect for small families or working professionals. Located in a quiet neighborhood with great connectivity to the main city. Comes with a modular kitchen and dedicated parking space.",
     images: {
       featuredImage: "./img/rentProperty/property2/1.png",
-      imageGallery: ["./img/rentProperty/property2/1.png", "./img/rentProperty/property1/2.png"],
+      imageGallery: [
+        "./img/rentProperty/property2/1.png",
+        "./img/rentProperty/property1/2.png",
+      ],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c96",
     amenitiesId: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
@@ -283,7 +289,10 @@ const propertyForRent = [
       "Plug-and-Play Office in Rishikesh Get your business running immediately with this fully furnished office space. Features 15 workstations, a manager's cabin, a conference room, and a pantry. Breathtaking views of the Ganges.",
     images: {
       featuredImage: "./img/rentProperty/property3/1.png",
-      imageGallery: ["./img/rentProperty/property3/1.png", "./img/rentProperty/property1/2.png",],
+      imageGallery: [
+        "./img/rentProperty/property3/1.png",
+        "./img/rentProperty/property1/2.png",
+      ],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c98",
     amenitiesId: ["6718da0b1e3f8a5a2e1b4ca3"],
@@ -425,3 +434,10 @@ const sellerEnquiries = [
     createdAt: "2025-10-05T18:45:00.000Z",
   },
 ];
+
+//assets import
+import logo from "./Logo.svg";
+
+export const assets = {
+  logo,
+};
