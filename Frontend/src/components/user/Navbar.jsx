@@ -34,7 +34,7 @@ const Navbar = () => {
           className="w-56"
         />
 
-        <div className="justify-items-center w-full">
+        <div className="grid justify-items-center-safe w-full">
           {/* Desktop MenuBar */}
           <div className="hidden md:block">
             <ul className="flex gap-5 lg:gap-10 items-center ">
@@ -75,7 +75,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Sidebar */}
           <div className="justify-self-end block md:hidden">
-            <div className="flex justify-items-end drawer drawer-end">
+            <div className="grid justify-items-end drawer drawer-end">
               <input
                 id="my-drawer-5"
                 type="checkbox"
