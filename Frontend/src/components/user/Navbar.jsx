@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button, Text } from "@radix-ui/themes";
 import {
   RiBuildingLine,
   RiMenu3Line,
@@ -25,7 +24,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center p-2 md:p-4 max-w-[1440px] mx-auto">
+      <div className="flex justify-between items-center p-2 md:p-4 w-full max-w-[1440px] mx-auto">
         <img
           onClick={() => {
             navigate("/");
@@ -36,21 +35,17 @@ const Navbar = () => {
         />
 
         <div className="justify-items-center w-full">
-          <div className="justify-self-end pr-4 block md:hidden">
-            <Button size={3}>
-              <RiMenu3Line size={22} />
-            </Button>
-          </div>
+          {/* Desktop MenuBar */}
           <div className="hidden md:block">
-            <ul className="flex gap-10 items-center ">
+            <ul className="flex gap-5 lg:gap-10 items-center ">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 return (
                   <li>
                     {item.href === location.pathname ? (
-                      <div className="flex cursor-pointer text-[var(--primary-color)]">
+                      <div className="flex cursor-pointer text-primary">
                         <a
-                          className="flex items-center gap-2"
+                          className="flex items-center gap-1.5"
                           onClick={() => {
                             navigate(`${item.href}`);
                           }}
@@ -62,7 +57,7 @@ const Navbar = () => {
                     ) : (
                       <div className="flex cursor-pointer">
                         <a
-                          className="flex items-center gap-2"
+                          className="flex items-center gap-1.5"
                           onClick={() => {
                             navigate(`${item.href}`);
                           }}
@@ -77,26 +72,88 @@ const Navbar = () => {
               })}
             </ul>
           </div>
+
+          {/* Mobile Menu Sidebar */}
+          <div className="justify-self-end block md:hidden">
+            <div className="flex justify-items-end drawer drawer-end">
+              <input
+                id="my-drawer-5"
+                type="checkbox"
+                className="drawer-toggle"
+              />
+              <div className="drawer-content">
+                {/* Page content here */}
+                <label
+                  htmlFor="my-drawer-5"
+                  className="drawer-button btn btn-primary"
+                >
+                  <RiMenu3Line />
+                </label>
+              </div>
+              <div className="drawer-side">
+                <label
+                  htmlFor="my-drawer-5"
+                  aria-label="close sidebar"
+                  className="drawer-overlay"
+                ></label>
+                <ul className="menu menu-lg bg-base-200 min-h-full w-80 p-4 gap-3">
+                  {/* Sidebar content here */}
+                  {navItems.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <li>
+                        {item.href === location.pathname ? (
+                          <div className="flex cursor-pointer text-primary">
+                            <a
+                              className="flex items-center gap-2"
+                              onClick={() => {
+                                navigate(`${item.href}`);
+                              }}
+                            >
+                              <Icon size={18} />
+                              {item.name}
+                            </a>
+                          </div>
+                        ) : (
+                          <div className="flex cursor-pointer">
+                            <a
+                              className="flex items-center gap-2"
+                              onClick={() => {
+                                navigate(`${item.href}`);
+                              }}
+                            >
+                              <Icon size={18} />
+                              {item.name}
+                            </a>
+                          </div>
+                        )}
+                      </li>
+                    );
+                  })}
+                  <button
+                    onClick={() => {
+                      navigate("/list");
+                    }}
+                    className="btn btn-primary mt-10"
+                  >
+                    <RiBuildingLine /> List Property
+                  </button>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="w-80 hidden sm:block">
+        <div className="min-w-42 hidden sm:block">
           <div className="justify-self-end">
-            <Button
-              size={{
-                initial: "0",
-                sm: "2",
-                lg: "3",
+            <button
+              onClick={() => {
+                navigate("/list");
               }}
+              className="btn btn-primary text-base font-normal gap-2"
             >
-              <RiBuildingLine />
-              <a
-                onClick={() => {
-                  navigate("/list");
-                }}
-              >
-                List Property
-              </a>
-            </Button>
+              <RiBuildingLine size={20}/> List Property
+            </button>
           </div>
         </div>
       </div>

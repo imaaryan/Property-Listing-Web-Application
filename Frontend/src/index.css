@@ -1,5 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 @import "tailwindcss";
 
+@theme {
+  --font-display: "Outfit", sans-serif; 
+}
+
 :root {
-    --primary-color: #496adf;
+    font-family: "Outfit", sans-serif;
+}
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(98% 0 0);
+  --color-base-300: oklch(95% 0 0);
+  --color-base-content: oklch(21% 0.006 285.885);
+  --color-primary: oklch(48% 0.243 264.376);
+  --color-primary-content: oklch(0.95 0.0123 272.788);
+  --color-secondary: oklch(97% 0.014 254.604);
+  --color-secondary-content: oklch(48% 0.243 264.376);
+  --color-accent: oklch(48% 0.243 264.376);
+  --color-accent-content: oklch(98% 0 0);
+  --color-neutral: oklch(13% 0.028 261.692);
+  --color-neutral-content: oklch(92% 0.004 286.32);
+  --color-info: oklch(48% 0.243 264.376);
+  --color-info-content: oklch(98% 0 0);
+  --color-success: oklch(76% 0.177 163.223);
+  --color-success-content: oklch(98% 0 0);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-error: oklch(71% 0.194 13.428);
+  --color-error-content: oklch(27% 0.105 12.094);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.28125rem;
+  --size-field: 0.28125rem;
+  --border: 0.5px;
+  --depth: 1;
+  --noise: 0;
+}
+
+
+@plugin "daisyui" {
+  themes: light --default,
+  root: ":root";
+  include: ;
+  exclude: ;
+  prefix: ;
+  logs: true;
 }
