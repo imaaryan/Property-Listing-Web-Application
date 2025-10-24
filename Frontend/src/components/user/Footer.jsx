@@ -1,5 +1,5 @@
 import React from "react";
-import { assets } from "../../assets/dummyData";
+import { assets, city } from "../../assets/dummyData";
 
 const Footer = () => {
   return (
@@ -24,10 +24,11 @@ const Footer = () => {
         </nav>
         <nav className="p">
           <h6 className="footer-title">Find in</h6>
-          <a className="link link-hover">Rishikesh</a>
-          <a className="link link-hover">Mussoorie</a>
-          <a className="link link-hover">Dehradun</a>
-          <a className="link link-hover">Haridwar</a>
+          {city.map((item) => {
+            if (item.showOnFooter) {
+              return <a className="link link-hover">{item.name}</a>;
+            }
+          })}
         </nav>
         <nav className="p">
           <h6 className="footer-title">Legal</h6>

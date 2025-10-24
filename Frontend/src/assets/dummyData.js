@@ -1,4 +1,4 @@
-const propertyToBuy = [
+export const propertyToBuy = [
   {
     _id: "6718da0b1e3f8a5a2e1b4c90",
     title: "A detailed step by step guide to manage your lifestyle",
@@ -189,7 +189,7 @@ const propertyToBuy = [
   },
 ];
 
-const propertyForRent = [
+export const propertyForRent = [
   {
     _id: "6718da0b1e3f8a5a2e1b4c90",
     title: "A detailed step by step guide to manage your lifestyle",
@@ -330,12 +330,14 @@ const propertyForRent = [
   },
 ];
 
-const city = [
-  { _id: "6718da0b1e3f8a5a2e1b4c91", name: "Dehradun" },
-  { _id: "6718da0b1e3f8a5a2e1b4c92", name: "Rishikesh" },
+export const city = [
+  { _id: "6718da0b1e3f8a5a2e1b4c91", name: "Dehradun", showOnFooter: true, },
+  { _id: "6718da0b1e3f8a5a2e1b4c92", name: "Rishikesh", showOnFooter: true, },
+  { _id: "6718da0b1e3f8a5a2e1b4c92", name: "Mussoorie", showOnFooter: false, },
+  { _id: "6718da0b1e3f8a5a2e1b4c92", name: "Haridwar", showOnFooter: true, },
 ];
 
-const area = [
+export const area = [
   { _id: "6718da0b1e3f8a5a2e1b4c93", name: "Rajpur Road", city: city[0] },
   { _id: "6718da0b1e3f8a5a2e1b4c94", name: "GMS Road", city: city[0] },
   {
@@ -352,7 +354,7 @@ const area = [
   { _id: "6718da0b1e3f8a5a2e1b4c9c", name: "Swarg Ashram", city: city[1] },
 ];
 
-const amenities = [
+export const amenities = [
   {
     name: "Swimming Pool",
     _id: "6718da0b1e3f8a5a2e1b4ca1",
@@ -367,7 +369,7 @@ const amenities = [
   },
 ];
 
-const dashboardData = {
+export const dashboardData = {
   activePropertiesToSell: 15,
   activePropertiesToRent: 5,
   activeCities: 3,
@@ -375,7 +377,7 @@ const dashboardData = {
   activeEnquiries: 3,
 };
 
-const sellerEnquiries = [
+export const sellerEnquiries = [
   {
     _id: "671834a0b1e3f8a5a2e1b4c90",
     name: "Aaryan Pandey",
