@@ -132,9 +132,9 @@ const Navbar = () => {
                   })}
                   <button
                     onClick={() => {
-                      navigate("/list");
+                      navigate("/list-property");
                     }}
-                    className="btn btn-primary mt-10"
+                    className="btn btn-primary mt-10 text-base font-normal gap-2"
                   >
                     <RiBuildingLine /> List Property
                   </button>
@@ -148,11 +148,11 @@ const Navbar = () => {
           <div className="justify-self-end">
             <button
               onClick={() => {
-                navigate("/list");
+                navigate("/list-property");
               }}
               className="btn btn-primary text-base font-normal gap-2"
             >
-              <RiBuildingLine size={20}/> List Property
+              <RiBuildingLine size={20} /> List Property
             </button>
           </div>
         </div>
