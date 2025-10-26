@@ -96,7 +96,8 @@ const Navbar = () => {
                   aria-label="close sidebar"
                   className="drawer-overlay"
                 ></label>
-                <ul className="menu menu-lg bg-base-200 min-h-full w-80 p-4 gap-3">
+                <ul className="menu menu-lg bg-base-200 min-h-full w-80 p-4  gap-3">
+                  <h3 className="text-3xl font-medium pb-7 pl-4 ">Menu</h3>
                   {/* Sidebar content here */}
                   {navItems.map((item) => {
                     const Icon = item.icon;

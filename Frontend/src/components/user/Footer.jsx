@@ -4,8 +4,8 @@ import { assets, city } from "../../assets/dummyData";
 const Footer = () => {
   return (
     <>
-      <div className="max-w-[1440px] mx-auto footer grid gap-8 border-t-1 border-gray-300 max-sm:grid-rows-2 max-sm:grid-cols-[1fr_1fr_1fr] md:grid-cols-[7fr_1fr_1fr_1fr] text-base-content px-3 py-10 md:px-4 md:py-20">
-        <aside className="max-sm:col-span-3">
+      <div className="max-w-[1440px] mx-auto footer grid gap-8 border-t-1 border-gray-300 max-md:grid-rows-2 max-md:grid-cols-[1fr_1fr_1fr] md:grid-cols-[7fr_1fr_1fr_1fr] text-base-content px-3 py-10 md:px-4 md:py-20">
+        <aside className="max-md:col-span-3">
           <img src={assets.logo} alt="logo" className="w-56" />
           <p className="p-2">
             Your trusted real estate partner in Dehradun
