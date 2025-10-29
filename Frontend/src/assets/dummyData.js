@@ -5,7 +5,7 @@ export const propertyToBuy = [
     shortDescription:
       "A Simple Step-by-Step Guide to Managing Your Lifestyle If you're looking to improve your health, boost productivity, and create a balanced life, managing your lifestyle intentionally is key. Here's a short guide to help you take control of your daily habits and overall well-being. Assess Your Current Lifestyle Track your habits for a week. Note your energy levels, sleep, diet, and daily routines. Reflect on what's working and what needs change.",
     images: {
-      featuredImage: "./img/buyProperty/property1/1.png",
+      featuredImage: new URL("./img/buyProperty/property1/1.png", import.meta.url).href,
       imageGallery: [
         "./img/buyProperty/property1/1.png",
         "./img/buyProperty/property1/2.png",
