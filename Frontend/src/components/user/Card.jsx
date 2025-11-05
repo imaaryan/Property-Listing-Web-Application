@@ -10,8 +10,11 @@ import {
   RiPhoneLine,
   RiExternalLinkLine,
 } from "@remixicon/react";
+import { useNavigate } from "react-router-dom";
 
 const Card = ({ Property }) => {
+  const navigate = useNavigate();
+
   const [isLiked, setIsLiked] = useState(false);
   const handleToggle = () => setIsLiked(!isLiked);
 
@@ -164,7 +167,14 @@ const Card = ({ Property }) => {
             <RiPhoneLine size={18} />
             Contact Owner
           </button>
-          <button className="btn btn-outline w-1/2 ">
+          <button
+            className="btn btn-outline w-1/2 "
+            onClick={() =>
+              navigate(
+                `/property/${propertyFor === "Buy" ? "sale" : "rent"}/${_id}`
+              )
+            }
+          >
             <RiExternalLinkLine size={18} />
             View More
           </button>
