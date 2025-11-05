@@ -1,0 +1,117 @@
+import React, { useState } from "react";
+import { area } from "../../assets/dummyData";
+import {
+  RiMapPin2Fill,
+  RiHotelBedFill,
+  RiHandSanitizerFill,
+  RiShadowFill,
+  RiHeart3Line,
+  RiHeart3Fill,
+  RiPhoneLine,
+  RiExternalLinkLine,
+} from "@remixicon/react";
+
+const Card = ({ Property }) => {
+  const [isLiked, setIsLiked] = useState(false);
+  const handleToggle = () => setIsLiked(!isLiked);
+
+  const {
+    _id,
+    title,
+    bedrooms,
+    bathrooms,
+    propertySize,
+    propertyType,
+    propertyFor,
+    images: { featuredImage },
+    pricing: { askingPrice },
+    areaId,
+  } = Property;
+
+  const selectedArea = area.find((a) => a._id === Property.areaId);
+  const areaName = selectedArea?.name || "Unknown Area";
+  const cityName = selectedArea?.city?.name || "Unknown City";
+
+  const hideBedrooms = [
+    "Residential Plot",
+    "Commercial Plot",
+    "Warehouse / Godown",
+    "Commercial Shop",
+  ].includes(propertyType);
+
+  return (
+    <div className="relative card bg-base-100 shadow-sm group hover:shadow-xl overflow-hidden rounded-t-lg">
+      <div className="overflow-hidden rounded-t-lg">
+        <img
+          className="aspect-[3/2] w-full object-cover object-center transform transition-transform duration-500 ease-in-out group-hover:scale-110"
+          src={featuredImage}
+          alt={title + " Image"}
+        />
+      </div>
+
+      <div className="absolute p-3 flex justify-between items-top w-full">
+        <div className="badge badge-sm badge-base-100 rounded-full">
+          {propertyType}
+        </div>
+        <div className="p-2 bg-base-100 rounded-full" onClick={handleToggle}>
+          {isLiked ? (
+            <RiHeart3Fill size={20} className="text-red-600 cursor-pointer" />
+          ) : (
+            <RiHeart3Line
+              size={20}
+              className="text-gray-400 hover:text-red-600 cursor-pointer"
+            />
+          )}
+        </div>
+      </div>
+
+      <div className="card-body p-5">
+        <div className="flex justify-between items-center">
+          <h3 className="text-2xl font-medium text-primary">
+            ₹{(askingPrice / 100000).toFixed(2)} Lakhs
+          </h3>
+          <div className="badge badge-sm badge-outline badge-success rounded-full">
+            {propertyFor || "For Sale"}
+          </div>
+        </div>
+
+        <h2 className="text-lg md:text-xl font-medium line-clamp-1 group-hover:text-primary">
+          {title}
+        </h2>
+        <div className="flex flex-col gap-1">
+          <p className="flex items-center gap-2 text-gray-500">
+            <RiMapPin2Fill size={15} /> {areaName}, {cityName}
+          </p>
+
+          <div className="flex flex-row justify-start gap-4 text-gray-500">
+            {!hideBedrooms && (
+              <div className="flex flex-row items-center gap-2">
+                <RiHotelBedFill size={18} /> {bedrooms}
+              </div>
+            )}
+
+            <div className="flex flex-row items-center gap-2">
+              <RiHandSanitizerFill size={17} /> {bathrooms}
+            </div>
+            <div className="flex flex-row items-center gap-2">
+              <RiShadowFill size={16} /> {propertySize} sq ft
+            </div>
+          </div>
+        </div>
+
+        <div className="flex gap-2 pt-2">
+          <button className="btn btn-primary w-1/2 ">
+            <RiPhoneLine size={18} />
+            Contact Owner
+          </button>
+          <button className="btn btn-soft w-1/2 ">
+            <RiExternalLinkLine size={18} />
+            View More
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Card;

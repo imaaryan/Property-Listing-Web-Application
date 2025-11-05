@@ -34,6 +34,7 @@ const buySchema = new mongoose.Schema(
         "Residential Apartment",
         "Independent House",
         "Commercial Plot",
+        "Commercial Shop",
         "Commercial Apartment",
         "Warehouse / Godown",
       ],
