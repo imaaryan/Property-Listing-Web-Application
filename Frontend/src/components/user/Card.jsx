@@ -58,15 +58,26 @@ const Card = ({ Property }) => {
   const price = () => {
     const finelAmount =
       askingPrice * stampDuty + advocateFee + receiptFee + brokerCommission;
-      
+
     const formattedAmount = formatPrice(finelAmount);
     return formattedAmount;
   };
 
-  useEffect(() => {
-    price();
-  }),
-    [];
+  const convertToYardsIfNeeded = (size, type) => {
+    const yardTypes = [
+      "Residential Plot",
+      "Commercial Plot",
+      "Commercial Apartment",
+      "Warehouse / Godown",
+    ];
+
+    if (yardTypes.includes(type)) {
+      const inYards = Math.round(size / 9);
+      return { size: inYards, unit: "sq yards" };
+    }
+
+    return { size, unit: "sq ft" };
+  };
 
   return (
     <div className="relative card bg-base-100 shadow-sm group hover:shadow-xl overflow-hidden rounded-t-lg">
@@ -120,9 +131,17 @@ const Card = ({ Property }) => {
             <div className="flex flex-row items-center gap-2">
               <RiHandSanitizerFill size={17} /> {bathrooms}
             </div>
-            <div className="flex flex-row items-center gap-2">
-              <RiShadowFill size={16} /> {propertySize} sq ft
-            </div>
+            {(() => {
+              const { size, unit } = convertToYardsIfNeeded(
+                propertySize,
+                propertyType
+              );
+              return (
+                <div className="flex flex-row items-center gap-2">
+                  <RiShadowFill size={16} /> {size} {unit}
+                </div>
+              );
+            })()}
           </div>
         </div>
 
