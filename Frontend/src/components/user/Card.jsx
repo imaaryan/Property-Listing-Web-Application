@@ -149,7 +149,7 @@ const Card = ({ Property }) => {
         <div className="badge badge-sm badge-base-100 rounded-full">
           {propertyType}
         </div>
-        <div className="p-2 bg-base-100 rounded-full" onClick={handleToggle}>
+        <div className={isLiked ? "bg-red-100 p-2 rounded-full" : "bg-base-100 p-2 rounded-full "} onClick={handleToggle}>
           {isLiked ? (
             <RiHeart3Fill size={20} className="text-red-600 cursor-pointer" />
           ) : (
