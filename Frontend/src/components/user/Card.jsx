@@ -146,7 +146,7 @@ const Card = ({ Property }) => {
           className={
             isLiked
               ? "bg-red-100 p-2 rounded-full"
-              : "bg-base-100 p-2 rounded-full "
+              : "bg-base-200 hover:bg-base-100 p-2 rounded-full "
           }
           onClick={handleToggle}
         >
@@ -218,7 +218,7 @@ const Card = ({ Property }) => {
             }
           >
             <RiExternalLinkLine size={18} />
-            View More
+            Know More
           </button>
         </div>
       </div>
