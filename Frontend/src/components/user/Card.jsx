@@ -28,7 +28,7 @@ const Card = ({ Property }) => {
     areaId,
   } = Property;
 
-  const selectedArea = area.find((a) => a._id === Property.areaId);
+  const selectedArea = area.find((a) => a._id === areaId);
   const areaName = selectedArea?.name || "Unknown Area";
   const cityName = selectedArea?.city?.name || "Unknown City";
 
@@ -43,7 +43,7 @@ const Card = ({ Property }) => {
     <div className="relative card bg-base-100 shadow-sm group hover:shadow-xl overflow-hidden rounded-t-lg">
       <div className="overflow-hidden rounded-t-lg">
         <img
-          className="aspect-[3/2] w-full object-cover object-center transform transition-transform duration-500 ease-in-out group-hover:scale-110"
+          className="aspect-3/2 w-full object-cover object-center transform transition-transform duration-500 ease-in-out group-hover:scale-110"
           src={featuredImage}
           alt={title + " Image"}
         />

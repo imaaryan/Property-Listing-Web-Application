@@ -1,11 +1,14 @@
 export const propertyToBuy = [
   {
     _id: "6718da0b1e3f8a5a2e1b4c90",
-    title: "Luxury 3 BHK Independent House on Rajpur Road",
+    title: "Luxery 3BHK Independent House on Rapur Road",
     shortDescription:
-      "A Simple Step-by-Step Guide to Managing Your Lifestyle If you're looking to improve your health, boost productivity, and create a balanced life, managing your lifestyle intentionally is key.",
+      "A Simple Step-by-Step Guide to Managing Your Lifestyle If you're looking to improve your health, boost productivity, and create a balanced life, managing your lifestyle intentionally is key. Here's a short guide to help you take control of your daily habits and overall well-being. Assess Your Current Lifestyle Track your habits for a week. Note your energy levels, sleep, diet, and daily routines. Reflect on what's working and what needs change.",
     images: {
-      featuredImage: new URL("./img/buyProperty/property1/1.png", import.meta.url).href,
+      featuredImage: new URL(
+        "./img/buyProperty/property1/1.png",
+        import.meta.url
+      ).href,
       imageGallery: [
         new URL("./img/buyProperty/property1/1.png", import.meta.url).href,
         new URL("./img/buyProperty/property1/2.png", import.meta.url).href,
@@ -13,84 +16,203 @@ export const propertyToBuy = [
       ],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c93",
+    amenitiesId: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
     propertyType: "Residential Plot",
     bedrooms: 0,
     bathrooms: 0,
     propertySize: 2000,
     pricing: {
       askingPrice: 7700000,
+      stampDuty: 5,
+      advocateFee: 15000,
+      receiptFee: 25000,
+      brokerCommission: 2,
+      priceHistory: [
+        { year: 2024, cost: 5000000 },
+        { year: 2023, cost: 4500000 },
+        { year: 2022, cost: 3000000 },
+        { year: 2021, cost: 2000000 },
+      ],
+    },
+    khatuniDetails: {
+      currentOwner: "Mr. Yashpal Singh & Mr. Divye Malik",
+      previousOwner: "Mrs. Saumya Bhatt & Mrs. Vibha S",
+      khasraNumber: 275,
+      currentOwnerPhoneNumber: 9898908989,
     },
     propertyDetails: {
-      address: "Shiv Shakti Enclave, Rajeshwar Nagar Phase1 Extension, Dehradun",
+      dimension: "40ft x 50ft",
+      facing: "South",
+      widthOfFacingRoad: "25ft",
+      approvedBy: "MDDA",
+      allowableConstructionStilt: "+2 Floors",
+      ownership: "Free Hold",
+      landTitle: "Clear",
+      developmentStatus: "Vacant",
+      lastLandTransaction: "2024-04-21T07:06:37.508Z",
+      underMDDA: true,
+      underNagarNigam: true,
+      waterSupply: true,
+      powerSupply: true,
+      loanAvailable: true,
+      address:
+        "Shiv Shakti Enclave, Rajeshwar Nagar Phase1 Extension, Dehradun",
     },
+    locationOnMap: {
+      latitude: 30.339395816460264,
+      longitude: 78.01859020985364,
+    },
+    createdAt: "2025-04-21T07:06:37.508Z",
+    updatedAt: "2025-04-24T08:26:29.750Z",
+    __v: 0,
     isPublished: true,
   },
   {
     _id: "6718da0b1e3f8a5a2e1b4d01",
     title: "Spacious 4BHK Independent House on GMS Road",
     shortDescription:
-      "Luxurious Living in the Heart of Dehradun. Experience comfort and elegance in this beautiful 4-bedroom independent house.",
+      "Luxurious Living in the Heart of DehradunExperience comfort and elegance in this beautiful 4-bedroom independent house. Perfect for a large family, this property boasts modern architecture and premium fittings. Located in a prime area with easy access to schools, hospitals, and markets.",
     images: {
-      featuredImage: new URL("./img/buyProperty/property2/1.png", import.meta.url).href,
+      featuredImage: new URL(
+        "./img/buyProperty/property2/1.png",
+        import.meta.url
+      ).href,
       imageGallery: [
         new URL("./img/buyProperty/property2/1.png", import.meta.url).href,
-        new URL("./img/buyProperty/property2/2.png", import.meta.url).href,
-        new URL("./img/buyProperty/property2/3.png", import.meta.url).href,
+        new URL("./img/buyProperty/property1/3.png", import.meta.url).href,
+        new URL("./img/buyProperty/property2/4.png", import.meta.url).href,
       ],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c94",
+    amenitiesId: ["6718da0b1e3f8a5a2e1b4ca3"],
     propertyType: "Independent House",
     bedrooms: 4,
     bathrooms: 4,
     propertySize: 3200,
     pricing: {
       askingPrice: 15500000,
+      stampDuty: 6,
+      advocateFee: 20000,
+      receiptFee: 30000,
+      brokerCommission: 1.5,
+      priceHistory: [
+        { year: 2024, cost: 12000000 },
+        { year: 2022, cost: 10500000 },
+      ],
+    },
+    khatuniDetails: {
+      currentOwner: "Mr. Rajeev Kumar",
+      previousOwner: "Smt. Anita Verma",
+      khasraNumber: 152,
+      currentOwnerPhoneNumber: 9876543210,
     },
     propertyDetails: {
+      dimension: "60ft x 53.3ft",
+      facing: "East",
+      widthOfFacingRoad: "30ft",
+      approvedBy: "MDDA",
+      allowableConstructionStilt: "+3 Floors",
+      ownership: "Free Hold",
+      landTitle: "Clear",
+      developmentStatus: "Ready to Move",
+      lastLandTransaction: "2021-08-15T10:00:00.000Z",
+      underMDDA: true,
+      underNagarNigam: true,
+      waterSupply: true,
+      powerSupply: true,
+      loanAvailable: true,
       address: "12B, Officers Colony, GMS Road, Dehradun",
     },
+    locationOnMap: {
+      latitude: 30.3268,
+      longitude: 78.0116,
+    },
+    createdAt: "2025-05-10T11:00:00.000Z",
+    updatedAt: "2025-05-12T14:30:00.000Z",
+    __v: 0,
     isPublished: true,
   },
   {
     _id: "6718da0b1e3f8a5a2e1b4d02",
     title: "Prime Commercial Shop in Tapovan, Rishikesh",
     shortDescription:
-      "High Footfall Commercial Space in Tapovan. Ideal for cafes, yoga studios, or retail stores.",
+      "High Footfall Commercial Space An excellent opportunity to own a commercial shop in the bustling area of Tapovan, Rishikesh. Ideal for cafes, yoga studios, or retail stores. Close to major ashrams and tourist spots.",
     images: {
-      featuredImage: new URL("./img/buyProperty/property3/1.png", import.meta.url).href,
+      featuredImage: new URL(
+        "./img/buyProperty/property3/1.png",
+        import.meta.url
+      ).href,
       imageGallery: [
         new URL("./img/buyProperty/property3/1.png", import.meta.url).href,
-        new URL("./img/buyProperty/property3/2.png", import.meta.url).href,
+        new URL("./img/buyProperty/property1/3.png", import.meta.url).href,
       ],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c99",
+    amenitiesId: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
     propertyType: "Commercial Shop",
     bedrooms: 0,
     bathrooms: 1,
     propertySize: 800,
     pricing: {
       askingPrice: 9500000,
+      stampDuty: 7,
+      advocateFee: 18000,
+      receiptFee: 28000,
+      brokerCommission: 2,
+      priceHistory: [
+        { year: 2024, cost: 12000000 },
+        { year: 2022, cost: 10500000 },
+      ],
+    },
+    khatuniDetails: {
+      currentOwner: "M/s Ganga Enterprises",
+      previousOwner: "N/A",
+      khasraNumber: 431,
+      currentOwnerPhoneNumber: 9988776655,
     },
     propertyDetails: {
+      dimension: "20ft x 40ft",
+      facing: "North",
+      widthOfFacingRoad: "40ft",
+      approvedBy: "Nagar Nigam Rishikesh",
+      allowableConstructionStilt: "+1 Floor",
+      ownership: "Lease Hold",
+      landTitle: "Clear",
+      developmentStatus: "Ready to Move",
+      lastLandTransaction: "2023-11-01T12:00:00.000Z",
+      underMDDA: false,
+      underNagarNigam: true,
+      waterSupply: true,
+      powerSupply: true,
+      loanAvailable: false,
       address: "Shop No. 5, Main Badrinath Road, Tapovan, Rishikesh",
     },
+    locationOnMap: {
+      latitude: 30.1245,
+      longitude: 78.3221,
+    },
+    createdAt: "2025-06-01T09:45:00.000Z",
+    updatedAt: "2025-06-02T18:00:00.000Z",
+    __v: 0,
     isPublished: true,
   },
 ];
 
-
 export const propertyForRent = [
   {
     _id: "6718da0b1e3f8a5a2e1b4c90",
-    title: "A detailed step by step guide to manage your lifestyle",
+    title: "Budget Friendly 2BHK Independent Floor in Govind Vihar",
     shortDescription:
       "A Simple Step-by-Step Guide to Managing Your Lifestyle If you're looking to improve your health, boost productivity, and create a balanced life, managing your lifestyle intentionally is key. Here's a short guide to help you take control of your daily habits and overall well-being. Assess Your Current Lifestyle Track your habits for a week. Note your energy levels, sleep, diet, and daily routines. Reflect on what's working and what needs change.",
     images: {
-      featuredImage: "./img/rentProperty/property1/1.png",
-      imageGallery: [
+      featuredImage: new URL(
         "./img/rentProperty/property1/1.png",
-        "./img/rentProperty/property1/2.png",
-        "./img/rentProperty/property1/3.png",
+        import.meta.url
+      ).href,
+      imageGallery: [
+        new URL("./img/rentProperty/property1/1.png", import.meta.url).href,
+        new URL("./img/rentProperty/property1/2.png", import.meta.url).href,
+        new URL("./img/rentProperty/property1/3.png", import.meta.url).href,
       ],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c93",
@@ -134,10 +256,13 @@ export const propertyForRent = [
     shortDescription:
       "Peaceful and Well-Connected Living This 2BHK independent floor is perfect for small families or working professionals. Located in a quiet neighborhood with great connectivity to the main city. Comes with a modular kitchen and dedicated parking space.",
     images: {
-      featuredImage: "./img/rentProperty/property2/1.png",
-      imageGallery: [
+      featuredImage: new URL(
         "./img/rentProperty/property2/1.png",
-        "./img/rentProperty/property1/2.png",
+        import.meta.url
+      ).href,
+      imageGallery: [
+        new URL("./img/rentProperty/property2/1.png", import.meta.url).href,
+        new URL("./img/rentProperty/property1/2.png", import.meta.url).href,
       ],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c96",
@@ -178,10 +303,13 @@ export const propertyForRent = [
     shortDescription:
       "Plug-and-Play Office in Rishikesh Get your business running immediately with this fully furnished office space. Features 15 workstations, a manager's cabin, a conference room, and a pantry. Breathtaking views of the Ganges.",
     images: {
-      featuredImage: "./img/rentProperty/property3/1.png",
-      imageGallery: [
+      featuredImage: new URL(
         "./img/rentProperty/property3/1.png",
-        "./img/rentProperty/property1/2.png",
+        import.meta.url
+      ).href,
+      imageGallery: [
+        new URL("./img/rentProperty/property3/1.png", import.meta.url).href,
+        new URL("./img/rentProperty/property1/2.png", import.meta.url).href,
       ],
     },
     areaId: "6718da0b1e3f8a5a2e1b4c98",
@@ -220,11 +348,12 @@ export const propertyForRent = [
   },
 ];
 
+
 export const city = [
-  { _id: "6718da0b1e3f8a5a2e1b4c91", name: "Dehradun", showOnFooter: true, },
-  { _id: "6718da0b1e3f8a5a2e1b4c92", name: "Rishikesh", showOnFooter: true, },
-  { _id: "6718da0b1e3f8a5a2e1b4c92", name: "Mussoorie", showOnFooter: false, },
-  { _id: "6718da0b1e3f8a5a2e1b4c92", name: "Haridwar", showOnFooter: true, },
+  { _id: "6718da0b1e3f8a5a2e1b4c91", name: "Dehradun", showOnFooter: true },
+  { _id: "6718da0b1e3f8a5a2e1b4c92", name: "Rishikesh", showOnFooter: true },
+  { _id: "6718da0b1e3f8a5a2e1b4c92", name: "Mussoorie", showOnFooter: false },
+  { _id: "6718da0b1e3f8a5a2e1b4c92", name: "Haridwar", showOnFooter: true },
 ];
 
 export const area = [
