@@ -22,16 +22,16 @@ export const propertyToBuy = [
     bathrooms: 0,
     propertySize: 2000,
     pricing: {
-      askingPrice: 7700000,
+      askingPrice: 770000,
       stampDuty: 5,
       advocateFee: 15000,
       receiptFee: 25000,
       brokerCommission: 2,
       priceHistory: [
-        { year: 2024, cost: 5000000 },
-        { year: 2023, cost: 4500000 },
-        { year: 2022, cost: 3000000 },
-        { year: 2021, cost: 2000000 },
+        { year: 2024, cost: 500000 },
+        { year: 2023, cost: 450000 },
+        { year: 2022, cost: 300000 },
+        { year: 2021, cost: 200000 },
       ],
     },
     khatuniDetails: {

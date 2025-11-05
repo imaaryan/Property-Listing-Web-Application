@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { area } from "../../assets/dummyData";
 import {
   RiMapPin2Fill,
@@ -24,7 +24,13 @@ const Card = ({ Property }) => {
     propertyType,
     propertyFor,
     images: { featuredImage },
-    pricing: { askingPrice },
+    pricing: {
+      askingPrice,
+      stampDuty,
+      advocateFee,
+      receiptFee,
+      brokerCommission,
+    },
     areaId,
   } = Property;
 
@@ -38,6 +44,29 @@ const Card = ({ Property }) => {
     "Warehouse / Godown",
     "Commercial Shop",
   ].includes(propertyType);
+
+  const formatPrice = (amount) => {
+    if (amount >= 10000000) {
+      return (amount / 10000000).toFixed(2) + " Cr.";
+    } else if (amount >= 100000) {
+      return (amount / 100000).toFixed(2) + " Lakh";
+    } else {
+      return amount.toLocaleString("en-IN");
+    }
+  };
+
+  const price = () => {
+    const finelAmount =
+      askingPrice * stampDuty + advocateFee + receiptFee + brokerCommission;
+      
+    const formattedAmount = formatPrice(finelAmount);
+    return formattedAmount;
+  };
+
+  useEffect(() => {
+    price();
+  }),
+    [];
 
   return (
     <div className="relative card bg-base-100 shadow-sm group hover:shadow-xl overflow-hidden rounded-t-lg">
@@ -67,15 +96,13 @@ const Card = ({ Property }) => {
 
       <div className="card-body p-5">
         <div className="flex justify-between items-center">
-          <h3 className="text-2xl font-medium text-primary">
-            ₹{(askingPrice / 100000).toFixed(2)} Lakhs
-          </h3>
+          <h3 className="text-2xl font-medium text-primary">{price()}</h3>
           <div className="badge badge-sm badge-outline badge-success rounded-full">
             {propertyFor || "For Sale"}
           </div>
         </div>
 
-        <h2 className="text-lg md:text-xl font-medium line-clamp-1 group-hover:text-primary">
+        <h2 className="text-lg md:text-xl font-medium line-clamp-1 cursor-pointer group-hover:text-primary">
           {title}
         </h2>
         <div className="flex flex-col gap-1">
@@ -104,7 +131,7 @@ const Card = ({ Property }) => {
             <RiPhoneLine size={18} />
             Contact Owner
           </button>
-          <button className="btn btn-soft w-1/2 ">
+          <button className="btn btn-outline w-1/2 ">
             <RiExternalLinkLine size={18} />
             View More
           </button>
