@@ -16,7 +16,6 @@ const Card = ({ Property }) => {
   const navigate = useNavigate();
 
   const [isLiked, setIsLiked] = useState(false);
-  const handleToggle = () => setIsLiked(!isLiked);
 
   const {
     _id,
@@ -40,6 +39,37 @@ const Card = ({ Property }) => {
   const selectedArea = area.find((a) => a._id === areaId);
   const areaName = selectedArea?.name || "Unknown Area";
   const cityName = selectedArea?.city?.name || "Unknown City";
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("likedProperties");
+      const likedProperties = stored ? JSON.parse(stored) : [];
+      if (likedProperties.includes(_id)) {
+        setIsLiked(true);
+      }
+    } catch (err) {
+      console.error("Error reading liked properties:", err);
+      localStorage.removeItem("likedProperties");
+    }
+  }, [_id]);
+
+  const handleToggle = () => {
+    try {
+      const stored = localStorage.getItem("likedProperties");
+      let likedProperties = stored ? JSON.parse(stored) : [];
+
+      if (isLiked) {
+        likedProperties = likedProperties.filter((id) => id !== _id);
+      } else {
+        likedProperties.push(_id);
+      }
+
+      localStorage.setItem("likedProperties", JSON.stringify(likedProperties));
+      setIsLiked(!isLiked);
+    } catch (err) {
+      console.error("Error updating liked properties:", err);
+    }
+  };
 
   const hideBedrooms = [
     "Residential Plot",
@@ -100,7 +130,14 @@ const Card = ({ Property }) => {
 
   return (
     <div className="relative card bg-base-100 shadow-sm group hover:shadow-xl overflow-hidden rounded-t-lg">
-      <div className="overflow-hidden rounded-t-lg">
+      <div
+        className="overflow-hidden rounded-t-lg"
+        onClick={() =>
+          navigate(
+            `/property/${propertyFor === "Buy" ? "sale" : "rent"}/${_id}`
+          )
+        }
+      >
         <img
           className="aspect-3/2 w-full object-cover object-center transform transition-transform duration-500 ease-in-out group-hover:scale-110"
           src={featuredImage}
@@ -130,7 +167,14 @@ const Card = ({ Property }) => {
           {propertyBadge()}
         </div>
 
-        <h2 className="text-lg md:text-xl font-medium line-clamp-1 cursor-pointer group-hover:text-primary">
+        <h2
+          className="text-lg md:text-xl font-medium line-clamp-1 cursor-pointer group-hover:text-primary"
+          onClick={() =>
+            navigate(
+              `/property/${propertyFor === "Buy" ? "sale" : "rent"}/${_id}`
+            )
+          }
+        >
           {title}
         </h2>
         <div className="flex flex-col gap-1">
