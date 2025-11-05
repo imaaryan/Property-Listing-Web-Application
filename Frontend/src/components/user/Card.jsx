@@ -71,13 +71,6 @@ const Card = ({ Property }) => {
     }
   };
 
-  const hideBedrooms = [
-    "Residential Plot",
-    "Commercial Plot",
-    "Warehouse / Godown",
-    "Commercial Shop",
-  ].includes(propertyType);
-
   const formatPrice = (amount) => {
     if (amount >= 10000000) {
       return (amount / 10000000).toFixed(2) + " Cr.";
@@ -149,7 +142,14 @@ const Card = ({ Property }) => {
         <div className="badge badge-sm badge-base-100 rounded-full">
           {propertyType}
         </div>
-        <div className={isLiked ? "bg-red-100 p-2 rounded-full" : "bg-base-100 p-2 rounded-full "} onClick={handleToggle}>
+        <div
+          className={
+            isLiked
+              ? "bg-red-100 p-2 rounded-full"
+              : "bg-base-100 p-2 rounded-full "
+          }
+          onClick={handleToggle}
+        >
           {isLiked ? (
             <RiHeart3Fill size={20} className="text-red-600 cursor-pointer" />
           ) : (
@@ -183,13 +183,11 @@ const Card = ({ Property }) => {
           </p>
 
           <div className="flex flex-row justify-start gap-4 text-gray-500">
-            {!hideBedrooms && (
-              <div className="flex flex-row items-center gap-2">
-                <RiHotelBedFill size={18} /> {bedrooms}
-              </div>
-            )}
+            <div className={!bedrooms ? "hidden" : "flex flex-row items-center gap-2"}>
+              <RiHotelBedFill size={18} /> {bedrooms}
+            </div>
 
-            <div className="flex flex-row items-center gap-2">
+            <div className={!bathrooms ? "hidden" : "flex flex-row items-center gap-2"}>
               <RiHandSanitizerFill size={17} /> {bathrooms}
             </div>
             {(() => {
