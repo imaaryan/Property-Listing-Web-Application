@@ -79,6 +79,22 @@ const Card = ({ Property }) => {
     return { size, unit: "sq ft" };
   };
 
+  const propertyBadge = () => {
+    if (propertyFor === "Buy") {
+      return (
+        <div className="badge badge-sm badge-outline badge-success rounded-full">
+          For Sale
+        </div>
+      );
+    } else {
+      return (
+        <div className="badge badge-sm badge-outline badge-neutral rounded-full">
+          For Rent
+        </div>
+      );
+    }
+  };
+
   return (
     <div className="relative card bg-base-100 shadow-sm group hover:shadow-xl overflow-hidden rounded-t-lg">
       <div className="overflow-hidden rounded-t-lg">
@@ -108,9 +124,7 @@ const Card = ({ Property }) => {
       <div className="card-body p-5">
         <div className="flex justify-between items-center">
           <h3 className="text-2xl font-medium text-primary">{price()}</h3>
-          <div className="badge badge-sm badge-outline badge-success rounded-full">
-            {propertyFor || "For Sale"}
-          </div>
+          {propertyBadge()}
         </div>
 
         <h2 className="text-lg md:text-xl font-medium line-clamp-1 cursor-pointer group-hover:text-primary">

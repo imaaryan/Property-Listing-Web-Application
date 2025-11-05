@@ -39,6 +39,10 @@ const buySchema = new mongoose.Schema(
         "Warehouse / Godown",
       ],
     },
+    propertyFor: {
+      type: String,
+      enum: ["Rent", "Buy"],
+    },
     bedrooms: {
       type: Number,
       default: 0,

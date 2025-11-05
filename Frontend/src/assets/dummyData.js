@@ -18,6 +18,7 @@ export const propertyToBuy = [
     areaId: "6718da0b1e3f8a5a2e1b4c93",
     amenitiesId: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
     propertyType: "Residential Plot",
+    propertyFor: "Buy",
     bedrooms: 0,
     bathrooms: 0,
     propertySize: 2000,
@@ -86,6 +87,7 @@ export const propertyToBuy = [
     areaId: "6718da0b1e3f8a5a2e1b4c94",
     amenitiesId: ["6718da0b1e3f8a5a2e1b4ca3"],
     propertyType: "Independent House",
+    propertyFor: "Buy",
     bedrooms: 4,
     bathrooms: 4,
     propertySize: 3200,
@@ -150,6 +152,7 @@ export const propertyToBuy = [
     areaId: "6718da0b1e3f8a5a2e1b4c99",
     amenitiesId: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
     propertyType: "Commercial Shop",
+    propertyFor: "Buy",
     bedrooms: 0,
     bathrooms: 1,
     propertySize: 800,
@@ -218,6 +221,7 @@ export const propertyForRent = [
     areaId: "6718da0b1e3f8a5a2e1b4c93",
     amenitiesId: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
     propertyType: "Residential Apartment",
+    propertyFor: "Rent",
     bedrooms: 3,
     bathrooms: 2,
     propertySize: 2000,
@@ -268,6 +272,7 @@ export const propertyForRent = [
     areaId: "6718da0b1e3f8a5a2e1b4c96",
     amenitiesId: ["6718da0b1e3f8a5a2e1b4ca1", "6718da0b1e3f8a5a2e1b4ca2"],
     propertyType: "Independent Floor",
+    propertyFor: "Rent",
     bedrooms: 2,
     bathrooms: 2,
     propertySize: 1200,
@@ -315,6 +320,7 @@ export const propertyForRent = [
     areaId: "6718da0b1e3f8a5a2e1b4c98",
     amenitiesId: ["6718da0b1e3f8a5a2e1b4ca3"],
     propertyType: "Commercial Office Space",
+    propertyFor: "Rent",
     bedrooms: 0,
     bathrooms: 2,
     propertySize: 2500,
@@ -347,7 +353,6 @@ export const propertyForRent = [
     isPublished: true,
   },
 ];
-
 
 export const city = [
   { _id: "6718da0b1e3f8a5a2e1b4c91", name: "Dehradun", showOnFooter: true },
