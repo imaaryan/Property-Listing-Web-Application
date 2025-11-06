@@ -14,7 +14,9 @@ const Filter = () => {
 
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 items-center gap-4 lg:gap-6 px-6 pt-6 pb-8 w-full max-w-[1410px] mx-auto rounded-xl bg-[#1244e320]">
+      <div className="grid grid-cols-1 lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 items-center gap-4 lg:gap-6 px-6 pt-6 pb-8 w-full max-w-[1410px] mx-auto rounded-xl bg-[#e2e7fc]">
+        
+
         <div>
           <div className="flex items-center gap-1 mb-2">
             <RiMapPinLine size={18} className="text-primary" />
