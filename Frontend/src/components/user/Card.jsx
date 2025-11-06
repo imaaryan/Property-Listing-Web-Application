@@ -122,7 +122,7 @@ const Card = ({ Property }) => {
   };
 
   return (
-    <div className="relative card bg-base-100 shadow-sm group hover:shadow-xl overflow-hidden rounded-t-lg border-1 border-blue-100">
+    <div className="relative card bg-base-100 shadow-sm group hover:shadow-xl overflow-hidden rounded-t-lg border border-blue-100">
       <div
         className="overflow-hidden rounded-t-lg"
         onClick={() =>
