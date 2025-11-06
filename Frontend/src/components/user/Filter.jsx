@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   RiMapPinLine,
   RiSignpostLine,
@@ -9,6 +9,9 @@ import {
 } from "@remixicon/react";
 
 const Filter = () => {
+  const [areaValue, setAreaValue] = useState(25);
+  const [priceValue, setPriceValue] = useState(25);
+
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 items-center gap-4 lg:gap-6 px-6 pt-6 pb-8 w-full max-w-[1410px] mx-auto rounded-xl bg-[#1244e320]">
@@ -41,7 +44,10 @@ const Filter = () => {
             <RiCommunityLine size={18} className="text-primary" />
             <h4>Property Type</h4>
           </div>
-          <select defaultValue="Select Type" className="select appearance-none w-full">
+          <select
+            defaultValue="Select Type"
+            className="select appearance-none w-full"
+          >
             <option disabled={true}>Select Type</option>
             <option>Crimson</option>
             <option>Amber</option>
@@ -58,7 +64,8 @@ const Filter = () => {
               type="range"
               min={0}
               max="100"
-              value="25"
+              value={areaValue}
+              onChange={(e) => setAreaValue(e.target.value)}
               className="range range-xs range-primary w-full"
               step="10"
             />
@@ -79,9 +86,10 @@ const Filter = () => {
               type="range"
               min={0}
               max="100"
-              value="25"
+              value={priceValue}
+              onChange={(e) => setPriceValue(e.target.value)}
               className="range range-xs range-primary w-full"
-              step="10"
+              step="5"
             />
 
             <div className="flex justify-between  mt-1 text-xs">
