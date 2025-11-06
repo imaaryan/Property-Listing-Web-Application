@@ -11,13 +11,13 @@ import {
 const Filter = () => {
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-6 md:grid-cols-3 items-center gap-4 lg:gap-6 px-6 pt-6 pb-8 w-full max-w-[1410px] mx-auto rounded-xl bg-[#1244e320]">
+      <div className="grid grid-cols-1 lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 items-center gap-4 lg:gap-6 px-6 pt-6 pb-8 w-full max-w-[1410px] mx-auto rounded-xl bg-[#1244e320]">
         <div>
           <div className="flex items-center gap-1 mb-2">
             <RiMapPinLine size={18} className="text-primary" />
             <h4>City</h4>
           </div>
-          <select defaultValue="Any" className="select appearance-none">
+          <select defaultValue="Any" className="select appearance-none w-full">
             <option disabled={true}>Any</option>
             <option>Crimson</option>
             <option>Amber</option>
@@ -29,7 +29,7 @@ const Filter = () => {
             <RiSignpostLine size={18} className="text-primary" />
             <h4>Area</h4>
           </div>
-          <select defaultValue="Any" className="select appearance-none">
+          <select defaultValue="Any" className="select appearance-none w-full">
             <option disabled={true}>Any</option>
             <option>Crimson</option>
             <option>Amber</option>
@@ -41,7 +41,7 @@ const Filter = () => {
             <RiCommunityLine size={18} className="text-primary" />
             <h4>Property Type</h4>
           </div>
-          <select defaultValue="Select Type" className="select appearance-none">
+          <select defaultValue="Select Type" className="select appearance-none w-full">
             <option disabled={true}>Select Type</option>
             <option>Crimson</option>
             <option>Amber</option>
@@ -53,13 +53,13 @@ const Filter = () => {
             <RiShadowLine size={18} className="text-primary" />
             <h4>Property Area (Sq m)</h4>
           </div>
-          <div className="w-full max-w-xs">
+          <div className="w-full">
             <input
               type="range"
               min={0}
               max="100"
               value="25"
-              className="range range-xs range-primary"
+              className="range range-xs range-primary w-full"
               step="10"
             />
 
@@ -74,13 +74,13 @@ const Filter = () => {
             <RiMoneyRupeeCircleLine size={18} className="text-primary" />
             <h4>Price (₹)</h4>
           </div>
-          <div className="w-full max-w-xs">
+          <div className="w-full ">
             <input
               type="range"
               min={0}
               max="100"
               value="25"
-              className="range range-xs range-primary"
+              className="range range-xs range-primary w-full"
               step="10"
             />
 
