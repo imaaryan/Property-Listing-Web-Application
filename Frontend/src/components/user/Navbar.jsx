@@ -24,7 +24,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center p-2 md:p-4 w-full max-w-[1440px] mx-auto">
+      <div className="flex justify-between items-center p-2 md:p-4 pr-4 w-full max-w-[1440px] mx-auto">
         <img
           onClick={() => {
             navigate("/");

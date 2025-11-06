@@ -12,7 +12,7 @@ const Home = () => {
       <div className="m-4">
         <div className="block sm:hidden">
           <button
-            className="btn btn-primary text-base font-normal gap-2 w-full"
+            className="fixed bottom-3 left-4 right-4 z-97 btn btn-primary text-base font-normal shadow-xl/30 "
             onClick={() => {
               setDrawerStatus(true);
             }}
@@ -31,7 +31,7 @@ const Home = () => {
                 setDrawerStatus(false);
               }}
             ></div>
-            <div className="bg-[#e2e7fc]  pb-0 rounded-t-xl fixed bottom-0 right-0 left-0 z-99 w-full">
+            <div className="bg-[#e2e7fc]  pb-0 rounded-t-4xl fixed -bottom-3 right-0 left-0 z-99 w-full">
               <div className="flex flex-col items-center w-full max-w-xl mx-auto ">
                 <div
                   className="sm:hidden w-full flex justify-center"
@@ -39,7 +39,7 @@ const Home = () => {
                     setDrawerStatus(false);
                   }}
                 >
-                  <div className=" h-1.5 w-40 bg-gray-50  m-4 -mb-2 rounded-full opacity-60 "></div>
+                  <div className=" h-1.5 w-40 bg-gray-400  m-4  rounded-full opacity-50 "></div>
                 </div>
                 <Filter />
               </div>
