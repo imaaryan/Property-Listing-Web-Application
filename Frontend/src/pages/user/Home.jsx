@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Card from "../../components/user/Card";
-import { propertyToBuy } from "../../assets/dummyData.js";
+import { properties } from "../../assets/dummyData.js";
 import Filter from "../../components/user/Filter.jsx";
 import { RiEqualizerLine } from "@remixicon/react";
 
@@ -51,9 +51,12 @@ const Home = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4 lg:gap-8 p-4 w-full max-w-[1440px] mx-auto">
-        {propertyToBuy.map((property) => (
-          <Card key={property._id} Property={property} />
-        ))}
+        {properties
+          .slice() // makes a copy so the original array isn’t mutated
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // newest first
+          .map((property) => (
+            <Card key={property._id} Property={property} />
+          ))}
       </div>
     </>
   );

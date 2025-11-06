@@ -25,15 +25,12 @@ const Card = ({ Property }) => {
     propertySize,
     propertyType,
     propertyFor,
-    images: { featuredImage },
-    pricing: {
-      askingPrice,
-      stampDuty,
-      advocateFee,
-      receiptFee,
-      brokerCommission,
-    },
+    image,
+    pricing: { price, rent },
     areaId,
+    ownerContact,
+    locationOnMap,
+    createdAt,
   } = Property;
 
   const selectedArea = area.find((a) => a._id === areaId);
@@ -81,14 +78,6 @@ const Card = ({ Property }) => {
     }
   };
 
-  const price = () => {
-    const finelAmount =
-      askingPrice * stampDuty + advocateFee + receiptFee + brokerCommission;
-
-    const formattedAmount = formatPrice(finelAmount);
-    return formattedAmount;
-  };
-
   const convertToYardsIfNeeded = (size, type) => {
     const yardTypes = [
       "Residential Plot",
@@ -121,6 +110,9 @@ const Card = ({ Property }) => {
     }
   };
 
+  const pricing =
+    propertyFor === "Buy" ? formatPrice(price) : formatPrice(rent) + "/month";
+
   return (
     <div className="relative card bg-base-100 shadow-sm group hover:shadow-xl overflow-hidden rounded-t-lg border border-blue-100">
       <div
@@ -133,7 +125,7 @@ const Card = ({ Property }) => {
       >
         <img
           className="aspect-3/2 w-full object-cover object-center transform transition-transform duration-500 ease-in-out group-hover:scale-110"
-          src={featuredImage}
+          src={image}
           alt={title + " Image"}
         />
       </div>
@@ -163,7 +155,7 @@ const Card = ({ Property }) => {
 
       <div className="card-body p-5">
         <div className="flex justify-between items-center">
-          <h3 className="text-2xl font-medium text-primary">{price()}</h3>
+          <h3 className="text-2xl font-medium text-primary">₹{pricing}</h3>
           {propertyBadge()}
         </div>
 
@@ -183,11 +175,19 @@ const Card = ({ Property }) => {
           </p>
 
           <div className="flex flex-row justify-start gap-4 text-gray-500">
-            <div className={!bedrooms ? "hidden" : "flex flex-row items-center gap-2"}>
+            <div
+              className={
+                !bedrooms ? "hidden" : "flex flex-row items-center gap-2"
+              }
+            >
               <RiHotelBedFill size={18} /> {bedrooms}
             </div>
 
-            <div className={!bathrooms ? "hidden" : "flex flex-row items-center gap-2"}>
+            <div
+              className={
+                !bathrooms ? "hidden" : "flex flex-row items-center gap-2"
+              }
+            >
               <RiHandSanitizerFill size={17} /> {bathrooms}
             </div>
             {(() => {
@@ -205,7 +205,7 @@ const Card = ({ Property }) => {
         </div>
 
         <div className="flex gap-2 pt-2">
-          <button className="btn btn-primary w-1/2 ">
+          <button className="btn btn-primary w-1/2 " onClick={() => (window.location.href = `tel:${ownerContact}`)}>
             <RiPhoneLine size={18} />
             Contact Owner
           </button>

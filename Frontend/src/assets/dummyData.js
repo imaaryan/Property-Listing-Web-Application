@@ -232,7 +232,7 @@ export const propertyForRent = [
       rentPerMonth: 23000,
       securityDeposit: 50000,
     },
-    ownerDetails: {
+    khatuniDetails: {
       currentOwner: "Mr. Yashpal Singh & Mr. Divye Malik",
       currentOwnerPhoneNumber: 9898908989,
     },
@@ -283,7 +283,7 @@ export const propertyForRent = [
       rentPerMonth: 15000,
       securityDeposit: 30000,
     },
-    ownerDetails: {
+    khatuniDetails: {
       currentOwner: "Mrs. Sunita Rawat",
       currentOwnerPhoneNumber: 8765432109,
     },
@@ -331,7 +331,7 @@ export const propertyForRent = [
       rentPerMonth: 75000,
       securityDeposit: 200000,
     },
-    ownerDetails: {
+    khatuniDetails: {
       currentOwner: "Mr. Alok Jain",
       currentOwnerPhoneNumber: 7890123456,
     },
@@ -470,3 +470,28 @@ import logo from "./Logo.svg";
 export const assets = {
   logo,
 };
+
+// Merge both properties of Rent and Buy
+const allProperties = [...propertyToBuy, ...propertyForRent];
+
+export const properties = allProperties.map((item) => ({
+  _id: item._id,
+  title: item.title,
+  image: item.images.featuredImage,
+  areaId: item.areaId,
+  propertyType: item.propertyType,
+  propertyFor: item.propertyFor,
+  bedrooms: item.bedrooms,
+  bathrooms: item.bathrooms,
+  propertySize: item.propertySize,
+  pricing: {
+    price: item.pricing.finelPricing,
+    rent: item.pricing.rentPerMonth,
+  },
+  ownerContact: item.khatuniDetails.currentOwnerPhoneNumber,
+  locationOnMap: item.locationOnMap,
+  createdAt: item.createdAt,
+}));
+
+
+
