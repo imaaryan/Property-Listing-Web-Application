@@ -28,6 +28,7 @@ export const propertyToBuy = [
       advocateFee: 15000,
       receiptFee: 25000,
       brokerCommission: 2,
+      finelPricing: 3890000,
       priceHistory: [
         { year: 2024, cost: 500000 },
         { year: 2023, cost: 450000 },
@@ -97,6 +98,7 @@ export const propertyToBuy = [
       advocateFee: 20000,
       receiptFee: 30000,
       brokerCommission: 1.5,
+      finelPricing: 98900000,
       priceHistory: [
         { year: 2024, cost: 12000000 },
         { year: 2022, cost: 10500000 },
@@ -162,6 +164,7 @@ export const propertyToBuy = [
       advocateFee: 18000,
       receiptFee: 28000,
       brokerCommission: 2,
+      finelPricing: 66900000,
       priceHistory: [
         { year: 2024, cost: 12000000 },
         { year: 2022, cost: 10500000 },
