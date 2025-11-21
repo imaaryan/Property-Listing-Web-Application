@@ -84,14 +84,15 @@ const Card = ({ Property }) => {
       "Commercial Plot",
       "Commercial Apartment",
       "Warehouse / Godown",
+      "Independent House",
     ];
 
     if (yardTypes.includes(type)) {
       const inYards = Math.round(size / 9);
-      return { size: inYards, unit: "sq yards" };
+      return { size: inYards, unit: "sq. yards" };
     }
 
-    return { size, unit: "sq ft" };
+    return { size, unit: "sq. ft" };
   };
 
   const propertyBadge = () => {

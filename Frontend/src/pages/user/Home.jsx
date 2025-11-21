@@ -3,6 +3,7 @@ import Card from "../../components/user/Card";
 import { properties } from "../../assets/dummyData.js";
 import Filter from "../../components/user/Filter.jsx";
 import { RiEqualizerLine } from "@remixicon/react";
+import Map from "../../components/user/Map.jsx";
 
 const Home = () => {
   const [drawerStatus, setDrawerStatus] = useState(false);
@@ -50,6 +51,12 @@ const Home = () => {
           <Filter />
         </div>
       </div>
+
+      {/* Map Section */}
+      <div className="w-full max-w-[1410px] mx-auto px-4 sm:px-6 mb-8 h-[500px] z-0 relative">
+        <Map items={properties} />
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4 lg:gap-8 p-4 w-full max-w-[1440px] mx-auto">
         {properties
           .slice() // makes a copy so the original array isn’t mutated
