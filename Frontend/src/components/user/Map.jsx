@@ -43,6 +43,8 @@ function Map({ items }) {
             price: item.pricing.price || item.pricing.rent,
             bedrooms: item.bedrooms,
             img: item.image,
+            bathrooms: item.bathrooms,
+            propertyFor: item.propertyFor
           }}
         />
       ))}

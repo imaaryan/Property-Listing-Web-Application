@@ -1,8 +1,9 @@
 import { Marker, Popup } from "react-leaflet";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { RiHotelBedFill, RiHandSanitizerFill } from "@remixicon/react";
 import { divIcon } from "leaflet";
 
-const iconSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36px" height="36px">
+const iconSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40px" height="40px">
   <!-- White center background -->
   <circle cx="12" cy="9" r="3" fill="#fff" />
 
@@ -15,33 +16,76 @@ function Pin({ item }) {
   const customIcon = divIcon({
     className: "",
     html: `${iconSVG}`,
-    iconSize: [46, 46],
+    iconSize: [40, 40],
     iconAnchor: [18, 36],
     popupAnchor: [0, -36],
   });
 
+  const formatPrice = (amount) => {
+    if (amount >= 10000000) {
+      return (amount / 10000000).toFixed(2) + " Cr.";
+    } else if (amount >= 100000) {
+      return (amount / 100000).toFixed(2) + " Lakh";
+    } else {
+      return amount.toLocaleString("en-IN");
+    }
+  };
+
+  const pricing =
+    item.propertyFor === "Buy"
+      ? formatPrice(item.price)
+      : formatPrice(item.price) + "/month";
+
+  const navigate = useNavigate();
+
   return (
     <Marker position={[item.latitude, item.longitude]} icon={customIcon}>
       <Popup>
-        <div className="w-44">
-          <img
-            src={item.img}
-            alt={item.title}
-            className="w-full h-24 object-cover rounded-md mb-2"
-          />
-          <div className="flex flex-col gap-1 text-sm">
-            <Link
-              to={`/${item.id}`}
-              className="font-semibold text-gray-800 hover:text-blue-600 transition-colors"
-            >
-              {item.title}
-            </Link>
-            {item.bedrooms > 0 && (
-              <span className="text-gray-500">{item.bedrooms} Bedrooms</span>
-            )}
-            <b className="text-green-600 text-sm">
-              ₹ {item.price?.toLocaleString()}
-            </b>
+        <div className="flex gap-2  group cursor-pointer">
+          <div>
+            <img
+              src={item.img}
+              alt={item.title + " image"}
+              className="aspect-3/2  w-84 max-sm:w-64 object-cover object-center rounded-md"
+            />
+          </div>
+          <div>
+            <div className="flex flex-col gap-1 text-sm ">
+              <h2
+                className="text-base max-sm:text-sm font-medium line-clamp-2 cursor-pointer group-hover:text-primary"
+                onClick={() =>
+                  navigate(
+                    `/property/${
+                      item.propertyFor === "Buy" ? "sale" : "rent"
+                    }/${item._id}`
+                  )
+                }
+              >
+                {item.title}
+              </h2>
+              <div className="flex flex-row justify-start gap-4 text-gray-500">
+                <div
+                  className={
+                    !item.bedrooms
+                      ? "hidden"
+                      : "flex flex-row items-center gap-2"
+                  }
+                >
+                  <RiHotelBedFill size={18} /> {item.bedrooms}
+                </div>
+
+                <div
+                  className={
+                    !item.bathrooms
+                      ? "hidden"
+                      : "flex flex-row items-center gap-2"
+                  }
+                >
+                  <RiHandSanitizerFill size={17} /> {item.bathrooms}
+                </div>
+              </div>
+              <h3 className="text-base font-medium ">₹{pricing}</h3>
+            </div>
           </div>
         </div>
       </Popup>
