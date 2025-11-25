@@ -196,7 +196,7 @@ const SingleBuyProperty = () => {
             </button>
 
             <button
-              className="btn btn-outline text-lg font-normal "
+              className="btn btn-outline text-lg font-normal hover:bg-secondary"
               onClick={() =>
                 navigate(
                   `/property/${propertyFor === "Buy" ? "sale" : "rent"}/${_id}`
@@ -208,7 +208,7 @@ const SingleBuyProperty = () => {
             </button>
 
             <button
-              className="btn btn-outline text-lg font-normal "
+              className="btn btn-outline hover:bg-secondary text-lg font-normal "
               onClick={() =>
                 navigate(
                   `/property/${propertyFor === "Buy" ? "sale" : "rent"}/${_id}`
