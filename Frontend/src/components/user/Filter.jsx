@@ -164,7 +164,10 @@ const Filter = () => {
               max={maxArea}
               value={areaRange}
               onChange={setAreaRange}
-              trackStyle={{ backgroundColor: "var(--color-primary)" }}
+              trackStyle={{ 
+                backgroundColor: "var(--color-primary)",
+                height: 6,
+               }}
               handleStyle={[
                 {
                   borderColor: "var(--color-primary)",
@@ -199,7 +202,7 @@ const Filter = () => {
               value={priceRange}
               onChange={setPriceRange}
               step={10000}
-              trackStyle={{ backgroundColor: "var(--color-primary)" }}
+              trackStyle={{ backgroundColor: "var(--color-primary)", height: 6, }}
               handleStyle={[
                 {
                   borderColor: "var(--color-primary)",

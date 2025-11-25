@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Card from "../../components/user/Card";
+import Card from "../../components/user/Card.jsx";
 import { properties } from "../../assets/dummyData.js";
 import Filter from "../../components/user/Filter.jsx";
 import { RiEqualizerLine } from "@remixicon/react";
@@ -53,8 +53,10 @@ const Home = () => {
       </div>
 
       {/* Map Section */}
-      <div className="w-full max-w-[1410px] mx-auto px-4 sm:px-6 mb-8 h-[500px] z-0 relative">
-        <Map items={properties} />
+      <div className="max-w-[1410px] mx-auto z-10">
+        <div className="w-full max-2xl:px-4  h-[500px] ">
+          <Map items={properties} />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4 lg:gap-8 p-4 w-full max-w-[1440px] mx-auto">

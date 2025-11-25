@@ -7,7 +7,7 @@ import {
   RiContactsLine,
   RiCommunityLine,
 } from "@remixicon/react";
-import { assets } from "../../assets/dummyData";
+import { assets } from "../../assets/dummyData.js";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState("false");
@@ -74,7 +74,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Sidebar */}
-          <div className="justify-self-end block md:hidden">
+          <div className="justify-self-end block md:hidden z-100">
             <div className="grid justify-items-end drawer drawer-end">
               <input
                 id="my-drawer-5"
