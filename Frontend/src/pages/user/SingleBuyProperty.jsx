@@ -50,6 +50,7 @@ const SingleBuyProperty = () => {
     <>
       <div className="flex gap-8 p-2 md:p-4 pr-4 w-full max-w-[1440px] mx-auto ">
         <div className="w-full">
+          {/* Featured Image and Gallery */}
           <div>
             <img
               className="aspect-3/2 w-full object-cover object-center transform transition-transform duration-500 ease-in-out group-hover:scale-110 rounded-xl"
@@ -57,11 +58,48 @@ const SingleBuyProperty = () => {
               alt={currentProperty.title + " Image"}
             />
           </div>
+
+          {/* Short Description */}
           <div className="flex flex-col my-6 gap-3 p-6 border-3 border-secondary rounded-xl bg-[#fdfdfd]">
             <h2 className="text-lg font-medium ">Short Description</h2>
             <p className="text-base text-gray-500">
               {currentProperty.shortDescription}
             </p>
+          </div>
+
+          {/* Extra Info Tabs */}
+          <div className="flex flex-col my-6 gap-3 p-6 border-3 border-secondary rounded-xl bg-[#fdfdfd]">
+            {/* name of each tab group should be unique */}
+            <div className="tabs tabs-box bg-gray-100 rounded-md">
+              <input
+                type="radio"
+                name="my_tabs_1"
+                className="tab rounded-md w-1/4 text-base font-medium"
+                aria-label="Details"
+                defaultChecked
+              />
+              <div className="tab-content bg-white rounded-md p-3">
+                Hi I'm Tab 1
+              </div>
+              <input
+                type="radio"
+                name="my_tabs_1"
+                className="tab rounded-md w-1/4 text-base font-medium"
+                aria-label="Property Details"
+              />
+              <input
+                type="radio"
+                name="my_tabs_1"
+                className="tab rounded-md w-1/4 text-base font-medium"
+                aria-label="Pricing"
+              />
+              <input
+                type="radio"
+                name="my_tabs_1"
+                className="tab rounded-md w-1/4 text-base font-medium"
+                aria-label="Nearby Amenities"
+              />
+            </div>
           </div>
         </div>
 
