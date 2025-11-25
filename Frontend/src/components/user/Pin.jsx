@@ -57,7 +57,7 @@ function Pin({ item }) {
                   navigate(
                     `/property/${
                       item.propertyFor === "Buy" ? "sale" : "rent"
-                    }/${item._id}`
+                    }/${item.id}`
                   )
                 }
               >

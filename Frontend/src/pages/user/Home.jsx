@@ -59,7 +59,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4 lg:gap-8 p-4 w-full max-w-[1440px] mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4 lg:gap-8 p-4 pt-5 w-full max-w-[1440px] mx-auto">
         {properties
           .slice() // makes a copy so the original array isn’t mutated
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // newest first
