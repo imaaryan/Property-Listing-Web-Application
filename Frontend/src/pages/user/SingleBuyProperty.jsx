@@ -21,6 +21,16 @@ const SingleBuyProperty = () => {
           {/* Featured Image and Gallery */}
           <PropertyGallery currentProperty={currentProperty} />
 
+          {/* Sidebar in mobile full view */}
+          <div className=" md:hidden pt-3 h-fit">
+          <PropertySidebar
+            currentProperty={currentProperty}
+            areaName={areaName}
+            cityName={cityName}
+            propertyFor="Buy"
+          />
+        </div>
+
           {/* Short Description */}
           <div className="flex flex-col my-6 gap-3 md:p-6 p-3 border-2 border-secondary rounded-xl bg-[#fdfdfd]">
             <h2 className="text-lg font-medium ">Short Description</h2>
@@ -40,7 +50,7 @@ const SingleBuyProperty = () => {
         </div>
 
         {/* Sticky Sidebar */}
-        <div className="max-w-[470px] max-md:max-w-full w-full min-w-[300px] sticky top-4 h-fit">
+        <div className=" max-md:hidden max-w-[470px] max-md:max-w-full w-full min-w-[300px] sticky top-4 h-fit">
           <PropertySidebar
             currentProperty={currentProperty}
             areaName={areaName}
