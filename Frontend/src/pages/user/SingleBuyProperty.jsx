@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { propertyToBuy, area } from "../../assets/dummyData.js";
+import { propertyToBuy, area, amenities } from "../../assets/dummyData.js";
 import {
   RiMapPin2Fill,
   RiHotelBedFill,
@@ -10,6 +10,8 @@ import {
   RiInbox2Line,
   RiCalculatorLine,
 } from "@remixicon/react";
+
+import { FaRegCheckCircle } from "react-icons/fa";
 
 import Moment from "moment";
 
@@ -76,13 +78,13 @@ const SingleBuyProperty = () => {
               <input
                 type="radio"
                 name="my_tabs_1"
-                className="tab rounded-md w-1/4 text-base font-medium"
+                className="tab rounded-md w-1/3 text-base font-medium"
                 aria-label="Details"
                 defaultChecked
               />
               {/* Property Details Tab */}
               <div className="tab-content bg-white rounded-md py-3">
-                <div className="grid grid-cols-2 gap-4 p-4">
+                <div className="grid grid-cols-2 gap-6 p-4">
                   <div className="flex gap-2 text-base items-start justify-between">
                     <h5 className="text-gray-500">Dimension:</h5>
                     <p>{currentProperty.propertyDetails.dimension}</p>
@@ -174,24 +176,100 @@ const SingleBuyProperty = () => {
                   </div>
                 </div>
               </div>
+
               <input
                 type="radio"
                 name="my_tabs_1"
-                className="tab rounded-md w-1/4 text-base font-medium"
-                aria-label="Property Details"
-              />
-              <input
-                type="radio"
-                name="my_tabs_1"
-                className="tab rounded-md w-1/4 text-base font-medium"
+                className="tab rounded-md w-1/3 text-base font-medium"
                 aria-label="Pricing"
               />
+              {/* Pricing Tab */}
+              <div className="tab-content bg-white rounded-md py-3">
+                <div className="grid grid-cols-1 gap-4 p-4">
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">Asking Price:</h5>
+                    <p>
+                      ₹{" "}
+                      {currentProperty.pricing.askingPrice?.toLocaleString(
+                        "en-IN"
+                      )}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">
+                      Stamp Duty Cost (
+                      {currentProperty.pricing.stampDutyPercentage}%):
+                    </h5>
+                    <p>
+                      ₹{" "}
+                      {currentProperty.pricing.stampDutyCost?.toLocaleString(
+                        "en-IN"
+                      )}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">Advocate Fee:</h5>
+                    <p>
+                      ₹{" "}
+                      {currentProperty.pricing.advocateFee?.toLocaleString(
+                        "en-IN"
+                      )}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">Receipt Fee:</h5>
+                    <p>
+                      ₹{" "}
+                      {currentProperty.pricing.receiptFee?.toLocaleString(
+                        "en-IN"
+                      )}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">
+                      Broker Commission (
+                      {currentProperty.pricing.brokerCommissionPercentage}%):
+                    </h5>
+                    <p>
+                      ₹{" "}
+                      {currentProperty.pricing.brokerCommissionCost?.toLocaleString(
+                        "en-IN"
+                      )}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between mt-2 pt-4 border-t border-t-gray-300">
+                    <h5 className="text-xl font-medium">Finel Pricing:</h5>
+                    <p className="text-xl text-primary">
+                      ₹{" "}
+                      {currentProperty.pricing.finelPricing?.toLocaleString(
+                        "en-IN"
+                      )}
+                    </p>
+                  </div>
+                </div>
+              </div>
               <input
                 type="radio"
                 name="my_tabs_1"
-                className="tab rounded-md w-1/4 text-base font-medium"
+                className="tab rounded-md w-1/3 text-base font-medium"
                 aria-label="Nearby Amenities"
               />
+              <div className="tab-content bg-white rounded-md py-3">
+                <div className="grid grid-cols-4 gap-6 p-4">
+                  {currentProperty.amenitiesId.map((amenityId) => {
+                    const amenity = amenities.find((a) => a._id === amenityId);
+                    return amenity ? (
+                      <div
+                        key={amenityId}
+                        className="flex gap-2 text-base items-center"
+                      >
+                        <FaRegCheckCircle className="text-primary" />
+                        <p>{amenity.name}</p>
+                      </div>
+                    ) : null;
+                  })}
+                </div>
+              </div>
             </div>
           </div>
         </div>

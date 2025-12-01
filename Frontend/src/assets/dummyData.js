@@ -24,10 +24,12 @@ export const propertyToBuy = [
     propertySize: 2000,
     pricing: {
       askingPrice: 770000,
-      stampDuty: 5,
+      stampDutyPercentage: 5,
+      stampDutyCost: 38500,
       advocateFee: 15000,
       receiptFee: 25000,
-      brokerCommission: 2,
+      brokerCommissionPercentage: 2,
+      brokerCommissionCost: 15400,
       finelPricing: 3890000,
       priceHistory: [
         { year: 2024, cost: 500000 },
@@ -94,11 +96,13 @@ export const propertyToBuy = [
     propertySize: 3200,
     pricing: {
       askingPrice: 15500000,
-      stampDuty: 6,
+      stampDutyPercentage: 6,
+      stampDutyCost: 930000,
       advocateFee: 20000,
       receiptFee: 30000,
-      brokerCommission: 1.5,
-      finelPricing: 98900000,
+      brokerCommissionPercentage: 1.5,
+      brokerCommissionCost: 232500,
+      finelPricing: 16712500,
       priceHistory: [
         { year: 2024, cost: 12000000 },
         { year: 2022, cost: 10500000 },
@@ -160,11 +164,13 @@ export const propertyToBuy = [
     propertySize: 800,
     pricing: {
       askingPrice: 9500000,
-      stampDuty: 7,
+      stampDutyPercentage: 7,
+      stampDutyCost: 665000,
       advocateFee: 18000,
       receiptFee: 28000,
-      brokerCommission: 2,
-      finelPricing: 66900000,
+      brokerCommissionPercentage: 2,
+      brokerCommissionCost: 190000,
+      finelPricing: 10401000,
       priceHistory: [
         { year: 2024, cost: 12000000 },
         { year: 2022, cost: 10500000 },
@@ -492,6 +498,3 @@ export const properties = allProperties.map((item) => ({
   locationOnMap: item.locationOnMap,
   createdAt: item.createdAt,
 }));
-
-
-
