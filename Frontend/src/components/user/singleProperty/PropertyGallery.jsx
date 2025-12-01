@@ -66,11 +66,20 @@ const PropertyGallery = ({ currentProperty }) => {
         });
       } catch (error) {
         console.log("Error sharing:", error);
+        // Fallback if sharing fails (e.g. user cancelled)
+        if (error.name !== "AbortError") {
+          navigator.clipboard.writeText(window.location.href);
+          alert("Link copied to clipboard!");
+        }
       }
     } else {
       // Fallback for browsers that don't support Web Share API
-      navigator.clipboard.writeText(window.location.href);
-      alert("Link copied to clipboard!");
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        alert("Link copied to clipboard!");
+      } catch (err) {
+        alert("Failed to copy link.");
+      }
     }
   };
 
@@ -156,7 +165,7 @@ const PropertyGallery = ({ currentProperty }) => {
       {/* Lightbox Overlay */}
       {showLightbox && (
         <div
-          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-111 bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm"
           onClick={() => setShowLightbox(false)}
         >
           <button
