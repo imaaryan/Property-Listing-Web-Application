@@ -11,6 +11,8 @@ import {
   RiCalculatorLine,
 } from "@remixicon/react";
 
+import Moment from "moment";
+
 const SingleBuyProperty = () => {
   const { id } = useParams();
   const currentProperty = propertyToBuy.find((item) => item._id === id);
@@ -60,7 +62,7 @@ const SingleBuyProperty = () => {
           </div>
 
           {/* Short Description */}
-          <div className="flex flex-col my-6 gap-3 p-6 border-3 border-secondary rounded-xl bg-[#fdfdfd]">
+          <div className="flex flex-col my-6 gap-3 p-6 border-2 border-secondary rounded-xl bg-[#fdfdfd]">
             <h2 className="text-lg font-medium ">Short Description</h2>
             <p className="text-base text-gray-500">
               {currentProperty.shortDescription}
@@ -68,7 +70,7 @@ const SingleBuyProperty = () => {
           </div>
 
           {/* Extra Info Tabs */}
-          <div className="flex flex-col my-6 gap-3 p-6 border-3 border-secondary rounded-xl bg-[#fdfdfd]">
+          <div className="flex flex-col my-6 gap-3 p-6 border-2 border-secondary rounded-xl bg-[#fdfdfd]">
             {/* name of each tab group should be unique */}
             <div className="tabs tabs-box bg-gray-100 rounded-md">
               <input
@@ -78,8 +80,99 @@ const SingleBuyProperty = () => {
                 aria-label="Details"
                 defaultChecked
               />
-              <div className="tab-content bg-white rounded-md p-3">
-                Hi I'm Tab 1
+              {/* Property Details Tab */}
+              <div className="tab-content bg-white rounded-md py-3">
+                <div className="grid grid-cols-2 gap-4 p-4">
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">Dimension:</h5>
+                    <p>{currentProperty.propertyDetails.dimension}</p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">Facing:</h5>
+                    <p>{currentProperty.propertyDetails.facing}</p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">Width Of Facing Road:</h5>
+                    <p>{currentProperty.propertyDetails.widthOfFacingRoad}</p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">Approved By:</h5>
+                    <p>{currentProperty.propertyDetails.approvedBy}</p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">
+                      Allowable Construction Stilt:
+                    </h5>
+                    <p>
+                      {
+                        currentProperty.propertyDetails
+                          .allowableConstructionStilt
+                      }
+                    </p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">Ownership:</h5>
+                    <p>{currentProperty.propertyDetails.ownership}</p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">Land Title:</h5>
+                    <p>{currentProperty.propertyDetails.landTitle}</p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">Development Status:</h5>
+                    <p>{currentProperty.propertyDetails.developmentStatus}</p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">Last Land Transaction:</h5>
+                    <p>
+                      {Moment(
+                        currentProperty.propertyDetails.lastLandTransaction
+                      ).format(" Do MMMM YYYY")}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">Under MDDA:</h5>
+                    <p>
+                      {currentProperty.propertyDetails.underMDDA ? "Yes" : "No"}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">Under Nagar Nigam:</h5>
+                    <p>
+                      {currentProperty.propertyDetails.underNagarNigam
+                        ? "Yes"
+                        : "No"}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">Water Supply:</h5>
+                    <p>
+                      {currentProperty.propertyDetails.waterSupply
+                        ? "Yes"
+                        : "No"}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">Power Supply:</h5>
+                    <p>
+                      {currentProperty.propertyDetails.powerSupply
+                        ? "Yes"
+                        : "No"}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between">
+                    <h5 className="text-gray-500">Loan Available:</h5>
+                    <p>
+                      {currentProperty.propertyDetails.loanAvailable
+                        ? "Yes"
+                        : "No"}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 text-base items-start justify-between col-span-full">
+                    <h5 className=" text-gray-500">Address:</h5>
+                    <p>{currentProperty.propertyDetails.address}</p>
+                  </div>
+                </div>
               </div>
               <input
                 type="radio"
@@ -104,8 +197,8 @@ const SingleBuyProperty = () => {
         </div>
 
         {/* Sticky Sidebar */}
-        <div className="w-[755px]">
-          <div className="flex flex-col gap-3 p-6 border-3 border-secondary rounded-xl bg-[#fdfdfd] ">
+        <div className="w-[755px] sticky top-4 h-fit">
+          <div className="flex flex-col gap-3 p-6 border-2 border-secondary rounded-xl bg-[#fdfdfd] ">
             {/* Property Type Badge */}
             <div className="badge badge-sm badge-primary rounded-full">
               {currentProperty.propertyType}
