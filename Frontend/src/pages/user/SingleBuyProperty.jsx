@@ -53,7 +53,7 @@ const SingleBuyProperty = () => {
 
   return currentProperty ? (
     <>
-      <div className="flex gap-8 p-2 md:p-4 pr-4 w-full max-w-[1440px] mx-auto ">
+      <div className="flex gap-8 p-2 md:p-4 lg:pr-4 w-full max-w-[1440px] mx-auto max-md:flex-wrap ">
         <div className="w-full">
           {/* Featured Image and Gallery */}
           <div>
@@ -65,7 +65,7 @@ const SingleBuyProperty = () => {
           </div>
 
           {/* Short Description */}
-          <div className="flex flex-col my-6 gap-3 p-6 border-2 border-secondary rounded-xl bg-[#fdfdfd]">
+          <div className="flex flex-col my-6 gap-3 md:p-6 p-3 border-2 border-secondary rounded-xl bg-[#fdfdfd]">
             <h2 className="text-lg font-medium ">Short Description</h2>
             <p className="text-base text-gray-500">
               {currentProperty.shortDescription}
@@ -73,19 +73,19 @@ const SingleBuyProperty = () => {
           </div>
 
           {/* Extra Info Tabs */}
-          <div className="flex flex-col my-6 gap-3 p-6 border-2 border-secondary rounded-xl bg-[#fdfdfd]">
+          <div className="flex flex-col my-6 gap-3 md:p-6 p-3 border-2 border-secondary rounded-xl bg-[#fdfdfd]">
             {/* name of each tab group should be unique */}
             <div className="tabs tabs-box bg-gray-100 rounded-md">
               <input
                 type="radio"
                 name="my_tabs_1"
-                className="tab rounded-md w-1/3 text-base font-medium"
+                className="tab rounded-md w-1/3 max-sm:w-full text-base font-medium"
                 aria-label="Details"
                 defaultChecked
               />
               {/* Property Details Tab */}
               <div className="tab-content bg-white rounded-md py-3">
-                <div className="grid grid-cols-2 gap-6 p-4">
+                <div className="grid xl:grid-cols-2 gap-6 p-4">
                   <div className="flex gap-2 text-base items-start justify-between">
                     <h5 className="text-gray-500">Dimension:</h5>
                     <p>{currentProperty.propertyDetails.dimension}</p>
@@ -181,7 +181,7 @@ const SingleBuyProperty = () => {
               <input
                 type="radio"
                 name="my_tabs_1"
-                className="tab rounded-md w-1/3 text-base font-medium"
+                className="tab rounded-md w-1/3 max-sm:w-full text-base font-medium"
                 aria-label="Pricing"
               />
               {/* Pricing Tab */}
@@ -252,12 +252,12 @@ const SingleBuyProperty = () => {
               <input
                 type="radio"
                 name="my_tabs_1"
-                className="tab rounded-md w-1/3 text-base font-medium"
+                className="tab rounded-md w-1/3 max-sm:w-full text-base font-medium"
                 aria-label="Nearby Amenities"
               />
               {/* Amenities Tab */}
               <div className="tab-content bg-white rounded-md py-3">
-                <div className="grid grid-cols-4 gap-6 p-4">
+                <div className="grid xl:grid-cols-4 gap-6 p-4">
                   {currentProperty.amenitiesId.map((amenityId) => {
                     const amenity = amenities.find((a) => a._id === amenityId);
                     return amenity ? (
@@ -276,7 +276,7 @@ const SingleBuyProperty = () => {
           </div>
 
           {/* Property Cordinates in Map */}
-          <div className="flex flex-col my-6 gap-3 p-6 border-2 border-secondary rounded-xl bg-[#fdfdfd] h-[400px]">
+          <div className="flex flex-col my-6 gap-3 md:p-6 p-3 border-2 border-secondary rounded-xl bg-[#fdfdfd] h-[400px]">
             <Map
               items={[
                 {
@@ -297,15 +297,15 @@ const SingleBuyProperty = () => {
         </div>
 
         {/* Sticky Sidebar */}
-        <div className="w-[755px] sticky top-4 h-fit">
-          <div className="flex flex-col gap-3 p-6 border-2 border-secondary rounded-xl bg-[#fdfdfd] ">
+        <div className="max-w-[470px] max-md:max-w-full w-full min-w-[300px] sticky top-4 h-fit">
+          <div className="flex flex-col gap-3 md:p-6 p-3 border-2 border-secondary rounded-xl bg-[#fdfdfd] ">
             {/* Property Type Badge */}
             <div className="badge badge-sm badge-primary rounded-full">
               {currentProperty.propertyType}
             </div>
 
             {/* Property Title */}
-            <h2 className="text-lg md:text-3xl font-medium">
+            <h2 className="text-3xl font-medium">
               {currentProperty.title}
             </h2>
 
@@ -320,7 +320,7 @@ const SingleBuyProperty = () => {
             </h3>
 
             {/* Property BHK & Size Info */}
-            <div className="flex flex-row justify-start gap-2 my-3 ">
+            <div className="flex flex-row flex-wrap justify-start gap-2 my-3 ">
               <div
                 className={
                   !currentProperty.bedrooms
