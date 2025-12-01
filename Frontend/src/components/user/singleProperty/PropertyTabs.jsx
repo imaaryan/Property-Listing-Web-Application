@@ -1,6 +1,7 @@
 import React from "react";
 import Moment from "moment";
 import { FaRegCheckCircle } from "react-icons/fa";
+import PriceTrendGraph from "./PriceTrendGraph";
 
 const PropertyTabs = ({ currentProperty, amenities }) => {
   return (
@@ -150,6 +151,17 @@ const PropertyTabs = ({ currentProperty, amenities }) => {
                 {currentProperty.pricing.finelPricing?.toLocaleString("en-IN")}
               </p>
             </div>
+            {currentProperty.pricing.priceHistory && (
+              <div className="mt-2 pt-6 border-t border-t-gray-300">
+                <h5 className="text-xl font-medium mb-4">Price History</h5>
+                <PriceTrendGraph
+                  data={currentProperty.pricing.priceHistory.map((item) => ({
+                    year: item.year,
+                    price: item.cost,
+                  }))}
+                />
+              </div>
+            )}
           </div>
         </div>
         <input
