@@ -17,19 +17,19 @@ const SingleBuyProperty = () => {
   return currentProperty ? (
     <>
       <div className="flex gap-8 p-2 md:p-4 lg:pr-4 w-full max-w-[1440px] mx-auto max-md:flex-wrap ">
-        <div className="w-full">
+        <div className="w-full min-w-0">
           {/* Featured Image and Gallery */}
           <PropertyGallery currentProperty={currentProperty} />
 
           {/* Sidebar in mobile full view */}
           <div className=" md:hidden pt-3 h-fit">
-          <PropertySidebar
-            currentProperty={currentProperty}
-            areaName={areaName}
-            cityName={cityName}
-            propertyFor="Buy"
-          />
-        </div>
+            <PropertySidebar
+              currentProperty={currentProperty}
+              areaName={areaName}
+              cityName={cityName}
+              propertyFor="Buy"
+            />
+          </div>
 
           {/* Short Description */}
           <div className="flex flex-col my-6 gap-3 md:p-6 p-3 border-2 border-secondary rounded-xl bg-[#fdfdfd]">
