@@ -4,6 +4,9 @@ import {
   RiHeart3Fill,
   RiShareLine,
   RiCameraLine,
+  RiCloseLine,
+  RiArrowLeftSLine,
+  RiArrowRightSLine,
 } from "@remixicon/react";
 
 const PropertyGallery = ({ currentProperty }) => {
@@ -11,6 +14,7 @@ const PropertyGallery = ({ currentProperty }) => {
     currentProperty.images.featuredImage
   );
   const [isLiked, setIsLiked] = useState(false);
+  const [showLightbox, setShowLightbox] = useState(false);
 
   // Combine featured image and gallery images, ensuring no duplicates if featured is already in gallery
   const allImages = [
@@ -70,14 +74,29 @@ const PropertyGallery = ({ currentProperty }) => {
     }
   };
 
+  const handleNext = (e) => {
+    e.stopPropagation();
+    const currentIndex = allImages.indexOf(selectedImage);
+    const nextIndex = (currentIndex + 1) % allImages.length;
+    setSelectedImage(allImages[nextIndex]);
+  };
+
+  const handlePrev = (e) => {
+    e.stopPropagation();
+    const currentIndex = allImages.indexOf(selectedImage);
+    const prevIndex = (currentIndex - 1 + allImages.length) % allImages.length;
+    setSelectedImage(allImages[prevIndex]);
+  };
+
   return (
     <div className="flex flex-col gap-4">
       {/* Main Image Container */}
       <div className="relative w-full aspect-3/2 md:aspect-video rounded-xl overflow-hidden group">
         <img
-          className="w-full h-full object-cover object-center transition-transform duration-500 ease-in-out group-hover:scale-105"
+          className="w-full h-full object-cover object-center transition-transform duration-500 ease-in-out group-hover:scale-105 cursor-pointer"
           src={selectedImage}
           alt={currentProperty.title}
+          onClick={() => setShowLightbox(true)}
         />
 
         {/* Top Left Actions */}
@@ -105,7 +124,7 @@ const PropertyGallery = ({ currentProperty }) => {
         </div>
 
         {/* Top Right Image Count */}
-        <div className="absolute top-4 right-4">
+        <div className="absolute top-4 right-4 pointer-events-none">
           <div className="badge bg-black/50 text-white border-none gap-2 px-3 py-3">
             <RiCameraLine size={16} />
             {allImages.indexOf(selectedImage) + 1} / {allImages.length}
@@ -133,6 +152,46 @@ const PropertyGallery = ({ currentProperty }) => {
           </div>
         ))}
       </div>
+
+      {/* Lightbox Overlay */}
+      {showLightbox && (
+        <div
+          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm"
+          onClick={() => setShowLightbox(false)}
+        >
+          <button
+            className="absolute top-4 right-4 text-white hover:text-gray-300 p-2 z-50"
+            onClick={() => setShowLightbox(false)}
+          >
+            <RiCloseLine size={40} />
+          </button>
+
+          <button
+            className="absolute left-2 md:left-8 text-white hover:text-gray-300 p-2 z-50 bg-black/20 rounded-full hover:bg-black/40 transition-colors"
+            onClick={handlePrev}
+          >
+            <RiArrowLeftSLine size={40} />
+          </button>
+
+          <img
+            src={selectedImage}
+            alt="Lightbox View"
+            className="max-w-full max-h-[90vh] object-contain select-none"
+            onClick={(e) => e.stopPropagation()}
+          />
+
+          <button
+            className="absolute right-2 md:right-8 text-white hover:text-gray-300 p-2 z-50 bg-black/20 rounded-full hover:bg-black/40 transition-colors"
+            onClick={handleNext}
+          >
+            <RiArrowRightSLine size={40} />
+          </button>
+
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white bg-black/50 px-4 py-1 rounded-full text-sm">
+            {allImages.indexOf(selectedImage) + 1} / {allImages.length}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
