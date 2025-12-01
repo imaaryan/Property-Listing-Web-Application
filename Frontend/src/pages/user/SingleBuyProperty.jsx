@@ -12,6 +12,7 @@ import {
 } from "@remixicon/react";
 
 import { FaRegCheckCircle } from "react-icons/fa";
+import Map from "../../components/user/Map";
 
 import Moment from "moment";
 
@@ -254,6 +255,7 @@ const SingleBuyProperty = () => {
                 className="tab rounded-md w-1/3 text-base font-medium"
                 aria-label="Nearby Amenities"
               />
+              {/* Amenities Tab */}
               <div className="tab-content bg-white rounded-md py-3">
                 <div className="grid grid-cols-4 gap-6 p-4">
                   {currentProperty.amenitiesId.map((amenityId) => {
@@ -271,6 +273,26 @@ const SingleBuyProperty = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Property Cordinates in Map */}
+          <div className="flex flex-col my-6 gap-3 p-6 border-2 border-secondary rounded-xl bg-[#fdfdfd] h-[400px]">
+            <Map
+              items={[
+                {
+                  ...currentProperty,
+                  image: currentProperty.images.featuredImage,
+                  pricing: {
+                    ...currentProperty.pricing,
+                    price: currentProperty.pricing.finelPricing,
+                  },
+                },
+              ]}
+              center={[
+                currentProperty.locationOnMap.latitude,
+                currentProperty.locationOnMap.longitude,
+              ]}
+            />
           </div>
         </div>
 

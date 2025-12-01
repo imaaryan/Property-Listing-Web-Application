@@ -4,20 +4,25 @@ import { useState, useEffect } from "react";
 import { divIcon } from "leaflet";
 import Pin from "./Pin.jsx";
 
-function Map({ items }) {
+function Map({ items, center }) {
   const [currentLocation, setCurrentLocation] = useState(null);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setCurrentLocation([pos.coords.latitude, pos.coords.longitude]);
-      },
-      (err) => console.log("Geolocation error:", err)
-    );
-  }, []);
+    if (!center) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setCurrentLocation([pos.coords.latitude, pos.coords.longitude]);
+        },
+        (err) => console.log("Geolocation error:", err)
+      );
+    }
+  }, [center]);
 
-  const mapCenter = currentLocation || [30.325053439645128, 78.00468719168197]; // Default: Dehradun
-  const customIcon = divIcon({ className: "bg-blue-600 rounded-full w-3 h-3 border-2 border-white" });
+  const mapCenter = center ||
+    currentLocation || [30.325053439645128, 78.00468719168197]; // Default: Dehradun
+  const customIcon = divIcon({
+    className: "bg-blue-600 rounded-full w-3 h-3 border-2 border-white",
+  });
 
   return (
     <MapContainer
@@ -44,13 +49,15 @@ function Map({ items }) {
             bedrooms: item.bedrooms,
             img: item.image,
             bathrooms: item.bathrooms,
-            propertyFor: item.propertyFor
+            propertyFor: item.propertyFor,
           }}
         />
       ))}
 
       {/* User's current location */}
-      {currentLocation && <Marker position={currentLocation} icon={customIcon} />}
+      {currentLocation && (
+        <Marker position={currentLocation} icon={customIcon} />
+      )}
     </MapContainer>
   );
 }
