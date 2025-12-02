@@ -15,6 +15,7 @@ const PropertySidebar = ({
   areaName,
   cityName,
   propertyFor = "Buy",
+  onOpenEmiCalculator,
 }) => {
   const navigate = useNavigate();
 
@@ -150,13 +151,7 @@ const PropertySidebar = ({
 
       <button
         className="btn btn-outline hover:bg-secondary text-lg font-normal "
-        onClick={() =>
-          navigate(
-            `/property/${propertyFor === "Buy" ? "sale" : "rent"}/${
-              currentProperty._id
-            }`
-          )
-        }
+        onClick={onOpenEmiCalculator}
       >
         <RiCalculatorLine size={22} />
         EMI Calculator

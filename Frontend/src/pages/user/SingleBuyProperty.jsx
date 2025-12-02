@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { propertyToBuy, area, amenities } from "../../assets/dummyData.js";
 import PropertyGallery from "../../components/user/singleProperty/PropertyGallery";
 import PropertyTabs from "../../components/user/singleProperty/PropertyTabs";
 import PropertyMap from "../../components/user/singleProperty/PropertyMap";
 import PropertySidebar from "../../components/user/singleProperty/PropertySidebar";
+import EMICalculator from "../../components/common/EMICalculator";
 
 const SingleBuyProperty = () => {
   const { id } = useParams();
+  const [showEmiCalculator, setShowEmiCalculator] = useState(false);
   const currentProperty = propertyToBuy.find((item) => item._id === id);
 
   const selectedArea = area.find((a) => a._id === currentProperty.areaId);
@@ -28,6 +30,7 @@ const SingleBuyProperty = () => {
               areaName={areaName}
               cityName={cityName}
               propertyFor="Buy"
+              onOpenEmiCalculator={() => setShowEmiCalculator(true)}
             />
           </div>
 
@@ -56,9 +59,15 @@ const SingleBuyProperty = () => {
             areaName={areaName}
             cityName={cityName}
             propertyFor="Buy"
+            onOpenEmiCalculator={() => setShowEmiCalculator(true)}
           />
         </div>
       </div>
+      <EMICalculator
+        isOpen={showEmiCalculator}
+        onClose={() => setShowEmiCalculator(false)}
+        defaultPrice={currentProperty.pricing.finelPricing}
+      />
     </>
   ) : (
     <div> No Property Avalable </div>
