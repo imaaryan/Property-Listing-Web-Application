@@ -63,7 +63,10 @@ const PropertySidebar = ({
 
       {/* Property Price */}
       <h3 className="text-4xl font-medium text-primary">
-        ₹{formatPrice(currentProperty.pricing.finelPricing)}
+        ₹
+        {propertyFor === "Buy"
+          ? formatPrice(currentProperty.pricing.finelPricing)
+          : formatPrice(currentProperty.pricing.rentPerMonth) + "/month"}
       </h3>
 
       {/* Property BHK & Size Info */}
@@ -102,27 +105,30 @@ const PropertySidebar = ({
         })()}
       </div>
 
-      {/* Khatauni Details */}
+      {/* Khatauni Details - Only for Buy */}
+
       <div className="flex flex-col gap-3 mb-3">
-        <h2 className="text-xl font-medium">Khatauni Details</h2>
+        <h2 className="text-xl font-medium">{!propertyFor === "Buy" ? "Khatauni Details" : "Owner Details" }</h2>
         <div>
-          <h3 className="text-md font-medium ">Current Owner:</h3>
+         {propertyFor === "Buy" && ( <h3 className="text-md font-medium ">Current Owner:</h3> )}
           <p className="text-base text-gray-500">
             {currentProperty.khatuniDetails.currentOwner}
           </p>
         </div>
-        <div>
-          <h3 className="text-md font-medium ">Previous Owner:</h3>
-          <p className="text-base text-gray-500">
-            {currentProperty.khatuniDetails.previousOwner}
-          </p>
-        </div>
-        <div c>
-          <h3 className="text-md font-medium ">Khasra Number:</h3>
-          <p className="text-base text-gray-500">
-            {currentProperty.khatuniDetails.khasraNumber}
-          </p>
-        </div>
+        {propertyFor === "Buy" && ( <div>
+          <div>
+            <h3 className="text-md font-medium ">Previous Owner:</h3>
+            <p className="text-base text-gray-500">
+              {currentProperty.khatuniDetails.previousOwner}
+            </p>
+          </div>
+          <div>
+            <h3 className="text-md font-medium ">Khasra Number:</h3>
+            <p className="text-base text-gray-500">
+              {currentProperty.khatuniDetails.khasraNumber}
+            </p>
+          </div>
+        </div> )}
       </div>
 
       <button
@@ -149,13 +155,15 @@ const PropertySidebar = ({
         Send Enquiry
       </button>
 
-      <button
-        className="btn btn-outline hover:bg-secondary text-lg font-normal "
-        onClick={onOpenEmiCalculator}
-      >
-        <RiCalculatorLine size={22} />
-        EMI Calculator
-      </button>
+      {propertyFor === "Buy" && (
+        <button
+          className="btn btn-outline hover:bg-secondary text-lg font-normal "
+          onClick={onOpenEmiCalculator}
+        >
+          <RiCalculatorLine size={22} />
+          EMI Calculator
+        </button>
+      )}
     </div>
   );
 };
