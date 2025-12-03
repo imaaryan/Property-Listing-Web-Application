@@ -302,7 +302,7 @@ export const propertyForRent = [
     propertyDetails: {
       furnishing: "Semi Furnished",
       avalabeFor: "Family, Bachelors",
-      availability: "2025-11-01T00:00:00.000Z",
+      availability: "Immediate",
       whyConsider: "Quiet Locality, Park Facing, 24/7 Water Supply",
       features: "Modular Kitchen, Piped Gas, Private Terrace, Car Parking",
       society: "N/A",

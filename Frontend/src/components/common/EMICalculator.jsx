@@ -44,7 +44,7 @@ const DonutChart = ({ principal, interest, size = 200, strokeWidth = 25 }) => {
         cy={size / 2}
         r={radius}
         fill="none"
-        stroke="#36a2a2" // Principal color (teal)
+        stroke="#1244e3" // Principal color (teal)
         strokeWidth={strokeWidth}
         strokeDasharray={`${principalArcLength} ${circumference}`}
       />
@@ -319,7 +319,7 @@ const EMICalculator = ({ isOpen, onClose, defaultPrice = 1000000 }) => {
                 <div className="w-full space-y-3 max-w-xs">
                   <div className="flex justify-between items-center p-3 bg-white rounded-lg border border-gray-100 shadow-sm">
                     <div className="flex items-center gap-2">
-                      <span className="w-3 h-3 rounded-full bg-[#36a2a2]"></span>
+                      <span className="w-3 h-3 rounded-full bg-[#1244e3]"></span>
                       <span className="text-sm text-gray-600">
                         Principal Amount
                       </span>

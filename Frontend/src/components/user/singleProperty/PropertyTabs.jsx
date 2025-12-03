@@ -11,89 +11,166 @@ const PropertyTabs = ({ currentProperty, amenities, propertyFor = "Buy" }) => {
         <input
           type="radio"
           name="my_tabs_1"
-          className="tab rounded-md w-1/3 max-sm:w-full text-base font-medium"
+          className={
+            propertyFor === "Buy"
+              ? "tab rounded-md w-1/3 max-sm:w-full text-base font-medium"
+              : "tab rounded-md w-1/4 max-sm:w-full text-base font-medium"
+          }
           aria-label="Details"
           defaultChecked
         />
-        {/* Property Details Tab */}
-        <div className="tab-content bg-white rounded-md py-3">
-          <div className="grid xl:grid-cols-2 gap-6 p-4">
-            <div className="flex gap-2 text-base items-start justify-between">
-              <h5 className="text-gray-500">Dimension:</h5>
-              <p>{currentProperty.propertyDetails.dimension}</p>
-            </div>
-            <div className="flex gap-2 text-base items-start justify-between">
-              <h5 className="text-gray-500">Facing:</h5>
-              <p>{currentProperty.propertyDetails.facing}</p>
-            </div>
-            <div className="flex gap-2 text-base items-start justify-between">
-              <h5 className="text-gray-500">Width Of Facing Road:</h5>
-              <p>{currentProperty.propertyDetails.widthOfFacingRoad}</p>
-            </div>
-            <div className="flex gap-2 text-base items-start justify-between">
-              <h5 className="text-gray-500">Approved By:</h5>
-              <p>{currentProperty.propertyDetails.approvedBy}</p>
-            </div>
-            <div className="flex gap-2 text-base items-start justify-between">
-              <h5 className="text-gray-500">Allowable Construction Stilt:</h5>
-              <p>
-                {currentProperty.propertyDetails.allowableConstructionStilt}
-              </p>
-            </div>
-            <div className="flex gap-2 text-base items-start justify-between">
-              <h5 className="text-gray-500">Ownership:</h5>
-              <p>{currentProperty.propertyDetails.ownership}</p>
-            </div>
-            <div className="flex gap-2 text-base items-start justify-between">
-              <h5 className="text-gray-500">Land Title:</h5>
-              <p>{currentProperty.propertyDetails.landTitle}</p>
-            </div>
-            <div className="flex gap-2 text-base items-start justify-between">
-              <h5 className="text-gray-500">Development Status:</h5>
-              <p>{currentProperty.propertyDetails.developmentStatus}</p>
-            </div>
-            <div className="flex gap-2 text-base items-start justify-between">
-              <h5 className="text-gray-500">Last Land Transaction:</h5>
-              <p>
-                {Moment(
-                  currentProperty.propertyDetails.lastLandTransaction
-                ).format(" Do MMMM YYYY")}
-              </p>
-            </div>
-            <div className="flex gap-2 text-base items-start justify-between">
-              <h5 className="text-gray-500">Under MDDA:</h5>
-              <p>{currentProperty.propertyDetails.underMDDA ? "Yes" : "No"}</p>
-            </div>
-            <div className="flex gap-2 text-base items-start justify-between">
-              <h5 className="text-gray-500">Under Nagar Nigam:</h5>
-              <p>
-                {currentProperty.propertyDetails.underNagarNigam ? "Yes" : "No"}
-              </p>
-            </div>
-            <div className="flex gap-2 text-base items-start justify-between">
-              <h5 className="text-gray-500">Water Supply:</h5>
-              <p>
-                {currentProperty.propertyDetails.waterSupply ? "Yes" : "No"}
-              </p>
-            </div>
-            <div className="flex gap-2 text-base items-start justify-between">
-              <h5 className="text-gray-500">Power Supply:</h5>
-              <p>
-                {currentProperty.propertyDetails.powerSupply ? "Yes" : "No"}
-              </p>
-            </div>
-            <div className="flex gap-2 text-base items-start justify-between">
-              <h5 className="text-gray-500">Loan Available:</h5>
-              <p>
-                {currentProperty.propertyDetails.loanAvailable ? "Yes" : "No"}
-              </p>
-            </div>
-            <div className="flex gap-2 text-base items-start justify-between col-span-full">
-              <h5 className=" text-gray-500">Address:</h5>
-              <p>{currentProperty.propertyDetails.address}</p>
+        {/* Property Details Tab for Buy */}
+        {propertyFor === "Buy" && (
+          <div className="tab-content bg-white rounded-md py-3">
+            <div className="grid xl:grid-cols-2 gap-6 p-4">
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Dimension:</h5>
+                <p>{currentProperty.propertyDetails.dimension}</p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Facing:</h5>
+                <p>{currentProperty.propertyDetails.facing}</p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Width Of Facing Road:</h5>
+                <p>{currentProperty.propertyDetails.widthOfFacingRoad}</p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Approved By:</h5>
+                <p>{currentProperty.propertyDetails.approvedBy}</p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Allowable Construction Stilt:</h5>
+                <p>
+                  {currentProperty.propertyDetails.allowableConstructionStilt}
+                </p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Ownership:</h5>
+                <p>{currentProperty.propertyDetails.ownership}</p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Land Title:</h5>
+                <p>{currentProperty.propertyDetails.landTitle}</p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Development Status:</h5>
+                <p>{currentProperty.propertyDetails.developmentStatus}</p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Last Land Transaction:</h5>
+                <p>
+                  {Moment(
+                    currentProperty.propertyDetails.lastLandTransaction
+                  ).format(" Do MMMM YYYY")}
+                </p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Under MDDA:</h5>
+                <p>
+                  {currentProperty.propertyDetails.underMDDA ? "Yes" : "No"}
+                </p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Under Nagar Nigam:</h5>
+                <p>
+                  {currentProperty.propertyDetails.underNagarNigam
+                    ? "Yes"
+                    : "No"}
+                </p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Water Supply:</h5>
+                <p>
+                  {currentProperty.propertyDetails.waterSupply ? "Yes" : "No"}
+                </p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Power Supply:</h5>
+                <p>
+                  {currentProperty.propertyDetails.powerSupply ? "Yes" : "No"}
+                </p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Loan Available:</h5>
+                <p>
+                  {currentProperty.propertyDetails.loanAvailable ? "Yes" : "No"}
+                </p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between col-span-full">
+                <h5 className=" text-gray-500">Address:</h5>
+                <p>{currentProperty.propertyDetails.address}</p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
+
+        {/* Property Details Tab for Rent */}
+        {propertyFor === "Rent" && (
+          <div className="tab-content bg-white rounded-md py-3">
+            <div className="grid xl:grid-cols-1 gap-6 p-4">
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Furnishing:</h5>
+                <p>{currentProperty.propertyDetails.furnishing}</p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Avalabe For:</h5>
+                <p>{currentProperty.propertyDetails.avalabeFor}</p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Availability:</h5>
+                <p>{currentProperty.propertyDetails.availability}</p>
+              </div>
+              <div className="flex gap-2 text-base items-start justify-between">
+                <h5 className="text-gray-500">Features:</h5>
+                <p>{currentProperty.propertyDetails.features}</p>
+              </div>
+            </div>
+          </div>
+        )}
+        {/* Society Tab for Rent */}
+        {propertyFor === "Rent" && (
+          <>
+            <input
+              type="radio"
+              name="my_tabs_1"
+              className="tab rounded-md w-1/4 max-sm:w-full text-base font-medium"
+              aria-label="Society"
+              defaultChecked
+            />
+            <div className="tab-content bg-white rounded-md py-3">
+              <div className="grid xl:grid-cols-1 gap-6 p-4">
+                <div className="flex gap-2 text-base items-start justify-between">
+                  <h5 className="text-gray-500">Society:</h5>
+                  <p>{currentProperty.propertyDetails.society}</p>
+                </div>
+                <div className="flex gap-2 text-base items-start justify-between">
+                  <h5 className="text-gray-500">Address:</h5>
+                  <p>{currentProperty.propertyDetails.address}</p>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        {/* Why This Tab for Rent */}
+        {propertyFor === "Rent" && (
+          <>
+            <input
+              type="radio"
+              name="my_tabs_1"
+              className="tab rounded-md w-1/4 max-sm:w-full text-base font-medium"
+              aria-label="Why This?"
+              defaultChecked
+            />
+            <div className="tab-content bg-white rounded-md py-3">
+              <div className="grid xl:grid-cols-1 gap-6 p-4">
+                <div className="flex gap-2 text-base items-start justify-between">
+                  <p>{currentProperty.propertyDetails.whyConsider}</p>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
 
         {propertyFor === "Buy" && (
           <>
@@ -184,10 +261,15 @@ const PropertyTabs = ({ currentProperty, amenities, propertyFor = "Buy" }) => {
             </div>
           </>
         )}
+
         <input
           type="radio"
           name="my_tabs_1"
-          className="tab rounded-md w-1/3 max-sm:w-full text-base font-medium"
+          className={
+            propertyFor === "Buy"
+              ? "tab rounded-md w-1/3 max-sm:w-full text-base font-medium"
+              : "tab rounded-md w-1/4 max-sm:w-full text-base font-medium"
+          }
           aria-label="Nearby Amenities"
         />
         {/* Amenities Tab */}

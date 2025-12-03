@@ -69,6 +69,15 @@ const PropertySidebar = ({
           : formatPrice(currentProperty.pricing.rentPerMonth) + "/month"}
       </h3>
 
+      {propertyFor === "Rent" && (
+        <div className="flex gap-1 items-end">
+          <span className="text-2xl">
+            ₹{formatPrice(currentProperty.pricing.securityDeposit)}
+          </span>
+          <p className="flex items-center text-gray-500">Security Deposit</p>
+        </div>
+      )}
+
       {/* Property BHK & Size Info */}
       <div className="flex flex-row flex-wrap justify-start gap-2 my-3 ">
         <div
@@ -108,27 +117,33 @@ const PropertySidebar = ({
       {/* Khatauni Details - Only for Buy */}
 
       <div className="flex flex-col gap-3 mb-3">
-        <h2 className="text-xl font-medium">{!propertyFor === "Buy" ? "Khatauni Details" : "Owner Details" }</h2>
+        <h2 className="text-xl font-medium">
+          {!propertyFor === "Buy" ? "Khatauni Details" : "Owner Details"}
+        </h2>
         <div>
-         {propertyFor === "Buy" && ( <h3 className="text-md font-medium ">Current Owner:</h3> )}
+          {propertyFor === "Buy" && (
+            <h3 className="text-md font-medium ">Current Owner:</h3>
+          )}
           <p className="text-base text-gray-500">
             {currentProperty.khatuniDetails.currentOwner}
           </p>
         </div>
-        {propertyFor === "Buy" && ( <div>
+        {propertyFor === "Buy" && (
           <div>
-            <h3 className="text-md font-medium ">Previous Owner:</h3>
-            <p className="text-base text-gray-500">
-              {currentProperty.khatuniDetails.previousOwner}
-            </p>
+            <div>
+              <h3 className="text-md font-medium ">Previous Owner:</h3>
+              <p className="text-base text-gray-500">
+                {currentProperty.khatuniDetails.previousOwner}
+              </p>
+            </div>
+            <div>
+              <h3 className="text-md font-medium ">Khasra Number:</h3>
+              <p className="text-base text-gray-500">
+                {currentProperty.khatuniDetails.khasraNumber}
+              </p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-md font-medium ">Khasra Number:</h3>
-            <p className="text-base text-gray-500">
-              {currentProperty.khatuniDetails.khasraNumber}
-            </p>
-          </div>
-        </div> )}
+        )}
       </div>
 
       <button
@@ -142,7 +157,7 @@ const PropertySidebar = ({
       </button>
 
       <button
-        className="btn btn-outline text-lg font-normal hover:bg-secondary"
+        className="btn btn-outline text-lg font-normal hover:bg-secondary hover:text-primary"
         onClick={() =>
           navigate(
             `/property/${propertyFor === "Buy" ? "sale" : "rent"}/${
@@ -157,7 +172,7 @@ const PropertySidebar = ({
 
       {propertyFor === "Buy" && (
         <button
-          className="btn btn-outline hover:bg-secondary text-lg font-normal "
+          className="btn btn-outline hover:bg-secondary text-lg font-normal hover:text-primary"
           onClick={onOpenEmiCalculator}
         >
           <RiCalculatorLine size={22} />
