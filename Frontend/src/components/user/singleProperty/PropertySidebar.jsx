@@ -157,7 +157,7 @@ const PropertySidebar = ({
       </button>
 
       <button
-        className="btn btn-outline text-lg font-normal hover:bg-secondary hover:text-primary"
+        className="btn btn-outline border-gray-400 text-gray-600 text-lg font-normal hover:bg-secondary hover:text-primary"
         onClick={() =>
           navigate(
             `/property/${propertyFor === "Buy" ? "sale" : "rent"}/${
@@ -172,7 +172,7 @@ const PropertySidebar = ({
 
       {propertyFor === "Buy" && (
         <button
-          className="btn btn-outline hover:bg-secondary text-lg font-normal hover:text-primary"
+          className="btn btn-outline border-gray-400 text-gray-600 hover:bg-secondary text-lg font-normal hover:text-primary"
           onClick={onOpenEmiCalculator}
         >
           <RiCalculatorLine size={22} />
