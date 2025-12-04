@@ -2,28 +2,41 @@ import mongoose from "mongoose";
 
 const enquirySchema = new mongoose.Schema(
   {
-    name: { type: String, required: true, trim: true },
-    email: { type: String, required: true, trim: true },
-    phone: { type: Number, required: true, trim: true },
-    address: { type: String, trim: true },
+    name: {
+      type: String,
+      required: [true, "Please add a name"],
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: [true, "Please add an email"],
+      match: [
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        "Please add a valid email",
+      ],
+    },
+    phone: {
+      type: Number,
+      required: [true, "Please add a phone number"],
+    },
+    address: {
+      type: String,
+      required: [true, "Please add an address"],
+    },
     propertyType: {
       type: String,
-      enum: [
-        "Residential Plot",
-        "Residential Apartment",
-        "Independent House",
-        "Commercial Plot",
-        "Commercial Apartment",
-        "Warehouse / Godown",
-      ],
-      required: true,
+      required: [true, "Please specify property type"],
     },
-    message: { type: String, trim: true },
-    isRead: { type: Boolean, default: false },
+    message: {
+      type: String,
+      required: [true, "Please add a message"],
+    },
+    isRead: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
 
-const Enquiry = mongoose.model("Enquiry", enquirySchema);
-
-export default Enquiry;
+export const Enquiry = mongoose.model("Enquiry", enquirySchema);

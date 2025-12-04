@@ -2,12 +2,18 @@ import mongoose from "mongoose";
 
 const areaSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true, trim: true },
-    city: { type: mongoose.Schema.Types.ObjectId, ref: "City", required: true },
+    name: {
+      type: String,
+      required: [true, "Please add an area name"],
+      trim: true,
+    },
+    city: {
+      type: mongoose.Schema.ObjectId,
+      ref: "City",
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
-const Area = mongoose.model("Area", areaSchema);
-
-export default Area;
+export const Area = mongoose.model("Area", areaSchema);

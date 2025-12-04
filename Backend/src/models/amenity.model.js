@@ -4,13 +4,12 @@ const amenitySchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, "Please add an amenity name"],
+      unique: true,
       trim: true,
     },
   },
   { timestamps: true }
 );
 
-const Amenity = mongoose.model("Amenity", amenitySchema)
-
-export default Amenity;
+export const Amenity = mongoose.model("Amenity", amenitySchema);
