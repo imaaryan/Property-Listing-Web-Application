@@ -193,3 +193,91 @@ export const getPropertyById = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const updateProperty = async (req, res) => {
+  try {
+    const { id } = req.params;
+    let property = await Property.findById(id);
+
+    if (!property) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Property not found" });
+    }
+
+    // 1. Handle New Images (if any)
+    let featuredImageUrl = property.images.featuredImage;
+    let imageGalleryUrls = property.images.imageGallery;
+
+    // Update Featured Image if provided
+    if (req.files?.featuredImage?.[0]) {
+      featuredImageUrl = await uploadToImageKit(
+        req.files.featuredImage[0],
+        "/properties/featured"
+      );
+    }
+
+    // Append New Gallery Images if provided
+    if (req.files?.imageGallery) {
+      for (const file of req.files.imageGallery) {
+        const url = await uploadToImageKit(file, "/properties/gallery");
+        imageGalleryUrls.push(url);
+      }
+    }
+
+    // 2. Prepare Update Data
+    const updateData = {
+      ...req.body,
+      images: {
+        featuredImage: featuredImageUrl,
+        imageGallery: imageGalleryUrls,
+      },
+    };
+
+    // Parse nested JSON strings if they exist (similar to create)
+    if (req.body.pricing && typeof req.body.pricing === "string")
+      updateData.pricing = JSON.parse(req.body.pricing);
+    if (
+      req.body.propertyDetails &&
+      typeof req.body.propertyDetails === "string"
+    )
+      updateData.propertyDetails = JSON.parse(req.body.propertyDetails);
+    if (req.body.khatuniDetails && typeof req.body.khatuniDetails === "string")
+      updateData.khatuniDetails = JSON.parse(req.body.khatuniDetails);
+    if (req.body.locationOnMap && typeof req.body.locationOnMap === "string")
+      updateData.locationOnMap = JSON.parse(req.body.locationOnMap);
+    if (req.body.amenitiesId && typeof req.body.amenitiesId === "string")
+      updateData.amenitiesId = JSON.parse(req.body.amenitiesId);
+
+    // 3. Update Property
+    property = await Property.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.status(200).json({ success: true, data: property });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const deleteProperty = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const property = await Property.findById(id);
+
+    if (!property) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Property not found" });
+    }
+
+    await property.deleteOne();
+
+    res
+      .status(200)
+      .json({ success: true, message: "Property deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
