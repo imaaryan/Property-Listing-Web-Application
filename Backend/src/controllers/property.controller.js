@@ -81,10 +81,92 @@ export const createProperty = async (req, res) => {
 
 export const getAllProperties = async (req, res) => {
   try {
-    const properties = await Property.find({})
-      .populate("areaId")
-      .populate("amenitiesId");
-    res.status(200).json({ success: true, data: properties });
+    const {
+      page = 1,
+      limit = 10,
+      city, // City ID
+      area, // Area ID
+      type, // Property Type
+      propertyFor, // Buy or Rent
+      minPrice,
+      maxPrice,
+    } = req.query;
+
+    const query = {};
+
+    // 1. Filter by Property For (Buy/Rent)
+    if (propertyFor) {
+      query.propertyFor = propertyFor;
+    }
+
+    // 2. Filter by Property Type
+    if (type) {
+      query.propertyType = type;
+    }
+
+    // 3. Filter by Area (Direct Match)
+    if (area) {
+      query.areaId = area;
+    }
+
+    // 4. Filter by City
+    // Since Property has 'areaId' which refs 'Area', and 'Area' refs 'City',
+    // filtering by City is complex in a single query without aggregation.
+    // However, if the frontend sends 'areaId', we don't need city.
+    // If frontend sends ONLY 'cityId', we first find all areas in that city.
+    if (city && !area) {
+      // Find all areas in this city
+      // We need to import Area model to do this, or use aggregation.
+      // Let's use aggregation for better performance if needed, but simple find is easier here.
+      // Dynamic import to avoid circular dependency issues if any (though unlikely here)
+      const { Area } = await import("../models/area.model.js");
+      const areasInCity = await Area.find({ city: city }).select("_id");
+      const areaIds = areasInCity.map((a) => a._id);
+      query.areaId = { $in: areaIds };
+    }
+
+    // 5. Filter by Price
+    if (minPrice || maxPrice) {
+      const priceQuery = {};
+      if (minPrice) priceQuery.$gte = Number(minPrice);
+      if (maxPrice) priceQuery.$lte = Number(maxPrice);
+
+      if (propertyFor === "Buy") {
+        query["pricing.finelPricing"] = priceQuery;
+      } else if (propertyFor === "Rent") {
+        query["pricing.rentPerMonth"] = priceQuery;
+      } else {
+        // If propertyFor is not specified, check both (OR condition)
+        query.$or = [
+          { "pricing.finelPricing": priceQuery },
+          { "pricing.rentPerMonth": priceQuery },
+        ];
+      }
+    }
+
+    // Pagination
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const properties = await Property.find(query)
+      .populate({
+        path: "areaId",
+        populate: { path: "city" },
+      })
+      .populate("amenitiesId")
+      .skip(skip)
+      .limit(Number(limit))
+      .sort({ createdAt: -1 }); // Newest first
+
+    const total = await Property.countDocuments(query);
+
+    res.status(200).json({
+      success: true,
+      count: properties.length,
+      total,
+      page: Number(page),
+      pages: Math.ceil(total / Number(limit)),
+      data: properties,
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
