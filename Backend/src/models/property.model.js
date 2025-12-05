@@ -130,6 +130,39 @@ const propertySchema = new mongoose.Schema(
 
 import { validatePropertyPricing } from "../middlewares/propertyValidation.middleware.js";
 
+// --- Pricing Calculation Middleware (Pre-Save Hook) ---
+propertySchema.pre("save", function (next) {
+  // Only run for 'Buy' properties with pricing data
+  if (this.propertyFor === "Buy" && this.pricing) {
+    const p = this.pricing;
+
+    // Check if relevant fields are modified (optional optimization, but good practice)
+    // For nested objects, we can check if 'pricing' is modified or just recalculate always on save
+    // Recalculating is safer to ensure consistency.
+
+    // 1. Calculate Stamp Duty
+    if (p.askingPrice && p.stampDutyPercentage) {
+      p.stampDutyCost = (p.askingPrice * p.stampDutyPercentage) / 100;
+    }
+
+    // 2. Calculate Broker Commission
+    if (p.askingPrice && p.brokerCommissionPercentage) {
+      p.brokerCommissionCost =
+        (p.askingPrice * p.brokerCommissionPercentage) / 100;
+    }
+
+    // 3. Calculate Final Pricing
+    const asking = p.askingPrice || 0;
+    const stamp = p.stampDutyCost || 0;
+    const advocate = p.advocateFee || 0;
+    const receipt = p.receiptFee || 0;
+    const broker = p.brokerCommissionCost || 0;
+
+    p.finelPricing = asking + stamp + advocate + receipt + broker;
+  }
+  next();
+});
+
 // --- Validation Middleware (Pre-Save Hook) ---
 propertySchema.pre("save", validatePropertyPricing);
 
