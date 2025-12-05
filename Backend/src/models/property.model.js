@@ -57,6 +57,7 @@ const propertySchema = new mongoose.Schema(
     bedrooms: { type: Number, default: 0 },
     bathrooms: { type: Number, default: 0 },
     propertySize: { type: Number, required: true }, // In sq ft
+    propertySizeInYard: { type: Number, required: true }, // In sq yard
 
     // --- Flexible Pricing Object ---
     // We define ALL possible fields here as optional.
@@ -129,6 +130,15 @@ const propertySchema = new mongoose.Schema(
 );
 
 import { validatePropertyPricing } from "../middlewares/propertyValidation.middleware.js";
+
+// --- Unit Conversion Middleware (Pre-Validate Hook) ---
+propertySchema.pre("validate", function (next) {
+  if (this.propertySize && !this.propertySizeInYard) {
+    // 1 sq yard = 9 sq feet
+    this.propertySizeInYard = parseFloat((this.propertySize / 9).toFixed(2));
+  }
+  next();
+});
 
 // --- Pricing Calculation Middleware (Pre-Save Hook) ---
 propertySchema.pre("save", function (next) {
