@@ -5,6 +5,7 @@ import cors from "cors";
 import healthRouter from "./routes/healthcheck.route.js";
 import adminRouter from "./routes/auth.route.js";
 import masterRouter from "./routes/master.route.js";
+import propertyRouter from "./routes/property.route.js";
 
 const app = express();
 
@@ -28,5 +29,6 @@ app.get("/", (req, res) => {
 app.use("/api/v1/healthcheck", healthRouter);
 app.use("/api/v1/admin/", adminRouter);
 app.use("/api/v1/master", masterRouter);
+app.use("/api/v1/properties", propertyRouter);
 
 export default app;
