@@ -28,7 +28,7 @@ function Map({ items, center }) {
     <MapContainer
       center={mapCenter}
       zoom={11}
-      scrollWheelZoom={true}
+      scrollWheelZoom={false}
       className="w-full h-full rounded-xl shadow-lg z-0"
     >
       <TileLayer
