@@ -42,14 +42,14 @@ function Pin({ item }) {
     <Marker position={[item.latitude, item.longitude]} icon={customIcon}>
       <Popup>
         <div className="flex gap-2  group cursor-pointer">
-          <div>
+          <div className="w-1/2">
             <img
               src={item.img}
               alt={item.title + " image"}
-              className="aspect-3/2  w-84 max-sm:w-64 object-cover object-center rounded-md"
+              className="aspect-3/2  w-full object-cover object-center rounded-md"
             />
           </div>
-          <div>
+          <div className="w-1/2">
             <div className="flex flex-col gap-1 text-sm ">
               <h2
                 className="text-base max-sm:text-sm font-medium line-clamp-2 cursor-pointer group-hover:text-primary"

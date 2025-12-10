@@ -59,6 +59,7 @@
   margin: 15px 24px 11px 12px!important;
   max-width: 350px;
   width: 350px;
+  max-height: 110px;
 }
 
 .leaflet-container a.leaflet-popup-close-button {
