@@ -128,7 +128,7 @@ const Home = () => {
                 >
                   <div className=" h-1.5 w-40 bg-gray-400  m-4  rounded-full opacity-50 "></div>
                 </div>
-                <Filter />
+                <Filter onSearch={() => setDrawerStatus(false)} />
               </div>
             </div>
           </div>

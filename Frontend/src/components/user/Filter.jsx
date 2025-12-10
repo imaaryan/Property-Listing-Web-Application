@@ -29,7 +29,7 @@ const propertyTypes = [
   "Agricultural Land",
 ];
 
-const Filter = () => {
+const Filter = ({ onSearch }) => {
   const { backendUrl, userLocation } = useContext(AppContext);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -304,6 +304,8 @@ const Filter = () => {
 
     // Update URL - This is the Main Action
     setSearchParams(params);
+
+    if (onSearch) onSearch();
   };
 
   return (
