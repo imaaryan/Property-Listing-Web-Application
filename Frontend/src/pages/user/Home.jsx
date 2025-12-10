@@ -6,6 +6,7 @@ import Map from "../../components/user/Map.jsx";
 import { AppContext } from "../../context/AppContext.jsx";
 import axios from "axios";
 import LocationModal from "../../components/user/LocationModal.jsx";
+import CurrentLocation from "../../components/user/CurrentLocation.jsx";
 import { useSearchParams } from "react-router-dom";
 
 const Home = () => {
@@ -96,20 +97,25 @@ const Home = () => {
   return (
     <>
       <LocationModal />
-      <div className="flex justify-between m-4">
-        <div>
-          {/* {Current Selected Area,City} */}
-        </div>
+      <div className="m-4">
         <div className="block sm:hidden">
-          <button
-            className="btn btn-primary text-base w-30 font-normal "
+          <div
+            className="flex justify-between items-center"
             onClick={() => {
               setDrawerStatus(true);
             }}
           >
-            <RiEqualizerLine size={18} />
-            Filter
-          </button>
+            <div>
+              <CurrentLocation
+                cityId={searchParams.get("city")}
+                areaId={searchParams.get("area")}
+              />
+            </div>
+            <button className="btn btn-primary btn-soft text-base w-30 font-normal ">
+              <RiEqualizerLine size={18} />
+              Filter
+            </button>
+          </div>
           <div
             className={`${
               !drawerStatus ? "hidden" : ""
