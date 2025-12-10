@@ -187,7 +187,7 @@ const Home = () => {
             </div>
 
             {/* Cards Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4 lg:gap-8 p-4 pt-5 w-full max-w-[1440px] mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 p-4 2xl:p-0 gap-4  pb-4 pt-2 w-full max-w-[1440px] mx-auto">
               {properties.map((property) => (
                 <Card key={property._id} Property={property} />
               ))}
