@@ -2,6 +2,7 @@ import express from "express";
 import {
   createProperty,
   getAllProperties,
+  getStats,
   getPropertyById,
   updateProperty,
   deleteProperty,
@@ -23,6 +24,7 @@ propertyRouter.post(
   createProperty
 );
 
+propertyRouter.get("/stats", getStats); // Public - Optimized for filters
 propertyRouter.get("/get-all", getAllProperties); // Public
 propertyRouter.get("/get/:id", getPropertyById); // Public
 

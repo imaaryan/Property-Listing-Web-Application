@@ -1,22 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { propertyToBuy, area, amenities } from "../../assets/dummyData.js";
+import { amenities } from "../../assets/dummyData.js"; // Keep amenities as they might still be dummy or need checking
 import PropertyGallery from "../../components/user/singleProperty/PropertyGallery";
 import PropertyTabs from "../../components/user/singleProperty/PropertyTabs";
 import PropertyMap from "../../components/user/singleProperty/PropertyMap";
 import PropertySidebar from "../../components/user/singleProperty/PropertySidebar";
 import EMICalculator from "../../components/common/EMICalculator";
+import axios from "axios";
+import { AppContext } from "../../context/AppContext.jsx";
 
 const SingleBuyProperty = () => {
   const { id } = useParams();
+  const { backendUrl } = useContext(AppContext);
   const [showEmiCalculator, setShowEmiCalculator] = useState(false);
-  const currentProperty = propertyToBuy.find((item) => item._id === id);
+  const [currentProperty, setCurrentProperty] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const selectedArea = area.find((a) => a._id === currentProperty.areaId);
-  const areaName = selectedArea?.name || "Unknown Area";
-  const cityName = selectedArea?.city?.name || "Unknown City";
+  useEffect(() => {
+    const fetchProperty = async () => {
+      try {
+        const { data } = await axios.get(`${backendUrl}/properties/get/${id}`);
+        if (data.success) {
+          setCurrentProperty(data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching property:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProperty();
+  }, [id, backendUrl]);
 
-  return currentProperty ? (
+  if (loading)
+    return <div className="text-center p-10">Loading Property Details...</div>;
+
+  if (!currentProperty)
+    return <div className="text-center p-10">Property Not Found</div>;
+
+  const areaName = currentProperty.areaId?.name || "Unknown Area";
+  const cityName = currentProperty.areaId?.city?.name || "Unknown City";
+
+  return (
     <>
       <div className="flex gap-8 p-2 md:p-4 lg:pr-4 w-full max-w-[1440px] mx-auto max-md:flex-wrap ">
         <div className="w-full min-w-0">
@@ -66,11 +91,9 @@ const SingleBuyProperty = () => {
       <EMICalculator
         isOpen={showEmiCalculator}
         onClose={() => setShowEmiCalculator(false)}
-        defaultPrice={currentProperty.pricing.finelPricing}
+        defaultPrice={currentProperty.pricing?.finelPricing || 0}
       />
     </>
-  ) : (
-    <div> No Property Avalable </div>
   );
 };
 

@@ -90,6 +90,8 @@ export const getAllProperties = async (req, res) => {
       propertyFor, // Buy or Rent
       minPrice,
       maxPrice,
+      minArea,
+      maxArea,
     } = req.query;
 
     const query = {};
@@ -144,6 +146,14 @@ export const getAllProperties = async (req, res) => {
       }
     }
 
+    // 6. Filter by Property Area Size (Sq ft)
+    if (minArea || maxArea) {
+      const areaSizeQuery = {};
+      if (minArea) areaSizeQuery.$gte = Number(minArea);
+      if (maxArea) areaSizeQuery.$lte = Number(maxArea);
+      query.propertySize = areaSizeQuery;
+    }
+
     // Pagination
     const skip = (Number(page) - 1) * Number(limit);
 
@@ -167,6 +177,83 @@ export const getAllProperties = async (req, res) => {
       pages: Math.ceil(total / Number(limit)),
       data: properties,
     });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// --- Aggregation Stats Endpoint ---
+export const getStats = async (req, res) => {
+  try {
+    const { city, area, type } = req.query;
+
+    const matchStage = {};
+
+    // 1. Filter by Property Type
+    if (type && type !== "All") {
+      matchStage.propertyType = type;
+    }
+
+    // 2. Filter by Area (Direct Match) or City
+    if (area) {
+      // If we have area ID, we can match directly if we cast it to ObjectId
+      // But aggregate needs ObjectId, so we import mongoose
+      const mongoose = await import("mongoose");
+      matchStage.areaId = new mongoose.default.Types.ObjectId(area);
+    } else if (city) {
+      // If only city, we need to find all areas in that city first
+      // OR we can lookup areaId and filter.
+      // Easiest is to fetch area IDs first like in getAllProperties
+      const { Area } = await import("../models/area.model.js");
+      const areasInCity = await Area.find({ city: city }).select("_id");
+      const areaIds = areasInCity.map((a) => a._id);
+      matchStage.areaId = { $in: areaIds };
+    }
+
+    const stats = await Property.aggregate([
+      { $match: matchStage },
+      {
+        $group: {
+          _id: null,
+          minPriceBuy: { $min: "$pricing.finelPricing" },
+          maxPriceBuy: { $max: "$pricing.finelPricing" },
+          minPriceRent: { $min: "$pricing.rentPerMonth" },
+          maxPriceRent: { $max: "$pricing.rentPerMonth" },
+          minArea: { $min: "$propertySize" },
+          maxArea: { $max: "$propertySize" },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    if (stats.length > 0) {
+      const result = stats[0];
+      res.status(200).json({
+        success: true,
+        data: {
+          minPriceBuy: result.minPriceBuy || 0,
+          maxPriceBuy: result.maxPriceBuy || 0,
+          minPriceRent: result.minPriceRent || 0,
+          maxPriceRent: result.maxPriceRent || 0,
+          minArea: result.minArea || 0,
+          maxArea: result.maxArea || 0,
+          count: result.count,
+        },
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        data: {
+          minPriceBuy: 0,
+          maxPriceBuy: 0,
+          minPriceRent: 0,
+          maxPriceRent: 0,
+          minArea: 0,
+          maxArea: 0,
+          count: 0,
+        },
+      });
+    }
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

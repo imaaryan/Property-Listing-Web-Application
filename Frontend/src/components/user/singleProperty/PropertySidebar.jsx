@@ -9,6 +9,10 @@ import {
   RiInbox2Line,
   RiCalculatorLine,
 } from "@remixicon/react";
+import {
+  convertToYardsIfNeeded,
+  formatPrice,
+} from "../../../utils/propertyUtils";
 
 const PropertySidebar = ({
   currentProperty,
@@ -19,32 +23,9 @@ const PropertySidebar = ({
 }) => {
   const navigate = useNavigate();
 
-  const convertToYardsIfNeeded = (size, type) => {
-    const yardTypes = [
-      "Residential Plot",
-      "Commercial Plot",
-      "Commercial Apartment",
-      "Warehouse / Godown",
-      "Independent House",
-    ];
+  // Removed local convertToYardsIfNeeded in favor of utils
 
-    if (yardTypes.includes(type)) {
-      const inYards = Math.round(size / 9);
-      return { size: inYards, unit: "sq. yards" };
-    }
-
-    return { size, unit: "sq. ft" };
-  };
-
-  const formatPrice = (amount) => {
-    if (amount >= 10000000) {
-      return (amount / 10000000).toFixed(2) + " Cr.";
-    } else if (amount >= 100000) {
-      return (amount / 100000).toFixed(2) + " Lakh";
-    } else {
-      return amount.toLocaleString("en-IN");
-    }
-  };
+  // Removed local formatPrice in favor of utils
 
   return (
     <div className="flex flex-col gap-3 md:p-6 p-3 border-2 border-secondary rounded-xl bg-[#fdfdfd] ">
@@ -104,7 +85,8 @@ const PropertySidebar = ({
         {(() => {
           const { size, unit } = convertToYardsIfNeeded(
             currentProperty.propertySize,
-            currentProperty.propertyType
+            currentProperty.propertyType,
+            currentProperty.propertySizeInYard
           );
           return (
             <div className="flex flex-row items-center gap-2 p-3 bg-[#1244e320] hover:bg-[#1244e330] select-none text-sm rounded-lg">

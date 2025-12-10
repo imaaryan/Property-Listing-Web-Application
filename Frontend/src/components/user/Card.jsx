@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { area } from "../../assets/dummyData";
 import {
   RiMapPin2Fill,
   RiHotelBedFill,
@@ -11,6 +10,7 @@ import {
   RiExternalLinkLine,
 } from "@remixicon/react";
 import { useNavigate } from "react-router-dom";
+import { convertToYardsIfNeeded, formatPrice } from "../../utils/propertyUtils";
 
 const Card = ({ Property }) => {
   const navigate = useNavigate();
@@ -25,17 +25,23 @@ const Card = ({ Property }) => {
     propertySize,
     propertyType,
     propertyFor,
-    image,
-    pricing: { price, rent },
+    image, // This will be undefined in backend data, handled below
+    images, // Backend field
+    pricing,
     areaId,
-    ownerContact,
+    khatuniDetails, // Backend field for contact
     locationOnMap,
     createdAt,
   } = Property;
 
-  const selectedArea = area.find((a) => a._id === areaId);
-  const areaName = selectedArea?.name || "Unknown Area";
-  const cityName = selectedArea?.city?.name || "Unknown City";
+  // Handle Schema Differences
+  const displayImage = images?.featuredImage || image;
+  const displayPrice = pricing?.finelPricing || 0;
+  const displayRent = pricing?.rentPerMonth || 0;
+  const displayContact = khatuniDetails?.currentOwnerPhoneNumber || "N/A";
+
+  const areaName = areaId?.name || "Unknown Area";
+  const cityName = areaId?.city?.name || "Unknown City";
 
   useEffect(() => {
     try {
@@ -68,32 +74,13 @@ const Card = ({ Property }) => {
     }
   };
 
-  const formatPrice = (amount) => {
-    if (amount >= 10000000) {
-      return (amount / 10000000).toFixed(2) + " Cr.";
-    } else if (amount >= 100000) {
-      return (amount / 100000).toFixed(2) + " Lakh";
-    } else {
-      return amount.toLocaleString("en-IN");
-    }
-  };
+  // Removed local formatPrice in favor of utils
 
-  const convertToYardsIfNeeded = (size, type) => {
-    const yardTypes = [
-      "Residential Plot",
-      "Commercial Plot",
-      "Commercial Apartment",
-      "Warehouse / Godown",
-      "Independent House",
-    ];
-
-    if (yardTypes.includes(type)) {
-      const inYards = Math.round(size / 9);
-      return { size: inYards, unit: "sq. yards" };
-    }
-
-    return { size, unit: "sq. ft" };
-  };
+  /*
+   * Updated logic: Use propertySizeInYard from backend if available for yard types.
+   * If not (legacy data?), calculate on fly.
+   */
+  // Removed local convertToYardsIfNeeded in favor of utils
 
   const propertyBadge = () => {
     if (propertyFor === "Buy") {
@@ -111,8 +98,10 @@ const Card = ({ Property }) => {
     }
   };
 
-  const pricing =
-    propertyFor === "Buy" ? formatPrice(price) : formatPrice(rent) + "/month";
+  const pricingValue =
+    propertyFor === "Buy"
+      ? formatPrice(displayPrice)
+      : formatPrice(displayRent) + "/month";
 
   return (
     <div className="relative card bg-base-100 shadow-sm group hover:shadow-xl overflow-hidden rounded-t-lg border border-blue-100">
@@ -126,7 +115,7 @@ const Card = ({ Property }) => {
       >
         <img
           className="aspect-3/2 w-full object-cover object-center transform transition-transform duration-500 ease-in-out group-hover:scale-110"
-          src={image}
+          src={displayImage}
           alt={title + " Image"}
         />
       </div>
@@ -156,7 +145,7 @@ const Card = ({ Property }) => {
 
       <div className="card-body p-5">
         <div className="flex justify-between items-center">
-          <h3 className="text-2xl font-medium text-primary">₹{pricing}</h3>
+          <h3 className="text-2xl font-medium text-primary">₹{pricingValue}</h3>
           {propertyBadge()}
         </div>
 
@@ -194,7 +183,8 @@ const Card = ({ Property }) => {
             {(() => {
               const { size, unit } = convertToYardsIfNeeded(
                 propertySize,
-                propertyType
+                propertyType,
+                Property.propertySizeInYard
               );
               return (
                 <div className="flex flex-row items-center gap-2">
@@ -206,7 +196,10 @@ const Card = ({ Property }) => {
         </div>
 
         <div className="flex gap-2 pt-2">
-          <button className="btn btn-primary w-1/2 " onClick={() => (window.location.href = `tel:${ownerContact}`)}>
+          <button
+            className="btn btn-primary w-1/2 "
+            onClick={() => (window.location.href = `tel:${displayContact}`)}
+          >
             <RiPhoneLine size={18} />
             Contact Owner
           </button>
