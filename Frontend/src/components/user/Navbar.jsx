@@ -74,7 +74,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Sidebar */}
-          <div className="justify-self-end block md:hidden z-100">
+          <div className="justify-self-end block md:hidden z-92">
             <div className="grid justify-items-end drawer drawer-end">
               <input
                 id="my-drawer-5"
@@ -85,9 +85,9 @@ const Navbar = () => {
                 {/* Page content here */}
                 <label
                   htmlFor="my-drawer-5"
-                  className="drawer-button btn btn-primary"
+                  className="drawer-button btn btn-sm btn-primary h-10"
                 >
-                  <RiMenu3Line />
+                  <RiMenu3Line size={20} />
                 </label>
               </div>
               <div className="drawer-side">
