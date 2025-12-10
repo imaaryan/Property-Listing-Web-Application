@@ -5,7 +5,8 @@ export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const backendUrl =
-    import.meta.env.VITE_BACKEND_URL || "http://localhost:4001/api/v1";
+    import.meta.env.VITE_BACKEND_URL ||
+    `http://${window.location.hostname}:4001/api/v1`;
   const [isConnected, setIsConnected] = useState(false);
   const [loading, setLoading] = useState(true);
   const [userLocation, setUserLocation] = useState(null);

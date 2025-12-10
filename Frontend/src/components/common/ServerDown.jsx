@@ -15,7 +15,7 @@ const ServerDown = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-100 p-4">
+    <div className="min-h-dvh flex items-center justify-center bg-base-100 p-4">
       <div className="max-w-md w-full text-center space-y-6">
         <div className="relative inline-block">
           <div className="absolute inset-0 bg-error/20 rounded-full blur-xl"></div>
