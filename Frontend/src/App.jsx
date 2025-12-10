@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import UserLayout from "./layouts/UserLayout";
 import Home from "./pages/user/Home";
@@ -8,8 +8,16 @@ import Contact from "./pages/user/Contact";
 import ListProperty from "./pages/user/ListProperty";
 import SingleBuyProperty from "./pages/user/SingleBuyProperty";
 import SingleRentProperty from "./pages/user/SingleRentProperty";
+import { AppContext } from "./context/AppContext";
+import ServerDown from "./components/common/ServerDown";
 
 const App = () => {
+  const { isConnected, loading } = useContext(AppContext);
+
+  if (!loading && !isConnected) {
+    return <ServerDown />;
+  }
+
   return (
     <>
       <Routes>

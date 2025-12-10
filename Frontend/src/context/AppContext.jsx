@@ -49,8 +49,29 @@ export const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    // Initial check
     checkConnection();
-  }, []);
+
+    // Axios interceptor to catch network errors globaly
+    const interceptor = axios.interceptors.response.use(
+      (response) => {
+        // If we get a successful response, we assume backend is up
+        if (!isConnected) setIsConnected(true);
+        return response;
+      },
+      (error) => {
+        if (!error.response || error.code === "ERR_NETWORK") {
+          // Network error or no response from server
+          setIsConnected(false);
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.response.eject(interceptor);
+    };
+  }, [isConnected]);
 
   const value = {
     backendUrl,
