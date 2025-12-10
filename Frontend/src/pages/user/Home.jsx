@@ -96,10 +96,13 @@ const Home = () => {
   return (
     <>
       <LocationModal />
-      <div className="m-4">
+      <div className="flex justify-between m-4">
+        <div>
+          {/* {Current Selected Area,City} */}
+        </div>
         <div className="block sm:hidden">
           <button
-            className="fixed bottom-3 left-4 right-4 z-97 btn btn-primary text-base font-normal shadow-xl/30 "
+            className="btn btn-primary text-base w-30 font-normal "
             onClick={() => {
               setDrawerStatus(true);
             }}
