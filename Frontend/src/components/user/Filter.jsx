@@ -112,17 +112,18 @@ const Filter = () => {
   }, [userLocation, searchParams, selectedCity, selectedArea]);
 
   // Sync state with URL params when they change (e.g. from LocationModal)
-  useEffect(() => {
-    const cityFromUrl = searchParams.get("city");
-    const areaFromUrl = searchParams.get("area");
 
+  const cityFromUrl = searchParams.get("city");
+  const areaFromUrl = searchParams.get("area");
+
+  useEffect(() => {
     if (cityFromUrl && cityFromUrl !== selectedCity) {
       setSelectedCity(cityFromUrl);
     }
     if (areaFromUrl && areaFromUrl !== selectedArea) {
       setSelectedArea(areaFromUrl);
     }
-  }, [searchParams, selectedCity, selectedArea]);
+  }, [cityFromUrl, areaFromUrl]);
 
   // Fetch Cities
   useEffect(() => {
