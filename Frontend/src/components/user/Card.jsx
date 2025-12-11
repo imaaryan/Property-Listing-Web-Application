@@ -201,7 +201,7 @@ const Card = ({ Property }) => {
             onClick={() => (window.location.href = `tel:${displayContact}`)}
           >
             <RiPhoneLine size={18} />
-            Contact Owner
+            Call Owner
           </button>
           <button
             className="btn btn-outline w-1/2 "

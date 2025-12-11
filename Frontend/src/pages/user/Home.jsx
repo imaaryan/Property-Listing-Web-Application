@@ -97,54 +97,57 @@ const Home = () => {
   return (
     <>
       <LocationModal />
-      <div className="m-4">
-        <div className="block sm:hidden">
+      {/* Mobile Sticky Filter */}
+      <div className="sticky top-0 z-40 bg-white px-4 py-3 block sm:hidden shadow-sm">
+        <div
+          className="flex justify-between items-center"
+          onClick={() => {
+            setDrawerStatus(true);
+          }}
+        >
+          <div>
+            <CurrentLocation
+              cityId={searchParams.get("city")}
+              areaId={searchParams.get("area")}
+            />
+          </div>
+          <button className="btn btn-primary btn-soft text-base w-30 font-normal ">
+            <RiEqualizerLine size={18} />
+            Filter
+          </button>
+        </div>
+        <div
+          className={`${
+            !drawerStatus ? "hidden" : ""
+          } fixed bottom-0 right-0 left-0 top-0 z-97`}
+        >
           <div
-            className="flex justify-between items-center"
-            onClick={() => {
-              setDrawerStatus(true);
+            className=" fixed bottom-0 right-0 left-0 top-0 z-98 w-full bg-[#00000070]  h-100dvh"
+            onClick={(e) => {
+              e.stopPropagation();
+              setDrawerStatus(false);
             }}
-          >
-            <div>
-              <CurrentLocation
-                cityId={searchParams.get("city")}
-                areaId={searchParams.get("area")}
-              />
-            </div>
-            <button className="btn btn-primary btn-soft text-base w-30 font-normal ">
-              <RiEqualizerLine size={18} />
-              Filter
-            </button>
-          </div>
-          <div
-            className={`${
-              !drawerStatus ? "hidden" : ""
-            } fixed bottom-0 right-0 left-0 top-0 z-97`}
-          >
-            <div
-              className=" fixed bottom-0 right-0 left-0 top-0 z-98 w-full bg-[#00000070]  h-100dvh"
-              onClick={() => {
-                setDrawerStatus(false);
-              }}
-            ></div>
-            <div className="bg-[#e2e7fc]  pb-0 rounded-t-4xl fixed -bottom-3 right-0 left-0 z-99 w-full">
-              <div className="flex flex-col items-center w-full max-w-xl mx-auto ">
-                <div
-                  className="sm:hidden w-full flex justify-center"
-                  onClick={() => {
-                    setDrawerStatus(false);
-                  }}
-                >
-                  <div className=" h-1.5 w-40 bg-gray-400  m-4  rounded-full opacity-50 "></div>
-                </div>
-                <Filter onSearch={() => setDrawerStatus(false)} />
+          ></div>
+          <div className="bg-[#e2e7fc]  pb-0 rounded-t-4xl fixed -bottom-3 right-0 left-0 z-99 w-full">
+            <div className="flex flex-col items-center w-full max-w-xl mx-auto ">
+              <div
+                className="sm:hidden w-full flex justify-center"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDrawerStatus(false);
+                }}
+              >
+                <div className=" h-1.5 w-40 bg-gray-400  m-4  rounded-full opacity-50 "></div>
               </div>
+              <Filter onSearch={() => setDrawerStatus(false)} />
             </div>
           </div>
         </div>
-        <div className="hidden sm:block">
-          <Filter />
-        </div>
+      </div>
+
+      {/* Desktop Filter */}
+      <div className="m-4 hidden sm:block">
+        <Filter />
       </div>
 
       <div className="max-w-[1410px] mx-auto z-10 pb-20">

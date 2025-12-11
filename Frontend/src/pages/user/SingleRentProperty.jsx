@@ -40,7 +40,7 @@ const SingleRentProperty = () => {
 
   return (
     <>
-      <div className="flex gap-8 p-2 md:p-4 lg:pr-4 w-full max-w-[1440px] mx-auto max-md:flex-wrap ">
+      <div className="flex gap-8 p-4 md:p-4 lg:pr-4 w-full max-w-[1440px] mx-auto max-md:flex-wrap ">
         <div className="w-full min-w-0">
           {/* Featured Image and Gallery */}
           <PropertyGallery currentProperty={currentProperty} />

@@ -30,7 +30,8 @@ const propertyTypes = [
 ];
 
 const Filter = ({ onSearch }) => {
-  const { backendUrl, userLocation } = useContext(AppContext);
+  const { backendUrl, userLocation, updateUserLocation } =
+    useContext(AppContext);
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Helper to get initial state from URL Params or fallback to localStorage/UserLocation
@@ -301,6 +302,11 @@ const Filter = ({ onSearch }) => {
 
     // Persist to LocalStorage for good measure (backup)
     localStorage.setItem("lastKnownFilters", JSON.stringify(params));
+
+    // Update Global User Location Context so CurrentLocation component stays in sync
+    if (selectedCity || selectedArea) {
+      updateUserLocation(selectedCity, selectedArea);
+    }
 
     // Update URL - This is the Main Action
     setSearchParams(params);
