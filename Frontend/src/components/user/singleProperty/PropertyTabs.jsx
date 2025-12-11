@@ -136,7 +136,6 @@ const PropertyTabs = ({ currentProperty, amenities, propertyFor = "Buy" }) => {
               name="my_tabs_1"
               className="tab rounded-md w-1/4 max-sm:w-full text-base font-medium"
               aria-label="Society"
-              defaultChecked
             />
             <div className="tab-content bg-white rounded-md py-3">
               <div className="grid xl:grid-cols-1 gap-6 p-4">
@@ -160,7 +159,6 @@ const PropertyTabs = ({ currentProperty, amenities, propertyFor = "Buy" }) => {
               name="my_tabs_1"
               className="tab rounded-md w-1/4 max-sm:w-full text-base font-medium"
               aria-label="Why This?"
-              defaultChecked
             />
             <div className="tab-content bg-white rounded-md py-3">
               <div className="grid xl:grid-cols-1 gap-6 p-4">
@@ -172,6 +170,7 @@ const PropertyTabs = ({ currentProperty, amenities, propertyFor = "Buy" }) => {
           </>
         )}
 
+        {/* Pricing for Buy */}
         {propertyFor === "Buy" && (
           <>
             <input
@@ -248,12 +247,12 @@ const PropertyTabs = ({ currentProperty, amenities, propertyFor = "Buy" }) => {
                   <div className="mt-2 pt-6 border-t border-t-gray-300">
                     <h5 className="text-xl font-medium mb-4">Price History</h5>
                     <PriceTrendGraph
-                      data={currentProperty.pricing.priceHistory.map(
-                        (item) => ({
+                      data={currentProperty.pricing.priceHistory
+                        .map((item) => ({
                           year: item.year,
                           price: item.cost,
-                        })
-                      )}
+                        }))
+                        .reverse()}
                     />
                   </div>
                 )}
@@ -275,11 +274,14 @@ const PropertyTabs = ({ currentProperty, amenities, propertyFor = "Buy" }) => {
         {/* Amenities Tab */}
         <div className="tab-content bg-white rounded-md py-3">
           <div className="grid xl:grid-cols-4 gap-6 p-4">
-            {currentProperty.amenitiesId.map((amenityId) => {
-              const amenity = amenities.find((a) => a._id === amenityId);
+            {currentProperty.amenitiesId.map((item) => {
+              const amenity =
+                typeof item === "object"
+                  ? item
+                  : amenities.find((a) => a._id === item);
               return amenity ? (
                 <div
-                  key={amenityId}
+                  key={amenity._id}
                   className="flex gap-2 text-base items-center"
                 >
                   <FaRegCheckCircle className="text-primary" />
