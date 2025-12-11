@@ -1,2 +1,7 @@
 node_modules
 .env
+data
+seed_assets
+seed_full.js
+cleanDB.js
+data/master_data.js
