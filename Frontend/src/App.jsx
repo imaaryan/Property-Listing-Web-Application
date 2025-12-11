@@ -8,6 +8,7 @@ import Contact from "./pages/user/Contact";
 import ListProperty from "./pages/user/ListProperty";
 import SingleBuyProperty from "./pages/user/SingleBuyProperty";
 import SingleRentProperty from "./pages/user/SingleRentProperty";
+import Wishlist from "./pages/user/Wishlist";
 import { AppContext } from "./context/AppContext";
 import ServerDown from "./components/common/ServerDown";
 
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/rent" element={<Rent />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/list-property" element={<ListProperty />} />
+          <Route path="/wishlist" element={<Wishlist />} />
         </Route>
       </Routes>
     </>

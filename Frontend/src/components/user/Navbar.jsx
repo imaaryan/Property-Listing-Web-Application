@@ -6,6 +6,7 @@ import {
   RiHome3Line,
   RiContactsLine,
   RiCommunityLine,
+  RiHeart3Line,
 } from "@remixicon/react";
 import { assets } from "../../assets/dummyData.js";
 
@@ -19,6 +20,7 @@ const Navbar = () => {
     { name: "Home", href: "/", icon: RiHome3Line },
     { name: "Buy", href: "/buy", icon: RiBuildingLine },
     { name: "Rent", href: "/rent", icon: RiCommunityLine },
+    { name: "Wishlist", href: "/wishlist", icon: RiHeart3Line },
     { name: "Contact", href: "/contact", icon: RiContactsLine },
   ];
 
