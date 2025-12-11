@@ -46,11 +46,13 @@ const Wishlist = () => {
   }, [backendUrl]);
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 py-8 min-h-[60vh]">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8 flex items-center gap-2">
-        <RiHeart3Line className="text-primary" size={32} />
-        My Wishlist
-      </h1>
+    <div className="max-w-[1440px] mx-auto px-4 py-4 min-h-[60vh]">
+      <div className="bg-[#e2e7fc] py-8 mb-6 rounded-xl">
+        <h1 className="text-2xl font-medium text-primary flex justify-center items-center gap-2">
+          {/* <RiHeart3Line className="text-primary" size={26} /> */}
+          Wishlisted Properties
+        </h1>
+      </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
