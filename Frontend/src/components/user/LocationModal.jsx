@@ -78,8 +78,26 @@ const LocationModal = () => {
     setSearchParams(params);
   };
 
-  // Do not show anything if still loading location check or if location is already set
-  if (loadingLocation || userLocation) return null;
+  // Sync URL Params to Context and Suppress Modal
+  const cityParam = searchParams.get("city");
+  const areaParam = searchParams.get("area");
+
+  useEffect(() => {
+    if (cityParam && areaParam) {
+      if (
+        userLocation?.city !== cityParam ||
+        userLocation?.area !== areaParam
+      ) {
+        updateUserLocation(cityParam, areaParam);
+      }
+    }
+  }, [cityParam, areaParam, userLocation, updateUserLocation]);
+
+  // Do not show anything if:
+  // 1. Loading location check
+  // 2. Location is already set (in context)
+  // 3. URL has location params (we handle this via effect above)
+  if (loadingLocation || userLocation || (cityParam && areaParam)) return null;
 
   return (
     <dialog id="location_modal" className="modal modal-open">
