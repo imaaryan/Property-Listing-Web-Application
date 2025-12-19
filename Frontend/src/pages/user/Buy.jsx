@@ -63,12 +63,12 @@ const Buy = () => {
         if (data.success) {
           if (shouldReset) {
             setProperties(data.data);
-            // If we received fewer items than limit, no more pages
-            setHasMore(data.data.length === LIMIT);
           } else {
             setProperties((prev) => [...prev, ...data.data]);
-            setHasMore(data.data.length === LIMIT);
           }
+
+          // Robust check: more pages exist if current page < total pages
+          setHasMore(data.page < data.pages);
           setPage(currentPage);
         }
       } catch (error) {
@@ -211,8 +211,8 @@ const Buy = () => {
                   ))}
                 </div>
 
-                {hasMore && (
-                  <div className="flex justify-center mt-10 mb-10">
+                {hasMore ? (
+                  <div className="flex col-span-2 justify-center mt-10">
                     <button
                       className="btn btn-outline btn-primary px-8"
                       onClick={handleLoadMore}
@@ -227,6 +227,10 @@ const Buy = () => {
                         "Load More Properties"
                       )}
                     </button>
+                  </div>
+                ) : (
+                  <div className="col-span-1 md:col-span-2 text-center py-8 text-gray-500">
+                    No more properties to load
                   </div>
                 )}
               </div>
