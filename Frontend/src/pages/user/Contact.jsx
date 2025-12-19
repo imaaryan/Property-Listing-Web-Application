@@ -10,12 +10,12 @@ const Contact = () => {
   return (
     <div className="w-full max-w-[1440px] mx-auto px-4 py-4">
       {/* 1. Header (Wishlist Style) */}
-      <div className="bg-[#e2e7fc] py-12 mb-12 rounded-2xl relative overflow-hidden text-center">
-        <div className="relative z-10">
-          <h1 className="text-3xl md:text-4xl font-semibold text-primary mb-3">
+      <div className="bg-[#e2e7fc] py-8 mb-12 rounded-2xl relative overflow-hidden text-center">
+        <div className="relative z-10 p-4">
+          <h1 className="text-2xl md:text-3xl font-medium text-primary mb-3">
             Get In Touch
           </h1>
-          <p className="text-gray-600 max-w-xl mx-auto text-lg">
+          <p className="text-gray-600 max-w-md mx-auto text-base">
             Have questions about a property or need legal assistance? We are
             here to help you every step of the way.
           </p>

@@ -42,12 +42,12 @@ const ListProperty = () => {
   return (
     <div className="w-full max-w-[1440px] mx-auto px-4 py-4">
       {/* 1. Wishlist-style Header */}
-      <div className="bg-[#e2e7fc] py-12 mb-12 rounded-2xl relative overflow-hidden">
-        <div className="relative z-10 text-center">
-          <h1 className="text-3xl md:text-4xl font-semibold text-primary mb-3">
+      <div className="bg-[#e2e7fc] py-8 mb-12 rounded-2xl relative overflow-hidden">
+        <div className="relative z-10 text-center p-4">
+          <h1 className="text-2xl md:text-3xl font-medium text-primary mb-3">
             List Your Property With Us
           </h1>
-          <p className="text-gray-600 max-w-xl mx-auto text-lg">
+          <p className="text-gray-600 max-w-md mx-auto text-base">
             Join our exclusive network of verified sellers and connect with
             genuine buyers instantly.
           </p>
@@ -229,12 +229,12 @@ const ListProperty = () => {
                 className="group flex flex-col items-center justify-center p-8 bg-white border border-gray-100 rounded-2xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-default relative overflow-hidden"
               >
                 {/* Hover bg effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/0 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="absolute inset-0 bg-linear-to-br from-primary/0 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
                 <div className="bg-blue-50 p-4 rounded-full mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Icon size={32} className="text-primary" />
                 </div>
-                <span className="text-lg font-semibold text-gray-800 z-10">
+                <span className="text-lg text-center font-semibold text-gray-800 z-10">
                   {type.name}
                 </span>
               </div>
@@ -244,7 +244,7 @@ const ListProperty = () => {
       </section>
 
       {/* 4. KK-Verified Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 md:p-12 text-white relative overflow-hidden mb-16 shadow-2xl">
+      <section className="bg-linear-to-r from-blue-600 to-blue-800 rounded-2xl p-8 md:p-12 text-white relative overflow-hidden mb-16 shadow-2xl">
         <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center">
           <div>
             <div className="inline-block bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full text-sm font-medium mb-4 border border-white/30">

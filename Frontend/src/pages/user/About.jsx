@@ -16,12 +16,12 @@ const About = () => {
   return (
     <div className="w-full max-w-[1440px] mx-auto px-4 py-4">
       {/* 1. Header (Wishlist Style) */}
-      <div className="bg-[#e2e7fc] py-12 mb-12 rounded-2xl relative overflow-hidden text-center">
-        <div className="relative z-10">
-          <h1 className="text-3xl md:text-4xl font-semibold text-primary mb-3">
+      <div className="bg-[#e2e7fc] py-8 mb-12 rounded-2xl relative overflow-hidden text-center">
+        <div className="relative z-10 p-4">
+          <h1 className="text-2xl md:text-3xl font-medium text-primary mb-3">
             Who We Are
           </h1>
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+          <p className="text-gray-600 max-w-md mx-auto text-base">
             Building trust in real estate through transparency, verification,
             and expert guidance.
           </p>
@@ -54,7 +54,7 @@ const About = () => {
         </div>
         <div className="order-1 md:order-2 bg-gray-100 rounded-2xl h-[300px] md:h-[400px] relative overflow-hidden group">
           {/* Placeholder for an About Us Image */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent"></div>
+          <div className="absolute inset-0 bg-linear-to-tr from-primary/10 to-transparent"></div>
           <div className="absolute inset-0 flex items-center justify-center text-gray-400 font-medium">
             Our Team / Office Image
           </div>
@@ -62,7 +62,7 @@ const About = () => {
       </section>
 
       {/* 3. What is Khasra Khatauni? */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 md:p-12 text-white relative overflow-hidden mb-16 shadow-2xl">
+      <section className="bg-linear-to-r from-blue-600 to-blue-800 rounded-2xl p-8 md:p-12 text-white relative overflow-hidden mb-16 shadow-2xl">
         <div className="relative z-10 text-center max-w-4xl mx-auto">
           <div className="inline-block bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full text-sm font-medium mb-6 border border-white/30">
             OUR CORE VALUE
