@@ -368,7 +368,7 @@ const Filter = ({ onSearch }) => {
             onChange={(e) => setSelectedPropertyType(e.target.value)}
             className="select appearance-none w-full"
           >
-            <option value="All" disabled>
+            <option value="" disabled>
               Select Type
             </option>
             {propertyTypes.map((type) => (
