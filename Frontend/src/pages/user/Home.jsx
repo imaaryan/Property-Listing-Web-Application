@@ -11,7 +11,7 @@ import { useSearchParams } from "react-router-dom";
 
 const Home = () => {
   const [drawerStatus, setDrawerStatus] = useState(false);
-  const { backendUrl, loadingLocation } = useContext(AppContext);
+  const { backendUrl, loadingLocation, userLocation } = useContext(AppContext);
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -38,10 +38,28 @@ const Home = () => {
         params.append("limit", LIMIT);
 
         // Filter Params from URL
-        if (searchParams.get("city"))
-          params.append("city", searchParams.get("city"));
-        if (searchParams.get("area"))
-          params.append("area", searchParams.get("area"));
+        // Filter Params from URL or Fallback to Context
+        const cityParam = searchParams.get("city");
+        const areaParam = searchParams.get("area");
+
+        // Logic: Use URL param if exists, otherwise fallback to userLocation (if URL is empty of that param)
+        // But only fallback if we are on the initial load-ish state where URL might be clean.
+        // Actually, simple fallback is: URL > Context.
+
+        if (cityParam) {
+          params.append("city", cityParam);
+        } else if (userLocation?.city) {
+          params.append("city", userLocation.city);
+        }
+
+        if (areaParam) {
+          params.append("area", areaParam);
+        } else if (userLocation?.area && !cityParam) {
+          // Only use area from context if city is also from context (or matching).
+          // If user manually cleared city in URL but left area in context, it might be weird.
+          // Safer: Use Context Area only if Context City is used or matches URL city.
+          params.append("area", userLocation.area);
+        }
         const type = searchParams.get("type");
         if (type && type !== "All") params.append("type", type);
 
@@ -77,7 +95,7 @@ const Home = () => {
         setLoadingMore(false);
       }
     },
-    [backendUrl, searchParams]
+    [backendUrl, searchParams, userLocation]
   );
 
   // Initial Fetch & Reset on Filter Change

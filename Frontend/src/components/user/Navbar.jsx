@@ -43,13 +43,26 @@ const Navbar = () => {
               {navItems.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <li>
+                  <li key={item.name}>
                     {item.href === location.pathname ? (
                       <div className="flex cursor-pointer text-primary">
                         <a
                           className="flex items-center gap-1.5"
                           onClick={() => {
-                            navigate(`${item.href}`);
+                            const params = new URLSearchParams(location.search);
+                            // Keep specific filters (city, area)
+                            const newParams = new URLSearchParams();
+                            if (params.get("city"))
+                              newParams.append("city", params.get("city"));
+                            if (params.get("area"))
+                              newParams.append("area", params.get("area"));
+
+                            const queryString = newParams.toString();
+                            navigate(
+                              queryString
+                                ? `${item.href}?${queryString}`
+                                : `${item.href}`
+                            );
                           }}
                         >
                           <Icon size={18} />
@@ -61,7 +74,20 @@ const Navbar = () => {
                         <a
                           className="flex items-center gap-1.5"
                           onClick={() => {
-                            navigate(`${item.href}`);
+                            // Extract params from current URL to persist them
+                            const params = new URLSearchParams(location.search);
+                            const newParams = new URLSearchParams();
+                            if (params.get("city"))
+                              newParams.append("city", params.get("city"));
+                            if (params.get("area"))
+                              newParams.append("area", params.get("area"));
+
+                            const queryString = newParams.toString();
+                            navigate(
+                              queryString
+                                ? `${item.href}?${queryString}`
+                                : `${item.href}`
+                            );
                           }}
                         >
                           <Icon size={18} />

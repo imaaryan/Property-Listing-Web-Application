@@ -11,7 +11,7 @@ import { useSearchParams } from "react-router-dom";
 
 const Buy = () => {
   const [drawerStatus, setDrawerStatus] = useState(false);
-  const { backendUrl, loadingLocation } = useContext(AppContext);
+  const { backendUrl, loadingLocation, userLocation } = useContext(AppContext);
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -39,10 +39,21 @@ const Buy = () => {
         params.append("limit", LIMIT);
 
         // Filter Params from URL
-        if (searchParams.get("city"))
-          params.append("city", searchParams.get("city"));
-        if (searchParams.get("area"))
-          params.append("area", searchParams.get("area"));
+        // Filter Params from URL or Fallback to Context
+        const cityParam = searchParams.get("city");
+        const areaParam = searchParams.get("area");
+
+        if (cityParam) {
+          params.append("city", cityParam);
+        } else if (userLocation?.city) {
+          params.append("city", userLocation.city);
+        }
+
+        if (areaParam) {
+          params.append("area", areaParam);
+        } else if (userLocation?.area) {
+          params.append("area", userLocation.area);
+        }
         const type = searchParams.get("type");
         if (type && type !== "All") params.append("type", type);
 
@@ -78,7 +89,7 @@ const Buy = () => {
         setLoadingMore(false);
       }
     },
-    [backendUrl, searchParams]
+    [backendUrl, searchParams, userLocation]
   );
 
   // Initial Fetch & Reset on Filter Change
