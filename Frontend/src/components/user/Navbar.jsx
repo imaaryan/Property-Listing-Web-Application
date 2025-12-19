@@ -122,7 +122,6 @@ const Navbar = () => {
               </div>
               <div className="drawer-side">
                 <label
-                  htmlFor="my-drawer-5"
                   aria-label="close sidebar"
                   className="drawer-overlay"
                   onClick={() => setIsOpen(false)}
@@ -140,7 +139,21 @@ const Navbar = () => {
                               className="flex items-center gap-2"
                               onClick={() => {
                                 setIsOpen(false);
-                                navigate(`${item.href}`);
+                                const params = new URLSearchParams(
+                                  location.search
+                                );
+                                const newParams = new URLSearchParams();
+                                if (params.get("city"))
+                                  newParams.append("city", params.get("city"));
+                                if (params.get("area"))
+                                  newParams.append("area", params.get("area"));
+
+                                const queryString = newParams.toString();
+                                navigate(
+                                  queryString
+                                    ? `${item.href}?${queryString}`
+                                    : `${item.href}`
+                                );
                               }}
                             >
                               <Icon size={18} />
@@ -153,7 +166,21 @@ const Navbar = () => {
                               className="flex items-center gap-2"
                               onClick={() => {
                                 setIsOpen(false);
-                                navigate(`${item.href}`);
+                                const params = new URLSearchParams(
+                                  location.search
+                                );
+                                const newParams = new URLSearchParams();
+                                if (params.get("city"))
+                                  newParams.append("city", params.get("city"));
+                                if (params.get("area"))
+                                  newParams.append("area", params.get("area"));
+
+                                const queryString = newParams.toString();
+                                navigate(
+                                  queryString
+                                    ? `${item.href}?${queryString}`
+                                    : `${item.href}`
+                                );
                               }}
                             >
                               <Icon size={18} />
