@@ -63,9 +63,9 @@ const CurrentLocation = ({ cityId, areaId }) => {
           <p className="text-xs text-gray-500 font-light mb-[-2px]">
             Current Selected Location
           </p>
-          <span className="text-base font-normal">
+          <span className="text-base font-normal line-clamp-1">
             {loading ? (
-              <span className="loading loading-dots loading-xs"></span>
+              <span className="loading loading-dots loading-xs  "></span>
             ) : !cityName ? (
               "Select Location"
             ) : (

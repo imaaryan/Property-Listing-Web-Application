@@ -62,6 +62,10 @@
   max-height: 110px;
 }
 
+.leaflet-control-attribution.leaflet-control {
+    display: none;
+}
+
 .leaflet-container a.leaflet-popup-close-button {
     
     font: 18px / 26px Tahoma, Verdana, sans-serif !important;

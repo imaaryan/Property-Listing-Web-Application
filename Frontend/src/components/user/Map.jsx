@@ -47,6 +47,7 @@ function Map({ items, center }) {
       zoom={11}
       scrollWheelZoom={false}
       className="w-full h-full rounded-xl shadow-lg z-0"
+      
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
