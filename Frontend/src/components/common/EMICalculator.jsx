@@ -172,7 +172,7 @@ const EMICalculator = ({ isOpen, onClose, defaultPrice = 1000000 }) => {
                 <label className="text-gray-600 font-medium">
                   Total Cost of Asset
                 </label>
-                <span className="text-xl font-bold text-primary bg-primary/10 px-3 py-1 rounded-lg">
+                <span className="text-xl font-semibold text-primary bg-primary/10 px-3 py-1 rounded-lg">
                   {formatCurrency(totalCost)}
                 </span>
               </div>
@@ -193,7 +193,7 @@ const EMICalculator = ({ isOpen, onClose, defaultPrice = 1000000 }) => {
                 <label className="text-gray-600 font-medium">
                   Down Payment
                 </label>
-                <span className="text-xl font-bold text-primary bg-primary/10 px-3 py-1 rounded-lg">
+                <span className="text-xl font-semibold text-primary bg-primary/10 px-3 py-1 rounded-lg">
                   {formatCurrency(downPayment)}
                 </span>
               </div>
@@ -212,7 +212,7 @@ const EMICalculator = ({ isOpen, onClose, defaultPrice = 1000000 }) => {
               </div>
               <p className="text-sm text-gray-500 bg-gray-50 p-3 rounded-lg border border-gray-100">
                 Loan Amount:{" "}
-                <span className="font-bold text-gray-800">
+                <span className="font-semibold text-gray-800">
                   {formatCurrency(loanAmount)}
                 </span>
               </p>
@@ -223,7 +223,7 @@ const EMICalculator = ({ isOpen, onClose, defaultPrice = 1000000 }) => {
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <label className="text-gray-600 font-medium">Tenure</label>
-                  <span className="font-bold text-gray-800">
+                  <span className="font-semi text-gray-800">
                     {tenure} Years
                   </span>
                 </div>
@@ -247,7 +247,7 @@ const EMICalculator = ({ isOpen, onClose, defaultPrice = 1000000 }) => {
                   <label className="text-gray-600 font-medium">
                     Interest Rate
                   </label>
-                  <span className="font-bold text-gray-800">
+                  <span className="font-semibold text-gray-800">
                     {interestRate}%
                   </span>
                 </div>
@@ -271,7 +271,7 @@ const EMICalculator = ({ isOpen, onClose, defaultPrice = 1000000 }) => {
           {/* Right Panel: Results */}
           <div className="flex-1 p-6 lg:p-8 bg-gray-50/50 flex flex-col">
             <div className="text-center mb-8">
-              <h2 className="text-4xl font-bold text-gray-800 mb-2">
+              <h2 className="text-4xl font-semibold text-gray-800 mb-2">
                 {formatCurrency(emi)}
               </h2>
               <p className="text-gray-500 font-medium">Monthly EMI</p>
@@ -311,7 +311,7 @@ const EMICalculator = ({ isOpen, onClose, defaultPrice = 1000000 }) => {
                     <span className="text-xs text-gray-400 uppercase tracking-wider">
                       Total Payable
                     </span>
-                    <span className="text-lg font-bold text-gray-800">
+                    <span className="text-lg font-semibold text-gray-800">
                       {formatCurrency(totalAmountPayable)}
                     </span>
                   </div>
@@ -324,7 +324,7 @@ const EMICalculator = ({ isOpen, onClose, defaultPrice = 1000000 }) => {
                         Principal Amount
                       </span>
                     </div>
-                    <span className="font-bold text-gray-800">
+                    <span className="font-semibold text-gray-800">
                       {formatCurrency(loanAmount)}
                     </span>
                   </div>
@@ -335,7 +335,7 @@ const EMICalculator = ({ isOpen, onClose, defaultPrice = 1000000 }) => {
                         Total Interest
                       </span>
                     </div>
-                    <span className="font-bold text-gray-800">
+                    <span className="font-semibold text-gray-800">
                       {formatCurrency(totalInterestPayable)}
                     </span>
                   </div>
