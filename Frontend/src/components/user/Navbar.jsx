@@ -11,7 +11,7 @@ import {
 import { assets } from "../../assets/dummyData.js";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState("false");
+  const [isOpen, setIsOpen] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -82,6 +82,8 @@ const Navbar = () => {
                 id="my-drawer-5"
                 type="checkbox"
                 className="drawer-toggle"
+                checked={isOpen}
+                onChange={(e) => setIsOpen(e.target.checked)}
               />
               <div className="drawer-content">
                 {/* Page content here */}
@@ -97,6 +99,7 @@ const Navbar = () => {
                   htmlFor="my-drawer-5"
                   aria-label="close sidebar"
                   className="drawer-overlay"
+                  onClick={() => setIsOpen(false)}
                 ></label>
                 <ul className="menu menu-lg bg-base-200 min-h-full w-80 p-4  gap-3">
                   <h3 className="text-3xl font-medium pb-7 pl-4 ">Menu</h3>
@@ -104,12 +107,13 @@ const Navbar = () => {
                   {navItems.map((item) => {
                     const Icon = item.icon;
                     return (
-                      <li>
+                      <li key={item.name}>
                         {item.href === location.pathname ? (
                           <div className="flex cursor-pointer text-primary">
                             <a
                               className="flex items-center gap-2"
                               onClick={() => {
+                                setIsOpen(false);
                                 navigate(`${item.href}`);
                               }}
                             >
@@ -122,6 +126,7 @@ const Navbar = () => {
                             <a
                               className="flex items-center gap-2"
                               onClick={() => {
+                                setIsOpen(false);
                                 navigate(`${item.href}`);
                               }}
                             >
@@ -135,6 +140,7 @@ const Navbar = () => {
                   })}
                   <button
                     onClick={() => {
+                      setIsOpen(false);
                       navigate("/list-property");
                     }}
                     className="btn btn-primary mt-10 text-base font-normal gap-2"
