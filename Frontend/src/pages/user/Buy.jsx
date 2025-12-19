@@ -99,7 +99,7 @@ const Buy = () => {
     <>
       <LocationModal />
       {/* Mobile Sticky Filter */}
-      <div className="sticky top-0 z-40 bg-white px-4 py-3 block sm:hidden shadow-sm">
+      <div className="sticky top-0 z-40 bg-white px-4 py-3 block lg:hidden shadow-sm">
         <div
           className="flex justify-between items-center"
           onClick={() => {
@@ -146,86 +146,93 @@ const Buy = () => {
         </div>
       </div>
 
-      {/* Desktop Filter */}
-      <div className="m-4 hidden sm:block sticky top-0 z-99">
-        <Filter />
-      </div>
-
-      <div className="max-w-[1410px] mx-auto z-10 pb-20">
-        {loading ? (
-          <div className="col-span-full text-center py-20 min-h-[50vh] flex justify-center items-center">
-            <span className="loading loading-spinner loading-lg text-primary"></span>
+      {/* Main Content Container - Fixed Height on Desktop */}
+      <div className="flex flex-col lg:h-[calc(100vh-5rem)]">
+        {/* Desktop Filter */}
+        <div className="hidden lg:block z-30 bg-white shadow-sm px-4 py-2">
+          <div className="max-w-[1440px] mx-auto">
+            <Filter />
           </div>
-        ) : properties.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 min-h-[50vh] text-center">
-            <div className="bg-gray-100 p-6 rounded-full mb-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-12 w-12 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+        </div>
+
+        {/* Split View Content */}
+        <div className="flex-1 overflow-hidden relative">
+          {loading ? (
+            <div className="w-full h-full flex justify-center items-center">
+              <span className="loading loading-spinner loading-lg text-primary"></span>
+            </div>
+          ) : properties.length === 0 ? (
+            <div className="w-full h-full flex flex-col items-center justify-center text-center">
+              <div className="bg-gray-100 p-6 rounded-full mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-12 w-12 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                No Properties Found
+              </h3>
+              <p className="text-gray-500 max-w-md">
+                We couldn't find any properties matching your search.
+              </p>
+            </div>
+          ) : (
+            <div className="flex flex-col lg:flex-row-reverse w-full h-full max-w-[1440px] mx-auto">
+              {/* Map Section - Static on Desktop */}
+              <div className="w-full lg:w-1/2 h-[50vh] lg:h-full lg:sticky lg:top-0">
+                <Map
+                  items={properties}
+                  center={
+                    properties[0]?.locationOnMap
+                      ? [
+                          properties[0].locationOnMap.latitude,
+                          properties[0].locationOnMap.longitude,
+                        ]
+                      : null
+                  }
                 />
-              </svg>
-            </div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">
-              No Properties Found
-            </h3>
-            <p className="text-gray-500 max-w-md">
-              We couldn't find any properties matching your search. Try
-              adjusting your filters or location.
-            </p>
-          </div>
-        ) : (
-          <div className="lg:flex lg:flex-row-reverse gap-6 ">
-            {/* Map Section - Only show if we have properties */}
-            <div className="w-full max-2xl:px-4  h-[70dvh] max-sm:h-[50dvh] mb-8 lg:sticky top-38">
-              <Map
-                items={properties}
-                center={
-                  properties[0]?.locationOnMap
-                    ? [
-                        properties[0].locationOnMap.latitude,
-                        properties[0].locationOnMap.longitude,
-                      ]
-                    : null
-                }
-              />
-            </div>
+              </div>
 
-            {/* Cards Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 p-4 2xl:p-0 gap-4  pb-4 pt-2 w-full max-w-[1440px] mx-auto">
-              {properties.map((property) => (
-                <Card key={property._id} Property={property} />
-              ))}
-              {/* Load More Button */}
-              {hasMore && (
-                <div className="flex col-span-2 justify-center mt-10">
-                  <button
-                    className="btn btn-outline btn-primary px-8"
-                    onClick={handleLoadMore}
-                    disabled={loadingMore}
-                  >
-                    {loadingMore ? (
-                      <>
-                        <RiLoader4Line className="animate-spin" size={20} />
-                        Loading...
-                      </>
-                    ) : (
-                      "Load More Properties"
-                    )}
-                  </button>
+              {/* Cards Section - Scrollable on Desktop */}
+              <div className="w-full lg:w-1/2 h-full overflow-y-auto px-4 pb-20 pt-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {properties.map((property) => (
+                    <Card key={property._id} Property={property} />
+                  ))}
                 </div>
-              )}
+
+                {hasMore && (
+                  <div className="flex justify-center mt-10 mb-10">
+                    <button
+                      className="btn btn-outline btn-primary px-8"
+                      onClick={handleLoadMore}
+                      disabled={loadingMore}
+                    >
+                      {loadingMore ? (
+                        <>
+                          <RiLoader4Line className="animate-spin" size={20} />
+                          Loading...
+                        </>
+                      ) : (
+                        "Load More Properties"
+                      )}
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </>
   );
