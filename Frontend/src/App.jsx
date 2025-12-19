@@ -11,6 +11,7 @@ import SingleRentProperty from "./pages/user/SingleRentProperty";
 import Wishlist from "./pages/user/Wishlist";
 import { AppContext } from "./context/AppContext";
 import ServerDown from "./components/common/ServerDown";
+import ScrollToTop from "./components/common/ScrollToTop";
 
 const App = () => {
   const { isConnected, loading } = useContext(AppContext);
@@ -21,6 +22,7 @@ const App = () => {
 
   return (
     <>
+      <ScrollToTop />
       <Routes>
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
