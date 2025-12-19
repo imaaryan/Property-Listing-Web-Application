@@ -184,7 +184,7 @@ const Home = () => {
         ) : (
           <>
             {/* Map Section - Only show if we have properties */}
-            <div className="w-full max-2xl:px-4  h-[500px] max-sm:h-[50dvh] mb-8">
+            <div className="w-full max-2xl:px-4  h-[500px] max-sm:h-[50dvh] mt-4 mb-8">
               <Map
                 items={properties}
                 center={
