@@ -7,6 +7,7 @@ import {
   RiMapPinAddLine,
   RiListSettingsLine,
   RiUserVoiceLine,
+  RiExternalLinkLine,
 } from "@remixicon/react";
 import logo from "../assets/Logo.svg";
 import AdminNavbar from "../components/admin/AdminNavbar";
@@ -63,7 +64,6 @@ const AdminLayout = () => {
         <div className="h-20 flex items-center px-6 border-b border-gray-100">
           <Link to="/admin-dashboard" className="flex items-center gap-2">
             <img src={logo} alt="Logo" className="h-12" />
-          
           </Link>
         </div>
 
@@ -95,14 +95,15 @@ const AdminLayout = () => {
         </nav>
 
         <div className="p-4 border-t border-gray-100">
-          <div className="bg-blue-50 rounded-xl p-4 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
-              A
-            </div>
-            <div>
-              <p className="text-sm font-bold text-gray-800">Admin</p>
-              <p className="text-xs text-gray-500">Super User</p>
-            </div>
+          <div className="bg-blue-50 rounded-xl p-4">
+            <Link
+              to="/"
+              target="_blank"
+              className="flex items-center justify-between text-primary font-medium hover:text-primary-focus transition-colors"
+            >
+              <span>Visit Website</span>
+              <RiExternalLinkLine size={18} />
+            </Link>
           </div>
         </div>
       </aside>
