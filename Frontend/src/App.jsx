@@ -18,6 +18,7 @@ import About from "./pages/user/About";
 import Login from "./pages/admin/Login";
 import AdminLayout from "./layouts/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
+import BuyListings from "./pages/admin/BuyListings";
 
 const App = () => {
   const { isConnected, loading } = useContext(AppContext);
@@ -49,11 +50,8 @@ const App = () => {
 
         <Route element={<AdminLayout />}>
           <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/buy-listings" element={<BuyListings />} />
           {/* Placeholders for other admin pages */}
-          <Route
-            path="/admin/buy-listings"
-            element={<div className="p-4">Buy Listings Content</div>}
-          />
           <Route
             path="/admin/rent-listings"
             element={<div className="p-4">Rent Listings Content</div>}
