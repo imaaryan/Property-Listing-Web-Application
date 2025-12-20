@@ -82,11 +82,56 @@ const BuyListings = () => {
     }
   };
 
+  const handleBulkDelete = async () => {
+    if (selectedIds.length === 0) return toast.warn("No items selected");
+    if (
+      window.confirm(
+        `Are you sure you want to delete ${selectedIds.length} items?`
+      )
+    ) {
+      try {
+        const { data } = await axios.post(
+          `${backendUrl}/properties/bulk/delete`,
+          { ids: selectedIds },
+          { headers: { token: localStorage.getItem("adminToken") } } // if needed, though interceptor probably handles it? Assuming auth middleware needs token.
+        );
+        if (data.success) {
+          toast.success("Properties deleted successfully");
+          setSelectedIds([]);
+          fetchProperties(searchTerm);
+        }
+      } catch (error) {
+        console.error("Error bulk deleting:", error);
+        toast.error("Failed to delete properties");
+      }
+    }
+  };
+
+  const handleBulkToggleStatus = async () => {
+    if (selectedIds.length === 0) return toast.warn("No items selected");
+    try {
+      const { data } = await axios.put(
+        `${backendUrl}/properties/bulk/toggle-status`,
+        { ids: selectedIds },
+        { headers: { token: localStorage.getItem("adminToken") } }
+      );
+      if (data.success) {
+        toast.success("Status updated successfully");
+        setSelectedIds([]);
+        fetchProperties(searchTerm);
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+      toast.error("Failed to update status");
+    }
+  };
+
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this property?")) {
       try {
         const { data } = await axios.delete(
-          `${backendUrl}/properties/delete/${id}`
+          `${backendUrl}/properties/delete/${id}`,
+          { headers: { token: localStorage.getItem("adminToken") } }
         );
         if (data.success) {
           toast.success("Property deleted successfully");
@@ -170,13 +215,19 @@ const BuyListings = () => {
               className="dropdown-content z-10 menu p-2 shadow-xl bg-white rounded-xl w-52 border border-gray-100 mt-2"
             >
               <li>
-                <a className="hover:bg-red-50 hover:text-red-600 rounded-lg py-2">
+                <a
+                  onClick={handleBulkDelete}
+                  className="hover:bg-red-50 hover:text-red-600 rounded-lg py-2"
+                >
                   Delete Selected
                 </a>
               </li>
               <li>
-                <a className="hover:bg-blue-50 hover:text-blue-600 rounded-lg py-2">
-                  Mark as Sold
+                <a
+                  onClick={handleBulkToggleStatus}
+                  className="hover:bg-blue-50 hover:text-blue-600 rounded-lg py-2"
+                >
+                  Change Status
                 </a>
               </li>
             </ul>

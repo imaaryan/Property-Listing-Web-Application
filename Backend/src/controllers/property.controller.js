@@ -373,3 +373,54 @@ export const deleteProperty = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+// --- Bulk Actions ---
+export const togglePropertyStatus = async (req, res) => {
+  try {
+    const { ids } = req.body; // Expect array of IDs
+
+    if (!ids || ids.length === 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "No property IDs provided" });
+    }
+
+    // Find all properties to get their current status
+    const properties = await Property.find({ _id: { $in: ids } });
+
+    // Create bulk write operations
+    const bulkOps = properties.map((prop) => ({
+      updateOne: {
+        filter: { _id: prop._id },
+        update: { isPublished: !prop.isPublished }, // Toggle logic
+      },
+    }));
+
+    if (bulkOps.length > 0) {
+      await Property.bulkWrite(bulkOps);
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Properties status updated successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const deleteProperties = async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (!ids || ids.length === 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "No IDs provided" });
+    }
+    await Property.deleteMany({ _id: { $in: ids } });
+    res
+      .status(200)
+      .json({ success: true, message: "Properties deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

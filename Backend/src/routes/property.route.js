@@ -6,6 +6,8 @@ import {
   getPropertyById,
   updateProperty,
   deleteProperty,
+  togglePropertyStatus,
+  deleteProperties,
 } from "../controllers/property.controller.js";
 import auth from "../middlewares/auth.middlewares.js";
 import { upload } from "../middlewares/multer.middleware.js";
@@ -42,5 +44,9 @@ propertyRouter.put(
 
 // Delete Property (Admin)
 propertyRouter.delete("/delete/:id", auth, deleteProperty);
+
+// Bulk Actions
+propertyRouter.put("/bulk/toggle-status", auth, togglePropertyStatus);
+propertyRouter.post("/bulk/delete", auth, deleteProperties); // Using POST for bulk delete body
 
 export default propertyRouter;
