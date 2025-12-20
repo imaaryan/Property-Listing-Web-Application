@@ -3,6 +3,7 @@ import { AppContext } from "../../context/AppContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { RiEyeLine, RiEyeOffLine, RiLoginBoxLine } from "@remixicon/react";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -24,14 +25,15 @@ const Login = () => {
       if (data.success) {
         // Store token in localStorage
         localStorage.setItem("adminToken", data.token);
+        toast.success("Login Successful");
         // Redirect to dashboard (to be created)
         navigate("/rol-admin-dashboard");
       } else {
-        alert(data.message || "Login failed");
+        toast.error(data.message || "Login failed");
       }
     } catch (error) {
       console.error("Login Error:", error);
-      alert(error.response?.data?.message || "Something went wrong");
+      toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }

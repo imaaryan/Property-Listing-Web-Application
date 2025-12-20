@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import UserLayout from "./layouts/UserLayout";
 import Home from "./pages/user/Home";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Buy from "./pages/user/Buy";
 import Rent from "./pages/user/Rent";
 import Contact from "./pages/user/Contact";
@@ -25,6 +27,7 @@ const App = () => {
   return (
     <>
       <ScrollToTop />
+      <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
