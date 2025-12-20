@@ -23,27 +23,12 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Parallel fetching for better performance
-        const [buyRes, rentRes, citiesRes, areasRes, enquiriesRes] =
-          await Promise.all([
-            axios.get(
-              `${backendUrl}/properties/get-all?propertyFor=Buy&limit=1`
-            ),
-            axios.get(
-              `${backendUrl}/properties/get-all?propertyFor=Rent&limit=1`
-            ),
-            axios.get(`${backendUrl}/master/cities`),
-            axios.get(`${backendUrl}/master/areas`),
-            axios.get(`${backendUrl}/enquiries`),
-          ]);
+        // Fetching from the new optimized endpoint
+        const { data } = await axios.get(`${backendUrl}/admin/stats`);
 
-        setStats({
-          sellProperties: buyRes.data.total || 0,
-          rentProperties: rentRes.data.total || 0,
-          cities: citiesRes.data.data?.length || 0,
-          areas: areasRes.data.data?.length || 0,
-          enquiries: enquiriesRes.data.data?.length || 0,
-        });
+        if (data.success) {
+          setStats(data.data);
+        }
       } catch (error) {
         console.error("Error fetching dashboard stats:", error);
       } finally {
