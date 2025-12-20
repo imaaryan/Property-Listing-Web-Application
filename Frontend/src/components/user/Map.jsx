@@ -4,19 +4,36 @@ import { useState, useEffect } from "react";
 import { divIcon } from "leaflet";
 import Pin from "./Pin.jsx";
 
+import { latLngBounds } from "leaflet";
+
 // Helper component to re-center map when 'center' prop changes
-const RecenterAutomatically = ({ center, zoom }) => {
+const RecenterAutomatically = ({ center, zoom, items }) => {
   const map = useMap();
+
   useEffect(() => {
-    if (center) {
-      map.setView(center, zoom || 13); // Zoom in a bit more (13) as requested
+    if (items && items.length > 0) {
+      const bounds = latLngBounds(
+        items.map((item) => [
+          item.locationOnMap.latitude,
+          item.locationOnMap.longitude,
+        ])
+      );
+      // Pad the bounds slightly so pins aren't on the very edge
+      map.fitBounds(bounds, { padding: [50, 50] });
+    } else if (center) {
+      map.setView(center, zoom || 13);
     }
-  }, [center, zoom, map]);
+  }, [center, zoom, map, items]);
   return null;
 };
 
 function Map({ items, center }) {
   const [currentLocation, setCurrentLocation] = useState(null);
+
+  // Filter out items without valid location data to prevent crashes
+  const validItems = items.filter(
+    (item) => item?.locationOnMap?.latitude && item?.locationOnMap?.longitude
+  );
 
   useEffect(() => {
     // Only fetch geolocation if NO center is provided (e.g. initial load without filters)
@@ -47,7 +64,6 @@ function Map({ items, center }) {
       zoom={11}
       scrollWheelZoom={false}
       className="w-full h-full rounded-xl shadow-lg z-0"
-      
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
@@ -56,12 +72,13 @@ function Map({ items, center }) {
 
       {/* Auto Re-center when props change */}
       <RecenterAutomatically
+        items={validItems}
         center={center || currentLocation}
         zoom={center ? 14 : 11}
       />
 
       {/* Render property markers */}
-      {items.map((item) => (
+      {validItems.map((item) => (
         <Pin
           key={item._id}
           item={{
