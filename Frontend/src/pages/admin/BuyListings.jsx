@@ -93,7 +93,7 @@ const BuyListings = () => {
         const { data } = await axios.post(
           `${backendUrl}/properties/bulk/delete`,
           { ids: selectedIds },
-          { headers: { token: localStorage.getItem("adminToken") } } // if needed, though interceptor probably handles it? Assuming auth middleware needs token.
+          { headers: { authorization: localStorage.getItem("adminToken") } } // if needed, though interceptor probably handles it? Assuming auth middleware needs token.
         );
         if (data.success) {
           toast.success("Properties deleted successfully");
@@ -113,7 +113,7 @@ const BuyListings = () => {
       const { data } = await axios.put(
         `${backendUrl}/properties/bulk/toggle-status`,
         { ids: selectedIds },
-        { headers: { token: localStorage.getItem("adminToken") } }
+        { headers: { authorization: localStorage.getItem("adminToken") } }
       );
       if (data.success) {
         toast.success("Status updated successfully");
@@ -131,7 +131,7 @@ const BuyListings = () => {
       try {
         const { data } = await axios.delete(
           `${backendUrl}/properties/delete/${id}`,
-          { headers: { token: localStorage.getItem("adminToken") } }
+          { headers: { authorization: localStorage.getItem("adminToken") } }
         );
         if (data.success) {
           toast.success("Property deleted successfully");
