@@ -20,6 +20,7 @@ const BuyListings = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [selectedIds, setSelectedIds] = useState([]);
   const searchInputRef = useRef(null);
 
   // Fetch properties
@@ -65,6 +66,22 @@ const BuyListings = () => {
     }
   };
 
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelectedIds(properties.map((p) => p._id));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleSelectOne = (id) => {
+    if (selectedIds.includes(id)) {
+      setSelectedIds(selectedIds.filter((selectedId) => selectedId !== id));
+    } else {
+      setSelectedIds([...selectedIds, id]);
+    }
+  };
+
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this property?")) {
       try {
@@ -92,7 +109,7 @@ const BuyListings = () => {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-800 font-display">
+          <h2 className="text-xl font-semibold text-gray-800 ">
             Properties for Sale
           </h2>
           <p className="text-sm text-gray-500 mt-1">
@@ -119,13 +136,13 @@ const BuyListings = () => {
                   ref={searchInputRef}
                   type="text"
                   placeholder="Search..."
-                  className="input input-ghost input-sm w-full focus:outline-none focus:bg-transparent pl-2 text-sm"
+                  className="input input-ghost input-sm w-full focus:outline-none focus:bg-transparent pl-4 text-sm"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <button
                   onClick={toggleSearch}
-                  className="btn btn-ghost btn-xs btn-circle text-gray-400 hover:bg-gray-100"
+                  className="btn btn-ghost btn-xs  text-gray-400 hover:bg-gray-100"
                 >
                   <RiCloseLine size={16} />
                 </button>
@@ -133,14 +150,14 @@ const BuyListings = () => {
             ) : (
               <button
                 onClick={toggleSearch}
-                className="btn btn-ghost btn-circle text-gray-500 hover:bg-gray-100"
+                className="btn btn-ghost text-gray-500 hover:bg-[#ebeffc] hover:text-primary"
               >
                 <RiSearchLine size={20} />
               </button>
             )}
           </div>
 
-          <div className="dropdown dropdown-end">
+          <div className="dropdown dropdown-end ml-4">
             <label
               tabIndex={0}
               className="btn bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300 gap-2 normal-case font-medium shadow-sm h-11 min-h-0 rounded-lg"
@@ -188,6 +205,11 @@ const BuyListings = () => {
                     <input
                       type="checkbox"
                       className="checkbox checkbox-sm rounded text-primary border-gray-300"
+                      onChange={handleSelectAll}
+                      checked={
+                        properties.length > 0 &&
+                        selectedIds.length === properties.length
+                      }
                     />
                   </label>
                 </th>
@@ -241,6 +263,8 @@ const BuyListings = () => {
                         <input
                           type="checkbox"
                           className="checkbox checkbox-sm rounded text-primary border-gray-300"
+                          checked={selectedIds.includes(property._id)}
+                          onChange={() => handleSelectOne(property._id)}
                         />
                       </label>
                     </td>
