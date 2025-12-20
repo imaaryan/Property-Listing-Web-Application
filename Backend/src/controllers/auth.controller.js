@@ -30,8 +30,8 @@ export const getDashboardStats = async (req, res) => {
   try {
     const [sellProperties, rentProperties, cities, areas, enquiries] =
       await Promise.all([
-        Property.countDocuments({ propertyFor: "Buy" }),
-        Property.countDocuments({ propertyFor: "Rent" }),
+        Property.countDocuments({ propertyFor: "Buy", isPublished: true }),
+        Property.countDocuments({ propertyFor: "Rent", isPublished: true }),
         City.countDocuments({}),
         Area.countDocuments({}),
         Enquiry.countDocuments({}),
