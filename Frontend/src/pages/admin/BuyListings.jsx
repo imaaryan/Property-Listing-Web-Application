@@ -160,7 +160,7 @@ const BuyListings = () => {
     <div className="w-full max-w-[1400px] mx-auto">
       {/* Page Header */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-        <div>
+        <div className="max-md:w-full">
           <h2 className="text-xl font-semibold text-gray-800 ">
             Properties for Sale
           </h2>
@@ -169,7 +169,7 @@ const BuyListings = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3 w-full md:w-auto">
+        <div className="flex items-center justify-between gap-3 w-full md:w-auto">
           {/* Expandable Search */}
           <div
             className={`flex items-center transition-all duration-300 ${
@@ -188,7 +188,7 @@ const BuyListings = () => {
                   ref={searchInputRef}
                   type="text"
                   placeholder="Search..."
-                  className="input input-ghost input-sm w-full focus:outline-none focus:bg-transparent pl-4 text-sm"
+                  className="input input-ghost input-md w-full focus:outline-none focus:bg-transparent pl-4 text-sm"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -209,44 +209,46 @@ const BuyListings = () => {
             )}
           </div>
 
-          <div className="dropdown dropdown-end ml-4">
-            <label
-              tabIndex={0}
-              className="btn bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300 gap-2 normal-case font-medium shadow-sm h-11 min-h-0 rounded-lg"
-            >
-              Bulk Action
-              <RiArrowDownSLine size={18} />
-            </label>
-            <ul
-              tabIndex={0}
-              className="dropdown-content z-10 menu p-2 shadow-xl bg-white rounded-xl w-52 border border-gray-100 mt-2"
-            >
-              <li>
-                <a
-                  onClick={handleBulkDelete}
-                  className="hover:bg-red-50 hover:text-red-600 rounded-lg py-2"
-                >
-                  Delete Selected
-                </a>
-              </li>
-              <li>
-                <a
-                  onClick={handleBulkToggleStatus}
-                  className="hover:bg-blue-50 hover:text-blue-600 rounded-lg py-2"
-                >
-                  Change Status
-                </a>
-              </li>
-            </ul>
-          </div>
+          <div className="flex gap-4">
+            <div className="dropdown dropdown-end ml-4">
+              <label
+                tabIndex={0}
+                className="btn bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300 gap-2 normal-case font-medium shadow-sm h-11 min-h-0 rounded-lg"
+              >
+                Bulk Action
+                <RiArrowDownSLine size={18} />
+              </label>
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-10 menu p-2 shadow-xl bg-white rounded-xl w-52 border border-gray-100 mt-2"
+              >
+                <li>
+                  <a
+                    onClick={handleBulkDelete}
+                    className="hover:bg-red-50 hover:text-red-600 rounded-lg py-2"
+                  >
+                    Delete Selected
+                  </a>
+                </li>
+                <li>
+                  <a
+                    onClick={handleBulkToggleStatus}
+                    className="hover:bg-blue-50 hover:text-primary rounded-lg py-2"
+                  >
+                    Change Status
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-          <Link
-            to="/admin/buy-listings/add"
-            className="btn btn-primary text-white gap-2 normal-case font-medium shadow-lg shadow-primary/30 h-11 min-h-0 rounded-lg px-6 hover:brightness-110 transition-all"
-          >
-            <RiAddLine size={20} />
-            Add Property
-          </Link>
+            <Link
+              to="/admin/buy-listings/add"
+              className="btn btn-primary text-white gap-2 normal-case font-medium shadow-lg shadow-primary/30 h-11 min-h-0 rounded-lg px-6 hover:brightness-110 transition-all"
+            >
+              <RiAddLine size={20} />
+              Add Property
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -254,7 +256,7 @@ const BuyListings = () => {
       <div className="bg-white rounded-2xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border border-gray-200 overflow-visible">
         {/* Table */}
         <div className="overflow-x-auto min-h-[400px]">
-          <table className="table w-full">
+          <table className="table w-full min-w-[1000px]">
             {/* head */}
             <thead>
               <tr className="bg-gray-50 border-b border-gray-200">
@@ -314,7 +316,7 @@ const BuyListings = () => {
                 properties.map((property, index) => (
                   <tr
                     key={property._id}
-                    className="group hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0"
+                    className="group hover:bg-gray-50 transition-colors border-b-3 border-gray-100 last:border-0"
                   >
                     <td className="py-4">
                       <label>
@@ -327,41 +329,43 @@ const BuyListings = () => {
                       </label>
                     </td>
                     <td className="py-4">
-                      <div className="flex items-center gap-4">
-                        {/* Featured Image */}
-                        <div className="avatar">
-                          <div className="mask mask-squircle w-12 h-12 bg-gray-100 ring-1 ring-gray-100 group-hover:ring-blue-100 transition-all">
-                            <img
-                              src={
-                                property.images?.featuredImage ||
-                                "https://placehold.co/100"
-                              }
-                              alt="Property"
-                              className="object-cover"
-                            />
+                      <Link to={`/admin/buy-listings/edit/${property._id}`}>
+                        <div className="flex items-center gap-4 group">
+                          {/* Featured Image */}
+                          <div className="avatar">
+                            <div className="mask mask-squire w-16 h-12 bg-gray-100 ring-1 ring-gray-100 group-hover:ring-blue-100 transition-all rounded-md">
+                              <img
+                                src={
+                                  property.images?.featuredImage ||
+                                  "https://placehold.co/100"
+                                }
+                                alt="Property"
+                                className="object-cover"
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="font-bold text-gray-800 line-clamp-1 max-w-[800px] mb-0.5 group-hover:text-primary">
+                              {property.title}
+                            </div>
+                            <div className="text-xs text-gray-500 font-medium bg-gray-100 inline-block px-2 py-0.5 rounded">
+                              {property.propertyType}
+                            </div>
                           </div>
                         </div>
-                        <div>
-                          <div className="font-bold text-gray-800 line-clamp-1 max-w-[200px] mb-0.5">
-                            {property.title}
-                          </div>
-                          <div className="text-xs text-gray-500 font-medium bg-gray-100 inline-block px-2 py-0.5 rounded">
-                            {property.propertyType}
-                          </div>
-                        </div>
-                      </div>
+                      </Link>
                     </td>
-                    <td className="py-4">
+                    <td className="py-4 max-w-[200px]">
                       <div className="text-sm text-gray-600 font-medium">
                         {property.areaId?.name}, {property.areaId?.city?.name}
                       </div>
                     </td>
-                    <td className="py-4">
+                    <td className="py-4 max-w-[140px]">
                       <div className="text-sm text-gray-600 font-medium">
                         {formatDate(property.createdAt)}
                       </div>
                     </td>
-                    <td className="py-4">
+                    <td className="py-4 max-w-[70px]">
                       {property.isPublished ? (
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-green-50 text-green-700 border border-green-100">
                           <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
@@ -374,7 +378,7 @@ const BuyListings = () => {
                         </span>
                       )}
                     </td>
-                    <td className="text-right py-4 pr-6">
+                    <td className="max-w-[50px] text-right py-4 pr-6">
                       <div
                         className={`dropdown dropdown-end ${
                           index === 0 ? "dropdown-bottom" : "dropdown-left"
@@ -393,7 +397,7 @@ const BuyListings = () => {
                           <li>
                             <Link
                               to={`/admin/buy-listings/edit/${property._id}`}
-                              className="flex items-center gap-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg py-2"
+                              className="flex items-center gap-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-lg py-2"
                             >
                               <RiPencilLine size={18} /> Edit Details
                             </Link>
@@ -403,7 +407,7 @@ const BuyListings = () => {
                               href={`${window.location.origin}/property/sale/${property._id}`}
                               target="_blank"
                               rel="noreferrer"
-                              className="flex items-center gap-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg py-2"
+                              className="flex items-center gap-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-lg py-2"
                             >
                               <RiEyeLine size={18} /> View Listing
                             </a>
