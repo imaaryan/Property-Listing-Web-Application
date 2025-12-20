@@ -92,31 +92,37 @@ export const getAllProperties = async (req, res) => {
       maxPrice,
       minArea,
       maxArea,
+      showAll, // New param to show drafts
     } = req.query;
 
     const query = {};
 
-    // 0. Search by Title
+    // 0. Default: Only show published properties unless showAll is true
+    if (showAll !== "true") {
+      query.isPublished = true;
+    }
+
+    // 1. Search by Title
     if (req.query.search) {
       query.title = { $regex: req.query.search, $options: "i" };
     }
 
-    // 1. Filter by Property For (Buy/Rent)
+    // 2. Filter by Property For (Buy/Rent)
     if (propertyFor) {
       query.propertyFor = propertyFor;
     }
 
-    // 2. Filter by Property Type
+    // 3. Filter by Property Type
     if (type) {
       query.propertyType = type;
     }
 
-    // 3. Filter by Area (Direct Match)
+    // 4. Filter by Area (Direct Match)
     if (area) {
       query.areaId = area;
     }
 
-    // 4. Filter by City
+    // 5. Filter by City
     // Since Property has 'areaId' which refs 'Area', and 'Area' refs 'City',
     // filtering by City is complex in a single query without aggregation.
     // However, if the frontend sends 'areaId', we don't need city.
@@ -132,7 +138,7 @@ export const getAllProperties = async (req, res) => {
       query.areaId = { $in: areaIds };
     }
 
-    // 5. Filter by Price
+    // 6. Filter by Price
     if (minPrice || maxPrice) {
       const priceQuery = {};
       if (minPrice) priceQuery.$gte = Number(minPrice);
@@ -151,7 +157,7 @@ export const getAllProperties = async (req, res) => {
       }
     }
 
-    // 6. Filter by Property Area Size (Sq ft)
+    // 7. Filter by Property Area Size (Sq ft)
     if (minArea || maxArea) {
       const areaSizeQuery = {};
       if (minArea) areaSizeQuery.$gte = Number(minArea);
@@ -192,7 +198,7 @@ export const getStats = async (req, res) => {
   try {
     const { city, area, type } = req.query;
 
-    const matchStage = {};
+    const matchStage = { isPublished: true }; // Only stats for published properties
 
     // 1. Filter by Property Type
     if (type && type !== "All") {

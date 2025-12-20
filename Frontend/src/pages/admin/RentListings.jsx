@@ -14,7 +14,7 @@ import {
 } from "@remixicon/react";
 import { toast } from "react-toastify";
 
-const BuyListings = () => {
+const RentListings = () => {
   const { backendUrl } = useContext(AppContext);
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,13 +28,13 @@ const BuyListings = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${backendUrl}/properties/get-all?propertyFor=Buy&limit=100&search=${search}&showAll=true`
+        `${backendUrl}/properties/get-all?propertyFor=Rent&limit=100&search=${search}&showAll=true`
       );
       if (data.success) {
         setProperties(data.data);
       }
     } catch (error) {
-      console.error("Error fetching buy listings:", error);
+      console.error("Error fetching rent listings:", error);
       toast.error("Failed to load properties");
     } finally {
       setLoading(false);
@@ -162,10 +162,10 @@ const BuyListings = () => {
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
         <div className="max-md:w-full">
           <h2 className="text-xl font-semibold text-gray-800 ">
-            Properties for Sale
+            Properties for Rent
           </h2>
           <p className="text-sm text-gray-500 mt-1">
-            Manage all your buy listings from here
+            Manage all your rent listings from here
           </p>
         </div>
 
@@ -242,7 +242,7 @@ const BuyListings = () => {
             </div>
 
             <Link
-              to="/admin/buy-listings/add"
+              to="/admin/rent-listings/add"
               className="btn btn-primary text-white gap-2 normal-case font-medium shadow-lg shadow-primary/30 h-11 min-h-0 rounded-lg px-6 hover:brightness-110 transition-all"
             >
               <RiAddLine size={20} />
@@ -329,7 +329,7 @@ const BuyListings = () => {
                       </label>
                     </td>
                     <td className="py-4">
-                      <Link to={`/admin/buy-listings/edit/${property._id}`}>
+                      <Link to={`/admin/rent-listings/edit/${property._id}`}>
                         <div className="flex items-center gap-4 group">
                           {/* Featured Image */}
                           <div className="avatar">
@@ -396,7 +396,7 @@ const BuyListings = () => {
                         >
                           <li>
                             <Link
-                              to={`/admin/buy-listings/edit/${property._id}`}
+                              to={`/admin/rent-listings/edit/${property._id}`}
                               className="flex items-center gap-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-lg py-2"
                             >
                               <RiPencilLine size={18} /> Edit Details
@@ -404,7 +404,7 @@ const BuyListings = () => {
                           </li>
                           <li>
                             <a
-                              href={`${window.location.origin}/property/sale/${property._id}`}
+                              href={`${window.location.origin}/property/rent/${property._id}`}
                               target="_blank"
                               rel="noreferrer"
                               className="flex items-center gap-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-lg py-2"
@@ -462,4 +462,4 @@ const BuyListings = () => {
   );
 };
 
-export default BuyListings;
+export default RentListings;
