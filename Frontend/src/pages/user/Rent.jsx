@@ -198,9 +198,9 @@ const Rent = () => {
               </p>
             </div>
           ) : (
-            <div className="flex flex-col lg:flex-row-reverse w-full h-full max-w-[1440px] mx-auto ">
+            <div className="flex flex-col lg:flex-row-reverse w-full h-full max-w-[1440px] mx-auto py-2 ">
               {/* Map Section - Static on Desktop */}
-              <div className="w-full lg:w-1/2 h-[50vh] lg:h-full lg:sticky lg:top-0 max-sm:p-4">
+              <div className="w-full lg:w-1/2 h-[50dvh] lg:h-full lg:sticky p-4 lg:top-0">
                 <Map
                   items={properties}
                   center={
