@@ -11,8 +11,9 @@ import SingleRentProperty from "./pages/user/SingleRentProperty";
 import Wishlist from "./pages/user/Wishlist";
 import { AppContext } from "./context/AppContext";
 import ServerDown from "./components/common/ServerDown";
-import ScrollToTop from "./components/common/ScrollToTop"
-import About from "./pages/user/About"; // Import added
+import ScrollToTop from "./components/common/ScrollToTop";
+import About from "./pages/user/About";
+import Login from "./pages/admin/Login";
 
 const App = () => {
   const { isConnected, loading } = useContext(AppContext);
@@ -35,6 +36,8 @@ const App = () => {
           <Route path="/list-property" element={<ListProperty />} />
           <Route path="/about" element={<About />} />
           <Route path="/wishlist" element={<Wishlist />} />
+          {/* Admin Routes */}
+          <Route path="/rol-admin-login" element={<Login />} />
         </Route>
       </Routes>
     </>
