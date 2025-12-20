@@ -244,13 +244,13 @@ const BuyListings = () => {
       </div>
 
       {/* Main Content Card */}
-      <div className="bg-white rounded-2xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border border-gray-100/50 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border border-gray-200 overflow-visible">
         {/* Table */}
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto min-h-[400px]">
           <table className="table w-full">
             {/* head */}
             <thead>
-              <tr className="bg-gray-50/50 border-b border-gray-100">
+              <tr className="bg-gray-50 border-b border-gray-200">
                 <th className="w-12 py-4">
                   <label>
                     <input
@@ -281,7 +281,7 @@ const BuyListings = () => {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-gray-100">
               {loading ? (
                 <tr>
                   <td colSpan="6" className="text-center py-20">
@@ -304,10 +304,10 @@ const BuyListings = () => {
                   </td>
                 </tr>
               ) : (
-                properties.map((property) => (
+                properties.map((property, index) => (
                   <tr
                     key={property._id}
-                    className="group hover:bg-blue-50/30 transition-colors"
+                    className="group hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0"
                   >
                     <td className="py-4">
                       <label>
@@ -375,7 +375,11 @@ const BuyListings = () => {
                       )}
                     </td>
                     <td className="text-right py-4 pr-6">
-                      <div className="dropdown dropdown-left dropdown-end">
+                      <div
+                        className={`dropdown dropdown-end ${
+                          index === 0 ? "dropdown-bottom" : "dropdown-left"
+                        }`}
+                      >
                         <label
                           tabIndex={0}
                           className="btn btn-ghost btn-sm btn-square text-gray-400 hover:text-primary hover:bg-blue-50 transition-colors"
@@ -384,7 +388,7 @@ const BuyListings = () => {
                         </label>
                         <ul
                           tabIndex={0}
-                          className="dropdown-content z-20 menu p-2 shadow-[0_0_20px_rgba(0,0,0,0.1)] bg-white rounded-xl w-48 border border-gray-100 mt-1"
+                          className="dropdown-content z-20 menu p-2 shadow-[0_5px_20px_rgba(0,0,0,0.1)] bg-white rounded-xl w-48 border border-gray-100 mt-1"
                         >
                           <li>
                             <Link
@@ -420,11 +424,12 @@ const BuyListings = () => {
                 ))
               )}
             </tbody>
+            {/* foot - optional, removed as it was not in original, just tbody */}
           </table>
         </div>
 
         {/* Pagination (Static) */}
-        <div className="flex items-center justify-between p-4 border-t border-gray-100 text-sm text-gray-500 bg-gray-50/30">
+        <div className="flex items-center justify-between p-4 border-t border-gray-200 text-sm text-gray-500 bg-gray-50">
           <div>
             Showing 1-{properties.length} of {properties.length}
           </div>
