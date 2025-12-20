@@ -16,6 +16,8 @@ import ServerDown from "./components/common/ServerDown";
 import ScrollToTop from "./components/common/ScrollToTop";
 import About from "./pages/user/About";
 import Login from "./pages/admin/Login";
+import AdminLayout from "./layouts/AdminLayout";
+import Dashboard from "./pages/admin/Dashboard";
 
 const App = () => {
   const { isConnected, loading } = useContext(AppContext);
@@ -29,6 +31,7 @@ const App = () => {
       <ScrollToTop />
       <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
+        {/* User Routes */}
         <Route element={<UserLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/property/sale/:id" element={<SingleBuyProperty />} />
@@ -39,8 +42,34 @@ const App = () => {
           <Route path="/list-property" element={<ListProperty />} />
           <Route path="/about" element={<About />} />
           <Route path="/wishlist" element={<Wishlist />} />
-          {/* Admin Routes */}
-          <Route path="/kk-admin" element={<Login />} />
+        </Route>
+
+        {/* Admin Routes */}
+        <Route path="/kk-admin" element={<Login />} />
+
+        <Route element={<AdminLayout />}>
+          <Route path="/admin-dashboard" element={<Dashboard />} />
+          {/* Placeholders for other admin pages */}
+          <Route
+            path="/admin/buy-listings"
+            element={<div className="p-4">Buy Listings Content</div>}
+          />
+          <Route
+            path="/admin/rent-listings"
+            element={<div className="p-4">Rent Listings Content</div>}
+          />
+          <Route
+            path="/admin/add-locations"
+            element={<div className="p-4">Add Locations Content</div>}
+          />
+          <Route
+            path="/admin/add-amenities"
+            element={<div className="p-4">Add Amenities Content</div>}
+          />
+          <Route
+            path="/admin/seller-enquiries"
+            element={<div className="p-4">Seller Enquiries Content</div>}
+          />
         </Route>
       </Routes>
     </>
