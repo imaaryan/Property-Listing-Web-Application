@@ -40,7 +40,7 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/wishlist" element={<Wishlist />} />
           {/* Admin Routes */}
-          <Route path="/rol-admin-login" element={<Login />} />
+          <Route path="/kk-admin" element={<Login />} />
         </Route>
       </Routes>
     </>
