@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { AppContext } from "../../context/AppContext";
@@ -10,7 +10,7 @@ import {
   RiEyeLine,
   RiDeleteBinLine,
   RiSearchLine,
-  RiFilter3Line,
+  RiCloseLine,
 } from "@remixicon/react";
 import { toast } from "react-toastify";
 
@@ -19,13 +19,15 @@ const BuyListings = () => {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const searchInputRef = useRef(null);
 
   // Fetch properties
-  const fetchProperties = async () => {
+  const fetchProperties = async (search = "") => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${backendUrl}/properties/get-all?propertyFor=Buy&limit=100`
+        `${backendUrl}/properties/get-all?propertyFor=Buy&limit=100&search=${search}`
       );
       if (data.success) {
         setProperties(data.data);
@@ -42,6 +44,27 @@ const BuyListings = () => {
     fetchProperties();
   }, [backendUrl]);
 
+  // Debounce search
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (searchTerm || isSearchExpanded) {
+        fetchProperties(searchTerm);
+      }
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
+
+  const toggleSearch = () => {
+    setIsSearchExpanded(!isSearchExpanded);
+    if (!isSearchExpanded) {
+      setTimeout(() => searchInputRef.current?.focus(), 100);
+    } else {
+      setSearchTerm(""); // Clear search on close
+      fetchProperties(""); // Reset list
+    }
+  };
+
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this property?")) {
       try {
@@ -50,7 +73,7 @@ const BuyListings = () => {
         );
         if (data.success) {
           toast.success("Property deleted successfully");
-          fetchProperties();
+          fetchProperties(searchTerm);
         }
       } catch (error) {
         console.error("Error deleting property:", error);
@@ -63,10 +86,6 @@ const BuyListings = () => {
     const options = { day: "numeric", month: "short", year: "numeric" };
     return new Date(dateString).toLocaleDateString("en-GB", options);
   };
-
-  const filteredProperties = properties.filter((property) =>
-    property.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div className="w-full max-w-[1400px] mx-auto">
@@ -82,6 +101,45 @@ const BuyListings = () => {
         </div>
 
         <div className="flex items-center gap-3 w-full md:w-auto">
+          {/* Expandable Search */}
+          <div
+            className={`flex items-center transition-all duration-300 ${
+              isSearchExpanded
+                ? "w-full md:w-64 bg-white shadow-sm border border-gray-200 rounded-lg px-3"
+                : "w-10"
+            }`}
+          >
+            {isSearchExpanded ? (
+              <>
+                <RiSearchLine
+                  size={18}
+                  className="text-gray-400 min-w-[18px]"
+                />
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  placeholder="Search..."
+                  className="input input-ghost input-sm w-full focus:outline-none focus:bg-transparent pl-2 text-sm"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <button
+                  onClick={toggleSearch}
+                  className="btn btn-ghost btn-xs btn-circle text-gray-400 hover:bg-gray-100"
+                >
+                  <RiCloseLine size={16} />
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={toggleSearch}
+                className="btn btn-ghost btn-circle text-gray-500 hover:bg-gray-100"
+              >
+                <RiSearchLine size={20} />
+              </button>
+            )}
+          </div>
+
           <div className="dropdown dropdown-end">
             <label
               tabIndex={0}
@@ -119,32 +177,6 @@ const BuyListings = () => {
 
       {/* Main Content Card */}
       <div className="bg-white rounded-2xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border border-gray-100/50 overflow-hidden">
-        {/* Filters & Search Toolbar */}
-        <div className="p-5 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
-          {/* Left side actions (Filters placeholder) */}
-          <div className="flex items-center gap-2">
-            <button className="btn btn-sm btn-ghost gap-2 text-gray-500 font-normal hover:bg-gray-50">
-              <RiFilter3Line size={16} />
-              Filter
-            </button>
-          </div>
-
-          {/* Right side search */}
-          <div className="relative w-full sm:max-w-xs">
-            <input
-              type="text"
-              placeholder="Search properties..."
-              className="input input-bordered w-full pl-10 bg-gray-50/50 focus:bg-white focus:border-primary transition-all rounded-lg h-10 text-sm"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <RiSearchLine
-              size={16}
-              className="absolute left-3 top-2.5 text-gray-400"
-            />
-          </div>
-        </div>
-
         {/* Table */}
         <div className="overflow-x-auto">
           <table className="table w-full">
@@ -183,7 +215,7 @@ const BuyListings = () => {
                     <span className="loading loading-spinner loading-lg text-primary"></span>
                   </td>
                 </tr>
-              ) : filteredProperties.length === 0 ? (
+              ) : properties.length === 0 ? (
                 <tr>
                   <td colSpan="6" className="text-center py-20">
                     <div className="flex flex-col items-center justify-center text-gray-400">
@@ -191,14 +223,15 @@ const BuyListings = () => {
                         <RiSearchLine size={32} className="opacity-50" />
                       </div>
                       <p className="font-medium text-gray-500">
-                        No properties found
+                        {searchTerm
+                          ? `No results for "${searchTerm}"`
+                          : "No properties found"}
                       </p>
-                      <p className="text-sm">Try adjusting your search terms</p>
                     </div>
                   </td>
                 </tr>
               ) : (
-                filteredProperties.map((property) => (
+                properties.map((property) => (
                   <tr
                     key={property._id}
                     className="group hover:bg-blue-50/30 transition-colors"
@@ -318,7 +351,7 @@ const BuyListings = () => {
         {/* Pagination (Static) */}
         <div className="flex items-center justify-between p-4 border-t border-gray-100 text-sm text-gray-500 bg-gray-50/30">
           <div>
-            Showing 1-{filteredProperties.length} of {filteredProperties.length}
+            Showing 1-{properties.length} of {properties.length}
           </div>
           <div className="flex items-center gap-2">
             <button
@@ -331,7 +364,6 @@ const BuyListings = () => {
               <button className="join-item btn btn-sm btn-primary text-white">
                 1
               </button>
-              {/* Add logic if more pages */}
             </div>
             <button
               className="btn btn-sm btn-white border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50"

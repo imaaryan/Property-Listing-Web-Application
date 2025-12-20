@@ -96,6 +96,11 @@ export const getAllProperties = async (req, res) => {
 
     const query = {};
 
+    // 0. Search by Title
+    if (req.query.search) {
+      query.title = { $regex: req.query.search, $options: "i" };
+    }
+
     // 1. Filter by Property For (Buy/Rent)
     if (propertyFor) {
       query.propertyFor = propertyFor;
