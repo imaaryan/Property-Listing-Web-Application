@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
   RiDashboardLine,
   RiHomeSmile2Line,
@@ -14,6 +14,14 @@ import AdminFooter from "../components/admin/AdminFooter";
 
 const AdminLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile sidebar toggle
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("adminToken");
+    if (!token) {
+      navigate("/kk-admin");
+    }
+  }, [navigate]);
 
   const navItems = [
     { name: "Dashboard", path: "/admin-dashboard", icon: RiDashboardLine },
