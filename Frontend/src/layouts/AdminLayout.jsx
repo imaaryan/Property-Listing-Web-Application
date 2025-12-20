@@ -25,7 +25,7 @@ const AdminLayout = () => {
   }, [navigate]);
 
   const navItems = [
-    { name: "Dashboard", path: "/admin-dashboard", icon: RiDashboardLine },
+    { name: "Dashboard", path: "/admin/dashboard", icon: RiDashboardLine },
     {
       name: "Buy Listings",
       path: "/admin/buy-listings",

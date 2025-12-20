@@ -48,7 +48,7 @@ const App = () => {
         <Route path="/kk-admin" element={<Login />} />
 
         <Route element={<AdminLayout />}>
-          <Route path="/admin-dashboard" element={<Dashboard />} />
+          <Route path="/admin/dashboard" element={<Dashboard />} />
           {/* Placeholders for other admin pages */}
           <Route
             path="/admin/buy-listings"

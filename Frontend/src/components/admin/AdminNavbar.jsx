@@ -19,8 +19,8 @@ const AdminNavbar = ({ toggleSidebar }) => {
         >
           <RiMenuLine size={24} />
         </button>
-        <h1 className="text-xl font-bold text-gray-800 hidden md:block">
-          Dashboard
+        <h1 className="text-xl font-bold text-gray-800 ">
+         Admin Dashboard
         </h1>
       </div>
 

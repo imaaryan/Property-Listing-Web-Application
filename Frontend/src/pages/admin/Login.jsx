@@ -32,7 +32,7 @@ const Login = () => {
         localStorage.setItem("adminToken", data.token);
         toast.success("Login Successful");
         // Redirect to dashboard (to be created)
-        navigate("/admin-dashboard");
+        navigate("/admin/dashboard");
       } else {
         toast.error(data.message || "Login failed");
       }
