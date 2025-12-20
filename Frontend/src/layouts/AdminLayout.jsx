@@ -62,10 +62,8 @@ const AdminLayout = () => {
       >
         <div className="h-20 flex items-center px-6 border-b border-gray-100">
           <Link to="/admin-dashboard" className="flex items-center gap-2">
-            <img src={logo} alt="Logo" className="h-8" />
-            <span className="text-xl font-bold text-gray-800">
-              Khasra Khatauni
-            </span>
+            <img src={logo} alt="Logo" className="h-12" />
+          
           </Link>
         </div>
 
