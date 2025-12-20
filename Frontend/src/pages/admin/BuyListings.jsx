@@ -145,8 +145,15 @@ const BuyListings = () => {
   };
 
   const formatDate = (dateString) => {
-    const options = { day: "numeric", month: "short", year: "numeric" };
-    return new Date(dateString).toLocaleDateString("en-GB", options);
+    const options = {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    };
+    return new Date(dateString).toLocaleString("en-GB", options);
   };
 
   return (
@@ -313,7 +320,7 @@ const BuyListings = () => {
                       <label>
                         <input
                           type="checkbox"
-                          className="checkbox checkbox-sm rounded text-primary border-gray-300"
+                          className="checkbox checkbox-sm rounded text-primary border-gray-300 transition-all duration-75"
                           checked={selectedIds.includes(property._id)}
                           onChange={() => handleSelectOne(property._id)}
                         />
@@ -348,17 +355,10 @@ const BuyListings = () => {
                       <div className="text-sm text-gray-600 font-medium">
                         {property.areaId?.name}, {property.areaId?.city?.name}
                       </div>
-                      <div className="text-xs text-gray-400 mt-0.5">
-                        Uttarakhand
-                      </div>
                     </td>
                     <td className="py-4">
                       <div className="text-sm text-gray-600 font-medium">
                         {formatDate(property.createdAt)}
-                      </div>
-                      <div className="text-xs text-gray-400 mt-0.5">
-                        {" "}
-                        Added Date{" "}
                       </div>
                     </td>
                     <td className="py-4">
