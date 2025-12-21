@@ -138,6 +138,43 @@ export const getAmenities = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const updateAmenity = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+    const amenity = await Amenity.findByIdAndUpdate(
+      id,
+      { name },
+      { new: true }
+    );
+    if (!amenity) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Amenity not found" });
+    }
+    res.status(200).json({ success: true, data: amenity });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const deleteAmenity = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const amenity = await Amenity.findByIdAndDelete(id);
+    if (!amenity) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Amenity not found" });
+    }
+    res
+      .status(200)
+      .json({ success: true, message: "Amenity deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 export const getPropertyTypes = async (req, res) => {
   try {
     const types = [
