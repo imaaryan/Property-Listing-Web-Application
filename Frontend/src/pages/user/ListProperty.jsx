@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   RiCheckDoubleLine,
   RiBuildingLine,
@@ -11,9 +11,15 @@ import {
   RiTimeLine,
 } from "@remixicon/react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { AppContext } from "../../context/AppContext";
 
 const ListProperty = () => {
   const navigate = useNavigate();
+  const { backendUrl } = useContext(AppContext);
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,9 +33,31 @@ const ListProperty = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
+    setLoading(true);
+    try {
+      const { data } = await axios.post(
+        `${backendUrl}/enquiries/add`,
+        formData
+      );
+      if (data.success) {
+        toast.success("Enquiry submitted successfully!");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          address: "",
+          propertyType: "",
+          message: "",
+        });
+      }
+    } catch (error) {
+      console.error("Error submitting enquiry:", error);
+      toast.error(error.response?.data?.message || "Failed to submit enquiry");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const propertyTypes = [
@@ -201,9 +229,16 @@ const ListProperty = () => {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="btn btn-primary w-full mt-2 text-white text-lg font-normal shadow-lg shadow-primary/30 hover:shadow-primary/50"
+                disabled={loading}
+                className="btn btn-primary w-full mt-2 text-white text-lg font-normal shadow-lg shadow-primary/30 hover:shadow-primary/50 disabled:opacity-70"
               >
-                Submit Listing <RiArrowRightLine size={20} />
+                {loading ? (
+                  "Submitting..."
+                ) : (
+                  <>
+                    Submit Listing <RiArrowRightLine size={20} />
+                  </>
+                )}
               </button>
             </form>
           </div>
