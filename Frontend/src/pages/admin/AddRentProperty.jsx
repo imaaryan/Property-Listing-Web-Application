@@ -363,303 +363,303 @@ const AddRentProperty = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50 pb-12">
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="h-16 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link
-                to="/admin/rent-listings"
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500 hover:text-gray-900"
-              >
-                <RiArrowLeftLine size={24} />
-              </Link>
-              <h1 className="text-xl font-bold text-gray-900">
-                {id ? "Edit Property for Rent" : "Add Property for Rent"}
-              </h1>
-            </div>
-            <button
-              onClick={handleSubmit}
-              disabled={loading}
-              className="btn btn-primary text-white gap-2 px-6"
-            >
-              {loading ? (
-                <span className="loading loading-spinner loading-sm"></span>
-              ) : (
-                <RiSaveLine size={20} />
-              )}
-              Save
-            </button>
+    <div className="w-full max-w-[1400px] mx-auto pb-10 px-6">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-8 mt-2">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="btn btn-circle btn-ghost btn-sm hover:bg-gray-100"
+          >
+            <RiArrowLeftLine size={24} className="text-gray-600" />
+          </button>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-800">
+              {id ? "Edit Property for Rent" : "Add Property for Rent"}
+            </h1>
+            <p className="text-sm text-gray-500 mt-0.5">
+              Fill in the details to list a new rent property
+            </p>
           </div>
         </div>
+        <button
+          onClick={handleSubmit}
+          disabled={loading}
+          className="btn btn-primary text-white gap-2 px-8 shadow-lg shadow-blue-500/20"
+        >
+          {loading ? (
+            <span className="loading loading-spinner loading-sm"></span>
+          ) : (
+            <RiSaveLine size={20} />
+          )}
+          Save Property
+        </button>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Form */}
-          <div className="lg:col-span-2 space-y-6">
-            <FormSection title="Basic Information">
-              <FormInput
-                label="Property Name"
-                name="title"
-                value={formData.title}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Main Form */}
+        <div className="lg:col-span-2 space-y-8">
+          <FormSection title="Basic Information">
+            <FormInput
+              label="Property Name"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              placeholder="e.g. Spacious 3BHK in Jakhan"
+              required
+            />
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+              <FormSelect
+                label="Select City"
+                name="cityId"
+                value={formData.cityId}
                 onChange={handleChange}
-                placeholder="e.g. Spacious 3BHK in Jakhan"
+                options={cities?.map((city) => ({
+                  value: city._id,
+                  label: city.name,
+                }))}
                 required
               />
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                <FormSelect
-                  label="Select City"
-                  name="cityId"
-                  value={formData.cityId}
-                  onChange={handleChange}
-                  options={cities?.map((city) => ({
-                    value: city._id,
-                    label: city.name,
-                  }))}
-                  required
-                />
-                <FormSelect
-                  label="Select Area"
-                  name="areaId"
-                  value={formData.areaId}
-                  onChange={handleChange}
-                  options={areas?.map((area) => ({
-                    value: area._id,
-                    label: area.name,
-                  }))}
-                  disabled={!formData.cityId}
-                  required
-                />
-                <FormSelect
-                  label="Property Type"
-                  name="propertyType"
-                  value={formData.propertyType}
-                  onChange={handleChange}
-                  options={propertyTypes?.map((type) => ({
-                    value: type,
-                    label: type,
-                  }))}
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                <FormInput
-                  label="Bedrooms"
-                  name="bedrooms"
-                  value={formData.bedrooms}
-                  onChange={handleChange}
-                  placeholder="e.g. 3"
-                  type="number"
-                />
-                <FormInput
-                  label="Bathrooms"
-                  name="bathrooms"
-                  value={formData.bathrooms}
-                  onChange={handleChange}
-                  placeholder="e.g. 2"
-                  type="number"
-                />
-                <FormInput
-                  label="Size (sq.ft)"
-                  name="propertySize"
-                  value={formData.propertySize}
-                  onChange={handleChange}
-                  placeholder="e.g. 1500"
-                  type="number"
-                  required
-                  helperText={
-                    formData.propertySizeInYard
-                      ? `Approx. ${formData.propertySizeInYard} Sq. Yards`
-                      : ""
-                  }
-                />
-              </div>
-
-              <div className="mt-6">
-                <FormTextarea
-                  label="Description"
-                  name="shortDescription"
-                  value={formData.shortDescription}
-                  onChange={handleChange}
-                  placeholder="Describe the property, rules, etc..."
-                  required
-                />
-              </div>
-            </FormSection>
-
-            <FormSection title="Rent Details">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <FormSelect
-                  label="Furnishing"
-                  name="furnishing"
-                  value={formData.propertyDetails.furnishing}
-                  onChange={handlePropertyDetailsChange}
-                  options={[
-                    { value: "", label: "Select" },
-                    { value: "Unfurnished", label: "Unfurnished" },
-                    { value: "Semi-Furnished", label: "Semi-Furnished" },
-                    { value: "Fully-Furnished", label: "Fully-Furnished" },
-                  ]}
-                />
-                <FormSelect
-                  label="Available For"
-                  name="avalabeFor"
-                  value={formData.propertyDetails.avalabeFor}
-                  onChange={handlePropertyDetailsChange}
-                  options={[
-                    { value: "", label: "Select" },
-                    { value: "All", label: "All" },
-                    { value: "Family", label: "Family Only" },
-                    { value: "Bachelors", label: "Bachelors Only" },
-                    { value: "Girls", label: "Girls Only" },
-                    { value: "Boys", label: "Boys Only" },
-                  ]}
-                />
-                <FormInput
-                  label="Availability"
-                  name="availability"
-                  value={formData.propertyDetails.availability || ""}
-                  onChange={handlePropertyDetailsChange}
-                  type="date"
-                />
-              </div>
-
-              <div className="mb-6">
-                <FormTextarea
-                  label="Why you should consider this property?"
-                  name="whyConsider"
-                  value={formData.propertyDetails.whyConsider}
-                  onChange={handlePropertyDetailsChange}
-                  placeholder="• Close to Metro&#10;• Park Facing&#10;• 24x7 Security"
-                  helperText="Use bullets"
-                />
-              </div>
-
-              <div className="mb-6">
-                <FormTextarea
-                  label="Features"
-                  name="features"
-                  value={formData.propertyDetails.features}
-                  onChange={handlePropertyDetailsChange}
-                  placeholder="• Security / Fire Alarm&#10;• Intercom Facility&#10;• Lift(s)&#10;• Water Purifier"
-                />
-              </div>
-
-              <div className="">
-                <FormInput
-                  label="Society"
-                  name="society"
-                  value={formData.propertyDetails.society}
-                  onChange={handlePropertyDetailsChange}
-                  placeholder="e.g. Assotech Windsor Park"
-                />
-              </div>
-            </FormSection>
-
-            <FormSection title="Amenities">
-              <AmenitiesSelector
-                amenitiesList={amenitiesList}
-                selectedAmenities={formData.amenitiesId}
-                onAmenityChange={handleAmenityChange}
-              />
-            </FormSection>
-
-            <FormSection title="Location Coordinates">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormInput
-                  label="Latitude"
-                  name="latitude"
-                  value={formData.locationOnMap.latitude}
-                  onChange={handleLocationChange}
-                  placeholder="e.g. 30.3165"
-                  type="number"
-                />
-                <FormInput
-                  label="Longitude"
-                  name="longitude"
-                  value={formData.locationOnMap.longitude}
-                  onChange={handleLocationChange}
-                  placeholder="e.g. 78.0322"
-                  type="number"
-                />
-              </div>
-            </FormSection>
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            <FormSection title="Property Status" className="p-6">
               <FormSelect
-                label=""
-                name="isPublished"
-                value={formData.isPublished.toString()}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    isPublished: e.target.value === "true",
-                  }))
+                label="Select Area"
+                name="areaId"
+                value={formData.areaId}
+                onChange={handleChange}
+                options={areas?.map((area) => ({
+                  value: area._id,
+                  label: area.name,
+                }))}
+                disabled={!formData.cityId}
+                required
+              />
+              <FormSelect
+                label="Property Type"
+                name="propertyType"
+                value={formData.propertyType}
+                onChange={handleChange}
+                options={propertyTypes?.map((type) => ({
+                  value: type,
+                  label: type,
+                }))}
+                required
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+              <FormInput
+                label="Bedrooms"
+                name="bedrooms"
+                value={formData.bedrooms}
+                onChange={handleChange}
+                placeholder="e.g. 3"
+                type="number"
+              />
+              <FormInput
+                label="Bathrooms"
+                name="bathrooms"
+                value={formData.bathrooms}
+                onChange={handleChange}
+                placeholder="e.g. 2"
+                type="number"
+              />
+              <FormInput
+                label="Size (sq.ft)"
+                name="propertySize"
+                value={formData.propertySize}
+                onChange={handleChange}
+                placeholder="e.g. 1500"
+                type="number"
+                required
+                helperText={
+                  formData.propertySizeInYard
+                    ? `Approx. ${formData.propertySizeInYard} Sq. Yards`
+                    : ""
                 }
+              />
+            </div>
+
+            <div className="mt-6">
+              <FormTextarea
+                label="Description"
+                name="shortDescription"
+                value={formData.shortDescription}
+                onChange={handleChange}
+                placeholder="Describe the property, rules, etc..."
+                required
+              />
+            </div>
+          </FormSection>
+
+          <FormSection title="Rent Details">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <FormSelect
+                label="Furnishing"
+                name="furnishing"
+                value={formData.propertyDetails.furnishing}
+                onChange={handlePropertyDetailsChange}
                 options={[
-                  { value: "false", label: "Draft" },
-                  { value: "true", label: "Published" },
+                  { value: "", label: "Select" },
+                  { value: "Unfurnished", label: "Unfurnished" },
+                  { value: "Semi-Furnished", label: "Semi-Furnished" },
+                  { value: "Fully-Furnished", label: "Fully-Furnished" },
                 ]}
               />
-            </FormSection>
+              <FormSelect
+                label="Available For"
+                name="avalabeFor"
+                value={formData.propertyDetails.avalabeFor}
+                onChange={handlePropertyDetailsChange}
+                options={[
+                  { value: "", label: "Select" },
+                  { value: "All", label: "All" },
+                  { value: "Family", label: "Family Only" },
+                  { value: "Bachelors", label: "Bachelors Only" },
+                  { value: "Girls", label: "Girls Only" },
+                  { value: "Boys", label: "Boys Only" },
+                ]}
+              />
+              <FormInput
+                label="Availability"
+                name="availability"
+                value={formData.propertyDetails.availability || ""}
+                onChange={handlePropertyDetailsChange}
+                type="date"
+              />
+            </div>
 
-            <ImageUpload
-              label="Property Image"
-              imagePreview={featuredImagePreview}
-              onImageChange={handleFeaturedImage}
+            <div className="mb-6">
+              <FormTextarea
+                label="Why you should consider this property?"
+                name="whyConsider"
+                value={formData.propertyDetails.whyConsider}
+                onChange={handlePropertyDetailsChange}
+                placeholder="• Close to Metro&#10;• Park Facing&#10;• 24x7 Security"
+                helperText="Use bullets"
+              />
+            </div>
+
+            <div className="mb-6">
+              <FormTextarea
+                label="Features"
+                name="features"
+                value={formData.propertyDetails.features}
+                onChange={handlePropertyDetailsChange}
+                placeholder="• Security / Fire Alarm&#10;• Intercom Facility&#10;• Lift(s)&#10;• Water Purifier"
+              />
+            </div>
+
+            <div className="">
+              <FormInput
+                label="Society"
+                name="society"
+                value={formData.propertyDetails.society}
+                onChange={handlePropertyDetailsChange}
+                placeholder="e.g. Assotech Windsor Park"
+              />
+            </div>
+          </FormSection>
+
+          <FormSection title="Amenities">
+            <AmenitiesSelector
+              amenitiesList={amenitiesList}
+              selectedAmenities={formData.amenitiesId}
+              onAmenityChange={handleAmenityChange}
             />
+          </FormSection>
 
-            <ImageUpload
-              label="Image Gallery"
-              isMultiple={true}
-              onImageChange={handleGalleryImages}
-              galleryPreviews={galleryPreviews}
-              onRemoveGalleryImage={removeGalleryImage}
+          <FormSection title="Location Coordinates">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <FormInput
+                label="Latitude"
+                name="latitude"
+                value={formData.locationOnMap.latitude}
+                onChange={handleLocationChange}
+                placeholder="e.g. 30.3165"
+                type="number"
+              />
+              <FormInput
+                label="Longitude"
+                name="longitude"
+                value={formData.locationOnMap.longitude}
+                onChange={handleLocationChange}
+                placeholder="e.g. 78.0322"
+                type="number"
+              />
+            </div>
+          </FormSection>
+        </div>
+
+        {/* Sidebar */}
+        <div className="space-y-6">
+          <FormSection title="Property Status" className="p-6">
+            <FormSelect
+              label=""
+              name="isPublished"
+              value={formData.isPublished.toString()}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  isPublished: e.target.value === "true",
+                }))
+              }
+              options={[
+                { value: "false", label: "Draft" },
+                { value: "true", label: "Published" },
+              ]}
             />
+          </FormSection>
 
-            <FormSection title="Price" className="p-6">
-              <div className="space-y-4">
-                <FormInput
-                  label="Rent Per Month"
-                  name="rentPerMonth"
-                  value={formData.pricing.rentPerMonth}
-                  onChange={handlePricingChange}
-                  type="number"
-                />
-                <FormInput
-                  label="Security Deposit"
-                  name="securityDeposit"
-                  value={formData.pricing.securityDeposit}
-                  onChange={handlePricingChange}
-                  type="number"
-                />
-              </div>
-            </FormSection>
+          <ImageUpload
+            label="Property Image"
+            imagePreview={featuredImagePreview}
+            onImageChange={handleFeaturedImage}
+          />
 
-            <FormSection title="Owner Details" className="p-6">
-              <div className="space-y-4">
-                <FormInput
-                  label="Current Owner Info"
-                  name="currentOwner"
-                  value={formData.khatuniDetails.currentOwner}
-                  onChange={handleKhatuniChange}
-                />
-                <FormInput
-                  label="Owner Number"
-                  name="currentOwnerPhoneNumber"
-                  value={formData.khatuniDetails.currentOwnerPhoneNumber}
-                  onChange={handleKhatuniChange}
-                  type="number"
-                />
-              </div>
-            </FormSection>
-          </div>
+          <ImageUpload
+            label="Image Gallery"
+            isMultiple={true}
+            onImageChange={handleGalleryImages}
+            galleryPreviews={galleryPreviews}
+            onRemoveGalleryImage={removeGalleryImage}
+          />
+
+          <FormSection title="Price" className="p-6">
+            <div className="space-y-4">
+              <FormInput
+                label="Rent Per Month"
+                name="rentPerMonth"
+                value={formData.pricing.rentPerMonth}
+                onChange={handlePricingChange}
+                type="number"
+              />
+              <FormInput
+                label="Security Deposit"
+                name="securityDeposit"
+                value={formData.pricing.securityDeposit}
+                onChange={handlePricingChange}
+                type="number"
+              />
+            </div>
+          </FormSection>
+
+          <FormSection title="Owner Details" className="p-6">
+            <div className="space-y-4">
+              <FormInput
+                label="Current Owner Info"
+                name="currentOwner"
+                value={formData.khatuniDetails.currentOwner}
+                onChange={handleKhatuniChange}
+              />
+              <FormInput
+                label="Owner Number"
+                name="currentOwnerPhoneNumber"
+                value={formData.khatuniDetails.currentOwnerPhoneNumber}
+                onChange={handleKhatuniChange}
+                type="number"
+              />
+            </div>
+          </FormSection>
         </div>
       </div>
     </div>
