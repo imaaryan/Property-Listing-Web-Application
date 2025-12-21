@@ -63,3 +63,21 @@ export const getAmenities = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+export const getPropertyTypes = async (req, res) => {
+  try {
+    const types = [
+      "Residential Plot",
+      "Independent House",
+      "Commercial Shop",
+      "Residential Apartment",
+      "Independent Floor",
+      "Commercial Office Space",
+      "Villa",
+      "Agricultural Land",
+      "Guesthouse",
+    ];
+    res.status(200).json({ success: true, data: types });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

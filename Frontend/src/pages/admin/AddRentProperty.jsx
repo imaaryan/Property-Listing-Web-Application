@@ -12,7 +12,7 @@ import {
 } from "@remixicon/react";
 import { toast } from "react-toastify";
 
-const AddBuyProperty = () => {
+const AddRentProperty = () => {
   const { backendUrl } = useContext(AppContext);
   const navigate = useNavigate();
 
@@ -28,33 +28,27 @@ const AddBuyProperty = () => {
   const [galleryImages, setGalleryImages] = useState([]);
   const [galleryPreviews, setGalleryPreviews] = useState([]);
 
-  // Form State matching backend schema - CLEAN & EMPTY
+  // Form State matching backend schema
   const [formData, setFormData] = useState({
     title: "",
     shortDescription: "",
-    propertyType: "", // Dynamic
-    propertyFor: "Buy",
+    propertyType: "",
+    propertyFor: "Rent",
     areaId: "",
-    cityId: "", // Helper for filtering areas
+    cityId: "",
     bedrooms: "",
     bathrooms: "",
     propertySize: "",
     propertySizeInYard: "",
 
-    // Pricing
+    // Pricing (Rent Specific)
     pricing: {
-      askingPrice: "",
-      stampDutyPercentage: "",
-      stampDutyCost: "",
-      advocateFee: "",
-      receiptFee: "",
-      brokerCommissionPercentage: "",
-      brokerCommissionCost: "",
-      finelPricing: "",
-      priceHistory: [],
+      rentPerMonth: "",
+      securityDeposit: "",
     },
 
-    // Khatuni
+    // Rent fields often don't emphasize Khatuni as much, but keeping structure if needed.
+    // Keeping it empty/hidden or optional based on generic usefulness.
     khatuniDetails: {
       currentOwner: "",
       previousOwner: "",
@@ -72,8 +66,16 @@ const AddBuyProperty = () => {
       ownership: "",
       landTitle: "",
       developmentStatus: "",
-      lastLandTransaction: "",
-      underMDDA: "No", // Default No for cleaner logic
+
+      // Rent Specific
+      furnishing: "",
+      avalabeFor: "", // Family/Bachelor etc
+      availability: "", // Immediately, within 15 days etc
+      whyConsider: "",
+      features: "",
+      society: "",
+
+      underMDDA: "No",
       underNagarNigam: "No",
       waterSupply: "No",
       powerSupply: "No",
@@ -94,11 +96,9 @@ const AddBuyProperty = () => {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        // Fetch Cities
         const cityRes = await axios.get(`${backendUrl}/master/cities`);
         if (cityRes.data.success) setCities(cityRes.data.data);
 
-        // Fetch Amenities
         try {
           const amenityRes = await axios.get(`${backendUrl}/master/amenities`);
           if (amenityRes.data.success) setAmenitiesList(amenityRes.data.data);
@@ -106,7 +106,6 @@ const AddBuyProperty = () => {
           console.log("Amenities fetch error", err);
         }
 
-        // Fetch Property Types
         try {
           const typesRes = await axios.get(
             `${backendUrl}/master/property-types`
@@ -142,114 +141,34 @@ const AddBuyProperty = () => {
     }
   }, [formData.cityId, backendUrl]);
 
-  // Auto-Validation / Calculations
+  // Sq Ft to Sq Yard
   useEffect(() => {
-    // 1. Sq Ft to Sq Yard
     if (formData.propertySize) {
       const yards = (parseFloat(formData.propertySize) / 9).toFixed(2);
       setFormData((prev) => ({ ...prev, propertySizeInYard: yards }));
     }
-
-    // 2. Pricing Calculations
-    const p = formData.pricing;
-    const asking = parseFloat(p.askingPrice) || 0;
-    const stampPerc = parseFloat(p.stampDutyPercentage) || 0;
-    const brokerPerc = parseFloat(p.brokerCommissionPercentage) || 0;
-    const advocate = parseFloat(p.advocateFee) || 0;
-    const receipt = parseFloat(p.receiptFee) || 0;
-
-    const stampCost = (asking * stampPerc) / 100;
-    const brokerCost = (asking * brokerPerc) / 100;
-    const extraCosts = stampCost + brokerCost + advocate + receipt;
-    const total = asking + extraCosts;
-
-    // Only update if values actually changed to prevent loops
-    if (
-      p.stampDutyCost !== stampCost ||
-      p.brokerCommissionCost !== brokerCost ||
-      p.finelPricing !== total
-    ) {
-      setFormData((prev) => ({
-        ...prev,
-        pricing: {
-          ...prev.pricing,
-          stampDutyCost: stampCost,
-          brokerCommissionCost: brokerCost,
-          finelPricing: total,
-        },
-      }));
-    }
-  }, [
-    formData.propertySize,
-    formData.pricing.askingPrice,
-    formData.pricing.stampDutyPercentage,
-    formData.pricing.brokerCommissionPercentage,
-    formData.pricing.advocateFee,
-    formData.pricing.receiptFee,
-  ]);
+  }, [formData.propertySize]);
 
   // Handlers
-  const handleChange = (e, section = null, subSection = null) => {
-    const { name, value, type, checked } = e.target;
-    // const val = type === "checkbox" ? (checked ? "Yes" : "No") : value;
-
+  const handleChange = (e, section = null) => {
+    const { name, value } = e.target;
     if (section) {
-      if (subSection) {
-      } else {
-        setFormData((prev) => ({
-          ...prev,
-          [section]: {
-            ...prev[section],
-            [name]: value,
-          },
-        }));
-      }
+      setFormData((prev) => ({
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [name]: value,
+        },
+      }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  const handlePricingChange = (e) => {
-    handleChange(e, "pricing");
-  };
-
-  const handlePropertyDetailsChange = (e) => {
-    handleChange(e, "propertyDetails");
-  };
-
+  const handlePricingChange = (e) => handleChange(e, "pricing");
+  const handlePropertyDetailsChange = (e) => handleChange(e, "propertyDetails");
   const handleKhatuniChange = (e) => handleChange(e, "khatuniDetails");
-
   const handleLocationChange = (e) => handleChange(e, "locationOnMap");
-
-  // Pricing History Handlers
-  const handleHistoryChange = (index, field, value) => {
-    const newHistory = [...formData.pricing.priceHistory];
-    newHistory[index][field] = value;
-    setFormData((prev) => ({
-      ...prev,
-      pricing: { ...prev.pricing, priceHistory: newHistory },
-    }));
-  };
-
-  const addHistoryRow = () => {
-    setFormData((prev) => ({
-      ...prev,
-      pricing: {
-        ...prev.pricing,
-        priceHistory: [...prev.pricing.priceHistory, { year: "", cost: "" }],
-      },
-    }));
-  };
-
-  const removeHistoryRow = (index) => {
-    const newHistory = formData.pricing.priceHistory.filter(
-      (_, i) => i !== index
-    );
-    setFormData((prev) => ({
-      ...prev,
-      pricing: { ...prev.pricing, priceHistory: newHistory },
-    }));
-  };
 
   // Image Handlers
   const handleFeaturedImage = (e) => {
@@ -299,7 +218,7 @@ const AddBuyProperty = () => {
       submitData.append("title", formData.title);
       submitData.append("shortDescription", formData.shortDescription);
       submitData.append("propertyType", formData.propertyType);
-      submitData.append("propertyFor", "Buy");
+      submitData.append("propertyFor", "Rent");
       submitData.append("areaId", formData.areaId);
       submitData.append("bedrooms", formData.bedrooms);
       submitData.append("bathrooms", formData.bathrooms);
@@ -310,7 +229,6 @@ const AddBuyProperty = () => {
       // 2. Complex Objects (Stringify)
       submitData.append("pricing", JSON.stringify(formData.pricing));
 
-      // Convert Yes/No to Boolean for Property Details
       const propDetailsToSend = { ...formData.propertyDetails };
       [
         "underMDDA",
@@ -356,8 +274,8 @@ const AddBuyProperty = () => {
       );
 
       if (data.success) {
-        toast.success("Property added successfully!");
-        navigate("/admin/buy-listings");
+        toast.success("Rent Property added successfully!");
+        navigate("/admin/rent-listings");
       }
     } catch (error) {
       console.error("Error adding property", error);
@@ -380,10 +298,10 @@ const AddBuyProperty = () => {
           </button>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">
-              Add Property to Sale
+              Add Property for Rent
             </h2>
             <p className="text-sm text-gray-500 mt-0.5">
-              Fill in the details to list a new property
+              Fill in the details to list a new rental property
             </p>
           </div>
         </div>
@@ -420,7 +338,7 @@ const AddBuyProperty = () => {
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                placeholder="e.g. Luxury Apartment in Dehradun"
+                placeholder="e.g. Spacious 3BHK in Jakhan"
                 className="input input-bordered w-full h-12 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all"
                 required
               />
@@ -546,186 +464,108 @@ const AddBuyProperty = () => {
                 name="shortDescription"
                 value={formData.shortDescription}
                 onChange={handleChange}
-                placeholder="Detailed description of the property..."
+                placeholder="Describe the property, rules, etc..."
                 className="textarea textarea-bordered h-32 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-base"
                 required
               ></textarea>
             </div>
           </div>
 
-          {/* 2. Pricing Details */}
+          {/* 2. Rent & Pricing Details */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
             <h3 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
               <div className="w-1 h-6 bg-primary rounded-full"></div>
-              Pricing Details
+              Rent & Pricing Details
             </h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div className="form-control w-full">
                 <label className="label font-semibold text-gray-700 mb-1">
-                  Asking Price (₹)
+                  Monthly Rent (₹) <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="number"
-                  name="askingPrice"
-                  value={formData.pricing.askingPrice}
+                  name="rentPerMonth"
+                  value={formData.pricing.rentPerMonth}
                   onChange={handlePricingChange}
-                  placeholder="0.00"
+                  placeholder="e.g. 25000"
                   className="input input-bordered w-full h-12 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all"
+                  required
                 />
               </div>
               <div className="form-control w-full">
                 <label className="label font-semibold text-gray-700 mb-1">
-                  Stamp Duty (%)
+                  Security Deposit (₹)
                 </label>
                 <input
                   type="number"
-                  name="stampDutyPercentage"
-                  value={formData.pricing.stampDutyPercentage}
+                  name="securityDeposit"
+                  value={formData.pricing.securityDeposit}
                   onChange={handlePricingChange}
-                  placeholder="0"
+                  placeholder="e.g. 50000"
                   className="input input-bordered w-full h-12 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all"
                 />
-              </div>
-              <div className="form-control w-full">
-                <label className="label font-semibold text-gray-700 mb-1">
-                  Advocate Fees (₹)
-                </label>
-                <input
-                  type="number"
-                  name="advocateFee"
-                  value={formData.pricing.advocateFee}
-                  onChange={handlePricingChange}
-                  placeholder="0.00"
-                  className="input input-bordered w-full h-12 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-              <div className="form-control w-full">
-                <label className="label font-semibold text-gray-700 mb-1">
-                  Registry Receipt (₹)
-                </label>
-                <input
-                  type="number"
-                  name="receiptFee"
-                  value={formData.pricing.receiptFee}
-                  onChange={handlePricingChange}
-                  placeholder="0.00"
-                  className="input input-bordered w-full h-12 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all"
-                />
-              </div>
-              <div className="form-control w-full">
-                <label className="label font-semibold text-gray-700 mb-1">
-                  Broker Comm. (%)
-                </label>
-                <input
-                  type="number"
-                  name="brokerCommissionPercentage"
-                  value={formData.pricing.brokerCommissionPercentage}
-                  onChange={handlePricingChange}
-                  placeholder="0"
-                  className="input input-bordered w-full h-12 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all"
-                />
-              </div>
-              <div className="form-control w-full bg-blue-50 p-4 rounded-xl border border-blue-100 flex flex-col justify-center">
-                <label className="text-sm font-semibold text-blue-800 mb-1 uppercase tracking-wide opacity-70">
-                  Total Estimated Cost
-                </label>
-                <div className="text-2xl font-bold text-blue-600">
-                  ₹
-                  {formData.pricing.finelPricing
-                    ? formData.pricing.finelPricing.toLocaleString("en-IN")
-                    : "0"}
-                </div>
-              </div>
-            </div>
-
-            {/* Pricing History */}
-            <div className="mt-8 pt-6 border-t border-gray-100">
-              <div className="flex items-center justify-between mb-4">
-                <h4 className="text-sm font-bold text-gray-700 uppercase tracking-wide">
-                  Price History
-                </h4>
-                <button
-                  type="button"
-                  onClick={addHistoryRow}
-                  className="btn btn-ghost btn-sm text-primary gap-1 hover:bg-blue-50"
-                >
-                  <RiAddLine size={16} /> Add Year
-                </button>
-              </div>
-
-              {formData.pricing.priceHistory.length === 0 && (
-                <div className="text-center py-6 bg-gray-50 rounded-lg text-gray-400 text-sm">
-                  No price history added yet.
-                </div>
-              )}
-
-              <div className="space-y-3">
-                {formData.pricing.priceHistory.map((item, index) => (
-                  <div key={index} className="flex gap-4 items-center">
-                    <div className="w-1/3">
-                      <input
-                        type="number"
-                        placeholder="Year (e.g. 2020)"
-                        value={item.year}
-                        onChange={(e) =>
-                          handleHistoryChange(index, "year", e.target.value)
-                        }
-                        className="input input-bordered input-sm w-full"
-                      />
-                    </div>
-                    <div className="w-1/2">
-                      <div className="relative">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">
-                          ₹
-                        </span>
-                        <input
-                          type="number"
-                          placeholder="Cost per Sq.ft"
-                          value={item.cost}
-                          onChange={(e) =>
-                            handleHistoryChange(index, "cost", e.target.value)
-                          }
-                          className="input input-bordered input-sm w-full pl-6"
-                        />
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => removeHistoryRow(index)}
-                      className="btn btn-ghost btn-xs text-red-400 hover:bg-red-50 hover:text-red-500"
-                    >
-                      <RiDeleteBinLine size={18} />
-                    </button>
-                  </div>
-                ))}
               </div>
             </div>
           </div>
 
-          {/* 3. Property Details */}
+          {/* 3. Property Details (Rent Specific) */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
             <h3 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
               <div className="w-1 h-6 bg-primary rounded-full"></div>
               Additional Details
             </h3>
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
               <div className="form-control w-full">
                 <label className="label font-semibold text-gray-700 mb-1">
-                  Dimension
+                  Furnishing Status
+                </label>
+                <select
+                  name="furnishing"
+                  value={formData.propertyDetails.furnishing}
+                  onChange={handlePropertyDetailsChange}
+                  className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all bg-white"
+                >
+                  <option value="">Select</option>
+                  <option value="Unfurnished">Unfurnished</option>
+                  <option value="Semi-Furnished">Semi-Furnished</option>
+                  <option value="Fully-Furnished">Fully-Furnished</option>
+                </select>
+              </div>
+              <div className="form-control w-full">
+                <label className="label font-semibold text-gray-700 mb-1">
+                  Available For
+                </label>
+                <select
+                  name="avalabeFor"
+                  value={formData.propertyDetails.avalabeFor}
+                  onChange={handlePropertyDetailsChange}
+                  className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all bg-white"
+                >
+                  <option value="">Select</option>
+                  <option value="All">All</option>
+                  <option value="Family">Family Only</option>
+                  <option value="Bachelors">Bachelors Only</option>
+                  <option value="Girls">Girls Only</option>
+                  <option value="Boys">Boys Only</option>
+                </select>
+              </div>
+              <div className="form-control w-full">
+                <label className="label font-semibold text-gray-700 mb-1">
+                  Available From
                 </label>
                 <input
-                  type="text"
-                  name="dimension"
-                  value={formData.propertyDetails.dimension}
+                  type="date"
+                  name="availability"
+                  value={formData.propertyDetails.availability || ""}
                   onChange={handlePropertyDetailsChange}
-                  placeholder="e.g. 20x50"
                   className="input input-bordered w-full h-12"
                 />
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
               <div className="form-control w-full">
                 <label className="label font-semibold text-gray-700 mb-1">
                   Facing
@@ -746,6 +586,19 @@ const AddBuyProperty = () => {
                   <option value="South-East">South-East</option>
                   <option value="South-West">South-West</option>
                 </select>
+              </div>
+              <div className="form-control w-full">
+                <label className="label font-semibold text-gray-700 mb-1">
+                  Society/Project
+                </label>
+                <input
+                  type="text"
+                  name="society"
+                  value={formData.propertyDetails.society}
+                  onChange={handlePropertyDetailsChange}
+                  placeholder="e.g. Palm Heights"
+                  className="input input-bordered w-full h-12"
+                />
               </div>
               <div className="form-control w-full">
                 <label className="label font-semibold text-gray-700 mb-1">
@@ -811,53 +664,6 @@ const AddBuyProperty = () => {
                     Co-operative Society
                   </option>
                 </select>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-              <div className="form-control w-full">
-                <label className="label font-semibold text-gray-700 mb-1">
-                  Land Title
-                </label>
-                <input
-                  type="text"
-                  name="landTitle"
-                  value={formData.propertyDetails.landTitle}
-                  onChange={handlePropertyDetailsChange}
-                  placeholder="e.g. Clear"
-                  className="input input-bordered w-full h-12"
-                />
-              </div>
-              <div className="form-control w-full">
-                <label className="label font-semibold text-gray-700 mb-1">
-                  Dev. Status
-                </label>
-                <input
-                  type="text"
-                  name="developmentStatus"
-                  value={formData.propertyDetails.developmentStatus}
-                  onChange={handlePropertyDetailsChange}
-                  placeholder="e.g. Developed"
-                  className="input input-bordered w-full h-12"
-                />
-              </div>
-              <div className="form-control w-full">
-                <label className="label font-semibold text-gray-700 mb-1">
-                  Last Transaction
-                </label>
-                <input
-                  type="date"
-                  name="lastLandTransaction"
-                  value={
-                    formData.propertyDetails.lastLandTransaction
-                      ? new Date(formData.propertyDetails.lastLandTransaction)
-                          .toISOString()
-                          .split("T")[0]
-                      : ""
-                  }
-                  onChange={handlePropertyDetailsChange}
-                  className="input input-bordered w-full h-12"
-                />
               </div>
             </div>
 
@@ -1116,7 +922,7 @@ const AddBuyProperty = () => {
             </div>
           </div>
 
-          {/* Khatuni Details */}
+          {/* Khatuni Details - Kept but simplified or optional for Rent */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
             <h3 className="text-sm font-bold text-gray-800 mb-4 uppercase tracking-wide">
               Admin Details (Khatuni)
@@ -1124,7 +930,7 @@ const AddBuyProperty = () => {
             <div className="space-y-4">
               <div className="form-control w-full">
                 <label className="label font-semibold text-xs text-gray-500 mb-0.5">
-                  Current Owner Name
+                  Current Owner
                 </label>
                 <input
                   type="text"
@@ -1136,31 +942,7 @@ const AddBuyProperty = () => {
               </div>
               <div className="form-control w-full">
                 <label className="label font-semibold text-xs text-gray-500 mb-0.5">
-                  Previous Owner Name
-                </label>
-                <input
-                  type="text"
-                  name="previousOwner"
-                  value={formData.khatuniDetails.previousOwner}
-                  onChange={handleKhatuniChange}
-                  className="input input-bordered input-sm w-full"
-                />
-              </div>
-              <div className="form-control w-full">
-                <label className="label font-semibold text-xs text-gray-500 mb-0.5">
-                  Khasra Number
-                </label>
-                <input
-                  type="text"
-                  name="khasraNumber"
-                  value={formData.khatuniDetails.khasraNumber}
-                  onChange={handleKhatuniChange}
-                  className="input input-bordered input-sm w-full"
-                />
-              </div>
-              <div className="form-control w-full">
-                <label className="label font-semibold text-xs text-gray-500 mb-0.5">
-                  Owner Phone Number
+                  Owner Phone
                 </label>
                 <input
                   type="number"
@@ -1178,4 +960,4 @@ const AddBuyProperty = () => {
   );
 };
 
-export default AddBuyProperty;
+export default AddRentProperty;

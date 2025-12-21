@@ -6,6 +6,7 @@ import {
   getAreas,
   addAmenity,
   getAmenities,
+  getPropertyTypes,
 } from "../controllers/master.controller.js";
 import auth from "../middlewares/auth.middlewares.js";
 
@@ -22,5 +23,8 @@ masterRouter.get("/areas", getAreas); // Public
 // Amenity Routes
 masterRouter.post("/amenity", auth, addAmenity); // Admin only
 masterRouter.get("/amenities", getAmenities); // Public
+
+// Property Type Routes
+masterRouter.get("/property-types", getPropertyTypes);
 
 export default masterRouter;

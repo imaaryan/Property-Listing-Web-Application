@@ -20,6 +20,7 @@ import AdminLayout from "./layouts/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import BuyListings from "./pages/admin/BuyListings";
 import AddBuyProperty from "./pages/admin/AddBuyProperty";
+import AddRentProperty from "./pages/admin/AddRentProperty";
 import RentListings from "./pages/admin/RentListings";
 
 const App = () => {
@@ -54,6 +55,10 @@ const App = () => {
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/buy-listings" element={<BuyListings />} />
           <Route path="/admin/buy-listings/add" element={<AddBuyProperty />} />
+          <Route
+            path="/admin/rent-listings/add"
+            element={<AddRentProperty />}
+          />
           <Route path="/admin/rent-listings" element={<RentListings />} />
           <Route
             path="/admin/add-locations"
