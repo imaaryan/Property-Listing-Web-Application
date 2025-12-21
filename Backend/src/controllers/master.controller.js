@@ -22,6 +22,45 @@ export const getCities = async (req, res) => {
   }
 };
 
+export const updateCity = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, showOnFooter } = req.body;
+    const city = await City.findByIdAndUpdate(
+      id,
+      { name, showOnFooter },
+      { new: true }
+    );
+    if (!city) {
+      return res
+        .status(404)
+        .json({ success: false, message: "City not found" });
+    }
+    res.status(200).json({ success: true, data: city });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const deleteCity = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const city = await City.findByIdAndDelete(id);
+    if (!city) {
+      return res
+        .status(404)
+        .json({ success: false, message: "City not found" });
+    }
+    // Optional: Delete associated areas or handle cascade in model
+    await Area.deleteMany({ city: id });
+    res
+      .status(200)
+      .json({ success: true, message: "City deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 // --- Area Controllers ---
 export const addArea = async (req, res) => {
   try {
@@ -39,6 +78,42 @@ export const getAreas = async (req, res) => {
     const query = cityId ? { city: cityId } : {};
     const areas = await Area.find(query).populate("city");
     res.status(200).json({ success: true, data: areas });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const updateArea = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, cityId } = req.body;
+    const updateData = { name };
+    if (cityId) updateData.city = cityId;
+
+    const area = await Area.findByIdAndUpdate(id, updateData, { new: true });
+    if (!area) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Area not found" });
+    }
+    res.status(200).json({ success: true, data: area });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const deleteArea = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const area = await Area.findByIdAndDelete(id);
+    if (!area) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Area not found" });
+    }
+    res
+      .status(200)
+      .json({ success: true, message: "Area deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

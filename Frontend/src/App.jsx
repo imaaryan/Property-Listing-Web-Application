@@ -22,6 +22,7 @@ import BuyListings from "./pages/admin/BuyListings";
 import AddBuyProperty from "./pages/admin/AddBuyProperty";
 import AddRentProperty from "./pages/admin/AddRentProperty";
 import RentListings from "./pages/admin/RentListings";
+import Locations from "./pages/admin/Locations";
 
 const App = () => {
   const { isConnected, loading } = useContext(AppContext);
@@ -60,10 +61,7 @@ const App = () => {
             element={<AddRentProperty />}
           />
           <Route path="/admin/rent-listings" element={<RentListings />} />
-          <Route
-            path="/admin/add-locations"
-            element={<div className="p-4">Add Locations Content</div>}
-          />
+          <Route path="/admin/add-locations" element={<Locations />} />
           <Route
             path="/admin/add-amenities"
             element={<div className="p-4">Add Amenities Content</div>}
