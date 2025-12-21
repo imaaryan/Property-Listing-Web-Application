@@ -24,7 +24,21 @@ export const validatePropertyPricing = function (next) {
 
 // Express Middleware for Routes
 export const validatePropertyPricingExpress = (req, res, next) => {
-  const { propertyFor, pricing } = req.body;
+  let { propertyFor, pricing } = req.body;
+
+  // Handle multipart/form-data where pricing is a JSON string
+  if (typeof pricing === "string") {
+    try {
+      pricing = JSON.parse(pricing);
+      req.body.pricing = pricing; // Update req.body so controller receives structured data
+    } catch (error) {
+      // If JSON is invalid, let it fail validation or return bad request
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid pricing data format" });
+    }
+  }
+
   const errorMsg = checkPricing(propertyFor, pricing);
 
   if (errorMsg) {

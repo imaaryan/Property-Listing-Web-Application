@@ -309,8 +309,17 @@ const AddRentProperty = () => {
           data.append(key, formData[key]);
         }
       });
+      const formattedPropertyDetails = {
+        ...formData.propertyDetails,
+        underMDDA: formData.propertyDetails.underMDDA === "Yes",
+        underNagarNigam: formData.propertyDetails.underNagarNigam === "Yes",
+        waterSupply: formData.propertyDetails.waterSupply === "Yes",
+        powerSupply: formData.propertyDetails.powerSupply === "Yes",
+        loanAvailable: formData.propertyDetails.loanAvailable === "Yes",
+      };
+
       data.append("pricing", JSON.stringify(formData.pricing));
-      data.append("propertyDetails", JSON.stringify(formData.propertyDetails));
+      data.append("propertyDetails", JSON.stringify(formattedPropertyDetails));
       data.append("khatuniDetails", JSON.stringify(formData.khatuniDetails));
       data.append("locationOnMap", JSON.stringify(formData.locationOnMap));
       data.append("amenitiesId", JSON.stringify(formData.amenitiesId));

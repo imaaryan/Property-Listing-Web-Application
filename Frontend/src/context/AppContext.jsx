@@ -62,8 +62,21 @@ export const AppProvider = ({ children }) => {
       },
       (error) => {
         if (!error.response || error.code === "ERR_NETWORK") {
-          // Network error or no response from server
-          setIsConnected(false);
+          // Instead of immediately setting false, we should verify via healthcheck
+          // This prevents one failed request (e.g. image load) from blocking the whole app
+          // Use fetch instead of axios to avoid interceptor loop
+          fetch(`${backendUrl}/healthcheck`)
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.success) {
+                if (!isConnected) setIsConnected(true);
+              } else {
+                setIsConnected(false);
+              }
+            })
+            .catch(() => {
+              setIsConnected(false);
+            });
         }
         return Promise.reject(error);
       }
