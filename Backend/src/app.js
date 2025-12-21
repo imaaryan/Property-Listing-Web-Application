@@ -7,6 +7,10 @@ import adminRouter from "./routes/auth.route.js";
 import masterRouter from "./routes/master.route.js";
 import propertyRouter from "./routes/property.route.js";
 import enquiryRouter from "./routes/enquiry.route.js";
+import connectDB from "./utils/connectDB.js";
+
+// Call DB Connection for Serverless/Vercel environments
+connectDB();
 
 const app = express();
 
