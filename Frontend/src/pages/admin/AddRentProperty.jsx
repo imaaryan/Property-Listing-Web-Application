@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AppContext } from "../../context/AppContext";
 import { RiArrowLeftLine, RiSaveLine } from "@remixicon/react";
@@ -16,6 +16,7 @@ import AmenitiesSelector from "../../components/admin/property/AmenitiesSelector
 const AddRentProperty = () => {
   const { backendUrl } = useContext(AppContext);
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const [loading, setLoading] = useState(false);
   const [cities, setCities] = useState([]);
@@ -26,8 +27,14 @@ const AddRentProperty = () => {
   // File States
   const [featuredImage, setFeaturedImage] = useState(null);
   const [featuredImagePreview, setFeaturedImagePreview] = useState(null);
-  const [galleryImages, setGalleryImages] = useState([]);
-  const [galleryPreviews, setGalleryPreviews] = useState([]);
+  const [existingGalleryImages, setExistingGalleryImages] = useState([]); // URLs
+  const [newGalleryImages, setNewGalleryImages] = useState([]); // Files
+
+  // Derived previews
+  const galleryPreviews = [
+    ...existingGalleryImages,
+    ...newGalleryImages.map((file) => URL.createObjectURL(file)),
+  ];
 
   // Form State matching backend schema
   const [formData, setFormData] = useState({
@@ -111,13 +118,83 @@ const AddRentProperty = () => {
     fetchInitialData();
   }, [backendUrl]);
 
+  // Fetch Property Data for Edit Mode
+  useEffect(() => {
+    if (id) {
+      const fetchProperty = async () => {
+        try {
+          const { data } = await axios.get(
+            `${backendUrl}/properties/get/${id}`
+          );
+          if (data.success) {
+            const prop = data.data;
+
+            // Populate Form Data
+            setFormData({
+              title: prop.title || "",
+              shortDescription: prop.shortDescription || "",
+              propertyType: prop.propertyType || "",
+              propertyFor: "Rent",
+              areaId: prop.areaId?._id || prop.areaId || "",
+              cityId: prop.areaId?.city?._id || "",
+              bedrooms: prop.bedrooms || "",
+              bathrooms: prop.bathrooms || "",
+              propertySize: prop.propertySize || "",
+              propertySizeInYard: prop.propertySizeInYard || "",
+              pricing: prop.pricing || {
+                rentPerMonth: "",
+                securityDeposit: "",
+              },
+              khatuniDetails: prop.khatuniDetails || {
+                currentOwner: "",
+                previousOwner: "",
+                khasraNumber: "",
+                currentOwnerPhoneNumber: "",
+              },
+              propertyDetails: {
+                ...prop.propertyDetails,
+                underMDDA: prop.propertyDetails?.underMDDA ? "Yes" : "No",
+                underNagarNigam: prop.propertyDetails?.underNagarNigam
+                  ? "Yes"
+                  : "No",
+                waterSupply: prop.propertyDetails?.waterSupply ? "Yes" : "No",
+                powerSupply: prop.propertyDetails?.powerSupply ? "Yes" : "No",
+                loanAvailable: prop.propertyDetails?.loanAvailable
+                  ? "Yes"
+                  : "No",
+              },
+              locationOnMap: prop.locationOnMap || {
+                latitude: "",
+                longitude: "",
+              },
+              amenitiesId: prop.amenitiesId?.map((a) => a._id || a) || [],
+              isPublished: prop.isPublished,
+            });
+
+            // Handle Images
+            if (prop.images?.featuredImage) {
+              setFeaturedImagePreview(prop.images.featuredImage);
+            }
+            if (prop.images?.imageGallery) {
+              setExistingGalleryImages(prop.images.imageGallery);
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching property:", error);
+          toast.error("Failed to load property details");
+        }
+      };
+      fetchProperty();
+    }
+  }, [id, backendUrl]);
+
   // Fetch Areas when City changes
   useEffect(() => {
     if (formData.cityId) {
       const fetchAreas = async () => {
         try {
           const res = await axios.get(
-            `${backendUrl}/master/areas/${formData.cityId}`
+            `${backendUrl}/master/areas?cityId=${formData.cityId}`
           );
           if (res.data.success) setAreas(res.data.data);
         } catch (error) {
@@ -189,23 +266,29 @@ const AddRentProperty = () => {
       setFeaturedImage(file);
       setFeaturedImagePreview(URL.createObjectURL(file));
     } else {
-      setFeaturedImage(null);
-      setFeaturedImagePreview(null);
+      // Don't reset if we have an existing preview but no new file?
+      // Actually standard behavior: if user cancels file dialog, e.target.files is empty.
+      // But clearing state might be annoying if accidental.
+      // Keeping original behavior safe:
+      // setFeaturedImage(null);
+      // setFeaturedImagePreview(null);
     }
   };
 
   const handleGalleryImages = (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 0) {
-      setGalleryImages((prev) => [...prev, ...files]);
-      const newPreviews = files.map((file) => URL.createObjectURL(file));
-      setGalleryPreviews((prev) => [...prev, ...newPreviews]);
+      setNewGalleryImages((prev) => [...prev, ...files]);
     }
   };
 
   const removeGalleryImage = (index) => {
-    setGalleryImages((prev) => prev.filter((_, i) => i !== index));
-    setGalleryPreviews((prev) => prev.filter((_, i) => i !== index));
+    if (index < existingGalleryImages.length) {
+      setExistingGalleryImages((prev) => prev.filter((_, i) => i !== index));
+    } else {
+      const newIndex = index - existingGalleryImages.length;
+      setNewGalleryImages((prev) => prev.filter((_, i) => i !== newIndex));
+    }
   };
 
   // Submit
@@ -232,24 +315,48 @@ const AddRentProperty = () => {
       data.append("locationOnMap", JSON.stringify(formData.locationOnMap));
       data.append("amenitiesId", JSON.stringify(formData.amenitiesId));
 
+      data.append(
+        "existingGalleryImages",
+        JSON.stringify(existingGalleryImages)
+      );
+
       if (featuredImage) {
         data.append("featuredImage", featuredImage);
+      } else if (!id) {
+        setLoading(false);
+        return toast.error("Featured image is required");
       }
-      galleryImages.forEach((image) => {
-        data.append("galleryImages", image);
+
+      newGalleryImages.forEach((image) => {
+        data.append("imageGallery", image);
       });
 
-      const res = await axios.post(`${backendUrl}/properties/add`, data, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      let res;
+      if (id) {
+        res = await axios.put(`${backendUrl}/properties/update/${id}`, data, {
+          headers: {
+            Authorization: localStorage.getItem("adminToken"),
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } else {
+        res = await axios.post(`${backendUrl}/properties/add`, data, {
+          headers: {
+            Authorization: localStorage.getItem("adminToken"),
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
 
       if (res.data.success) {
-        toast.success("Rent property added successfully!");
+        toast.success(
+          id ? "Property updated!" : "Rent property added successfully!"
+        );
         navigate("/admin/rent-listings");
       }
     } catch (error) {
-      console.error("Error adding property", error);
-      toast.error(error.response?.data?.message || "Error adding property");
+      console.error("Error adding/updating property", error);
+      toast.error(error.response?.data?.message || "Error saving property");
     } finally {
       setLoading(false);
     }
@@ -268,7 +375,7 @@ const AddRentProperty = () => {
                 <RiArrowLeftLine size={24} />
               </Link>
               <h1 className="text-xl font-bold text-gray-900">
-                Add Property for Rent
+                {id ? "Edit Property for Rent" : "Add Property for Rent"}
               </h1>
             </div>
             <button

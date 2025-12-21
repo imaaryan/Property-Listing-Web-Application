@@ -59,7 +59,15 @@ const App = () => {
           <Route path="/admin/buy-listings" element={<BuyListings />} />
           <Route path="/admin/buy-listings/add" element={<AddBuyProperty />} />
           <Route
+            path="/admin/buy-listings/edit/:id"
+            element={<AddBuyProperty />}
+          />
+          <Route
             path="/admin/rent-listings/add"
+            element={<AddRentProperty />}
+          />
+          <Route
+            path="/admin/rent-listings/edit/:id"
             element={<AddRentProperty />}
           />
           <Route path="/admin/rent-listings" element={<RentListings />} />

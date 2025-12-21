@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AppContext } from "../../context/AppContext";
 import {
@@ -21,6 +21,7 @@ import AmenitiesSelector from "../../components/admin/property/AmenitiesSelector
 const AddBuyProperty = () => {
   const { backendUrl } = useContext(AppContext);
   const navigate = useNavigate();
+  const { id } = useParams(); // Get ID for Edit Mode
 
   const [loading, setLoading] = useState(false);
   const [cities, setCities] = useState([]);
@@ -29,10 +30,17 @@ const AddBuyProperty = () => {
   const [propertyTypes, setPropertyTypes] = useState([]);
 
   // File States
-  const [featuredImage, setFeaturedImage] = useState(null);
-  const [featuredImagePreview, setFeaturedImagePreview] = useState(null);
-  const [galleryImages, setGalleryImages] = useState([]);
-  const [galleryPreviews, setGalleryPreviews] = useState([]);
+  const [featuredImage, setFeaturedImage] = useState(null); // New file
+  const [featuredImagePreview, setFeaturedImagePreview] = useState(null); // URL or Blob
+
+  const [existingGalleryImages, setExistingGalleryImages] = useState([]); // URLs from backend
+  const [newGalleryImages, setNewGalleryImages] = useState([]); // New Files
+
+  // Derived previews for UI
+  const galleryPreviews = [
+    ...existingGalleryImages,
+    ...newGalleryImages.map((file) => URL.createObjectURL(file)),
+  ];
 
   // Form State
   const [formData, setFormData] = useState({
@@ -93,28 +101,18 @@ const AddBuyProperty = () => {
     isPublished: true,
   });
 
-  // Fetch Initial Data
+  // Fetch Initial Data (Masters)
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
         const cityRes = await axios.get(`${backendUrl}/master/cities`);
         if (cityRes.data.success) setCities(cityRes.data.data);
 
-        try {
-          const amenityRes = await axios.get(`${backendUrl}/master/amenities`);
-          if (amenityRes.data.success) setAmenitiesList(amenityRes.data.data);
-        } catch (err) {
-          console.log("Amenities fetch error", err);
-        }
+        const amenityRes = await axios.get(`${backendUrl}/master/amenities`);
+        if (amenityRes.data.success) setAmenitiesList(amenityRes.data.data);
 
-        try {
-          const typesRes = await axios.get(
-            `${backendUrl}/master/property-types`
-          );
-          if (typesRes.data.success) setPropertyTypes(typesRes.data.data);
-        } catch (err) {
-          console.log("Property Types fetch error", err);
-        }
+        const typesRes = await axios.get(`${backendUrl}/master/property-types`);
+        if (typesRes.data.success) setPropertyTypes(typesRes.data.data);
       } catch (error) {
         console.error("Error fetching initial data", error);
         toast.error("Failed to load form data sources");
@@ -123,7 +121,85 @@ const AddBuyProperty = () => {
     fetchInitialData();
   }, [backendUrl]);
 
-  // Fetch Areas
+  // Fetch Property Data for Edit Mode
+  useEffect(() => {
+    if (id) {
+      const fetchProperty = async () => {
+        try {
+          const { data } = await axios.get(
+            `${backendUrl}/properties/get/${id}`
+          );
+          if (data.success) {
+            const prop = data.data;
+
+            // Populate Form Data
+            setFormData({
+              title: prop.title || "",
+              shortDescription: prop.shortDescription || "",
+              propertyType: prop.propertyType || "",
+              propertyFor: "Buy",
+              areaId: prop.areaId?._id || prop.areaId || "", // Handle populated or raw ID
+              cityId: prop.areaId?.city?._id || "", // Assuming backend populates deeply
+              bedrooms: prop.bedrooms || "",
+              bathrooms: prop.bathrooms || "",
+              propertySize: prop.propertySize || "",
+              propertySizeInYard: prop.propertySizeInYard || "",
+              pricing: prop.pricing || {
+                askingPrice: "",
+                stampDutyPercentage: "",
+                stampDutyCost: "",
+                advocateFee: "",
+                receiptFee: "",
+                brokerCommissionPercentage: "",
+                brokerCommissionCost: "",
+                finelPricing: "",
+                priceHistory: [],
+              },
+              khatuniDetails: prop.khatuniDetails || {
+                currentOwner: "",
+                previousOwner: "",
+                khasraNumber: "",
+                currentOwnerPhoneNumber: "",
+              },
+              propertyDetails: {
+                ...prop.propertyDetails,
+                // Convert booleans back to "Yes"/"No" strings if necessary for Select inputs
+                underMDDA: prop.propertyDetails?.underMDDA ? "Yes" : "No",
+                underNagarNigam: prop.propertyDetails?.underNagarNigam
+                  ? "Yes"
+                  : "No",
+                waterSupply: prop.propertyDetails?.waterSupply ? "Yes" : "No",
+                powerSupply: prop.propertyDetails?.powerSupply ? "Yes" : "No",
+                loanAvailable: prop.propertyDetails?.loanAvailable
+                  ? "Yes"
+                  : "No",
+              },
+              locationOnMap: prop.locationOnMap || {
+                latitude: "",
+                longitude: "",
+              },
+              amenitiesId: prop.amenitiesId?.map((a) => a._id || a) || [], // Handle populated
+              isPublished: prop.isPublished,
+            });
+
+            // Handle Images
+            if (prop.images?.featuredImage) {
+              setFeaturedImagePreview(prop.images.featuredImage);
+            }
+            if (prop.images?.imageGallery) {
+              setExistingGalleryImages(prop.images.imageGallery);
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching property:", error);
+          toast.error("Failed to load property details");
+        }
+      };
+      fetchProperty();
+    }
+  }, [id, backendUrl]);
+
+  // Fetch Areas (dependent on cityId)
   useEffect(() => {
     if (formData.cityId) {
       const fetchAreas = async () => {
@@ -248,15 +324,19 @@ const AddBuyProperty = () => {
   const handleGalleryImages = (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 0) {
-      setGalleryImages((prev) => [...prev, ...files]);
-      const newPreviews = files.map((file) => URL.createObjectURL(file));
-      setGalleryPreviews((prev) => [...prev, ...newPreviews]);
+      setNewGalleryImages((prev) => [...prev, ...files]);
     }
   };
 
   const removeGalleryImage = (index) => {
-    setGalleryImages((prev) => prev.filter((_, i) => i !== index));
-    setGalleryPreviews((prev) => prev.filter((_, i) => i !== index));
+    if (index < existingGalleryImages.length) {
+      // Remove from existing
+      setExistingGalleryImages((prev) => prev.filter((_, i) => i !== index));
+    } else {
+      // Remove from new
+      const newIndex = index - existingGalleryImages.length;
+      setNewGalleryImages((prev) => prev.filter((_, i) => i !== newIndex));
+    }
   };
 
   const handleAmenityChange = (id) => {
@@ -313,35 +393,54 @@ const AddBuyProperty = () => {
       );
       submitData.append("amenitiesId", JSON.stringify(formData.amenitiesId));
 
+      // Sending existing images for backend to preserve
+      submitData.append(
+        "existingGalleryImages",
+        JSON.stringify(existingGalleryImages)
+      );
+
       if (featuredImage) {
         submitData.append("featuredImage", featuredImage);
-      } else {
+      } else if (!id) {
+        // Require image only for Create mode
         setLoading(false);
         return toast.error("Featured image is required");
       }
 
-      galleryImages.forEach((file) => {
+      newGalleryImages.forEach((file) => {
         submitData.append("imageGallery", file);
       });
 
-      const { data } = await axios.post(
-        `${backendUrl}/properties/add`,
-        submitData,
-        {
+      let res;
+      if (id) {
+        // Edit Mode
+        res = await axios.put(
+          `${backendUrl}/properties/update/${id}`,
+          submitData,
+          {
+            headers: {
+              Authorization: localStorage.getItem("adminToken"),
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+      } else {
+        // Add Mode
+        res = await axios.post(`${backendUrl}/properties/add`, submitData, {
           headers: {
             Authorization: localStorage.getItem("adminToken"),
             "Content-Type": "multipart/form-data",
           },
-        }
-      );
+        });
+      }
 
-      if (data.success) {
-        toast.success("Property added successfully!");
+      if (res.data.success) {
+        toast.success(id ? "Property updated!" : "Property added!");
         navigate("/admin/buy-listings");
       }
     } catch (error) {
-      console.error("Error adding property", error);
-      toast.error(error.response?.data?.message || "Failed to add property");
+      console.error("Error saving property", error);
+      toast.error(error.response?.data?.message || "Failed to save property");
     } finally {
       setLoading(false);
     }
@@ -360,7 +459,7 @@ const AddBuyProperty = () => {
           </button>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">
-              Add Property to Sale
+              {id ? "Edit Property" : "Add Property to Sale"}
             </h2>
             <p className="text-sm text-gray-500 mt-0.5">
               Fill in the details to list a new property

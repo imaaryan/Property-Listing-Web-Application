@@ -304,8 +304,19 @@ export const updateProperty = async (req, res) => {
     }
 
     // 1. Handle New Images (if any)
+    // 1. Handle New Images (if any)
     let featuredImageUrl = property.images.featuredImage;
-    let imageGalleryUrls = property.images.imageGallery;
+    // Check if client provided a filtered list of existing images (for deletion support)
+    // If sent as multipart form data substring, parse it.
+    let imageGalleryUrls;
+    if (req.body.existingGalleryImages) {
+      imageGalleryUrls =
+        typeof req.body.existingGalleryImages === "string"
+          ? JSON.parse(req.body.existingGalleryImages)
+          : req.body.existingGalleryImages;
+    } else {
+      imageGalleryUrls = property.images.imageGallery;
+    }
 
     // Update Featured Image if provided
     if (req.files?.featuredImage?.[0]) {
