@@ -19,6 +19,7 @@ import Login from "./pages/admin/Login";
 import AdminLayout from "./layouts/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import BuyListings from "./pages/admin/BuyListings";
+import AddBuyProperty from "./pages/admin/AddBuyProperty";
 import RentListings from "./pages/admin/RentListings";
 
 const App = () => {
@@ -52,6 +53,7 @@ const App = () => {
         <Route element={<AdminLayout />}>
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/buy-listings" element={<BuyListings />} />
+          <Route path="/admin/buy-listings/add" element={<AddBuyProperty />} />
           <Route path="/admin/rent-listings" element={<RentListings />} />
           <Route
             path="/admin/add-locations"
