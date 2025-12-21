@@ -26,6 +26,15 @@ const FormInput = ({
         placeholder={placeholder}
         required={required}
         disabled={disabled}
+        onClick={(e) => {
+          if (type === "date") {
+            try {
+              e.target.showPicker();
+            } catch (error) {
+              // Fallback or ignore if not supported
+            }
+          }
+        }}
         className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all bg-white disabled:bg-gray-100 disabled:text-gray-500"
       />
     </div>
