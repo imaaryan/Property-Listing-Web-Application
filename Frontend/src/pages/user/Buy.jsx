@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, useCallback } from "react";
 import Card from "../../components/user/Card.jsx";
+import SkeletonCard from "../../components/user/SkeletonCard.jsx";
 import Filter from "../../components/user/Filter.jsx";
 import { RiEqualizerLine, RiLoader4Line } from "@remixicon/react";
 import Map from "../../components/user/Map.jsx";
@@ -169,8 +170,12 @@ const Buy = () => {
         {/* Split View Content */}
         <div className="flex-1 overflow-hidden relative">
           {loading ? (
-            <div className="w-full h-full flex justify-center items-center">
-              <span className="loading loading-spinner loading-lg text-primary"></span>
+            <div className="w-full h-full overflow-y-auto px-4 pb-20 pt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[...Array(6)].map((_, index) => (
+                  <SkeletonCard key={index} />
+                ))}
+              </div>
             </div>
           ) : properties.length === 0 ? (
             <div className="w-full h-full flex flex-col items-center justify-center text-center">

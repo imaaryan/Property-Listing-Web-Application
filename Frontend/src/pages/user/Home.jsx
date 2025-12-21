@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, useCallback } from "react";
 import Card from "../../components/user/Card.jsx";
+import SkeletonCard from "../../components/user/SkeletonCard.jsx";
 import Filter from "../../components/user/Filter.jsx";
 import { RiEqualizerLine, RiLoader4Line } from "@remixicon/react";
 import Map from "../../components/user/Map.jsx";
@@ -170,8 +171,10 @@ const Home = () => {
 
       <div className="max-w-[1410px] mx-auto z-10 pb-20">
         {loading ? (
-          <div className="col-span-full text-center py-20 min-h-[50vh] flex justify-center items-center">
-            <span className="loading loading-spinner loading-lg text-primary"></span>
+          <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 p-4 2xl:p-0 gap-4 pb-4 pt-2 w-full max-w-[1440px] mx-auto">
+            {[...Array(6)].map((_, index) => (
+              <SkeletonCard key={index} />
+            ))}
           </div>
         ) : properties.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 min-h-[50vh] text-center">

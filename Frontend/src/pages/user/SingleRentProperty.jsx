@@ -6,6 +6,7 @@ import PropertyTabs from "../../components/user/singleProperty/PropertyTabs";
 import PropertySidebar from "../../components/user/singleProperty/PropertySidebar";
 import axios from "axios";
 import { AppContext } from "../../context/AppContext.jsx";
+import SkeletonPropertyDetails from "../../components/user/singleProperty/SkeletonPropertyDetails.jsx";
 
 const SingleRentProperty = () => {
   const { id } = useParams();
@@ -29,8 +30,7 @@ const SingleRentProperty = () => {
     fetchProperty();
   }, [id, backendUrl]);
 
-  if (loading)
-    return <div className="text-center p-10">Loading Property Details...</div>;
+  if (loading) return <SkeletonPropertyDetails />;
 
   if (!currentProperty)
     return <div className="text-center p-10">Property Not Found</div>;

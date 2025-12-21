@@ -8,6 +8,7 @@ import PropertySidebar from "../../components/user/singleProperty/PropertySideba
 import EMICalculator from "../../components/common/EMICalculator";
 import axios from "axios";
 import { AppContext } from "../../context/AppContext.jsx";
+import SkeletonPropertyDetails from "../../components/user/singleProperty/SkeletonPropertyDetails.jsx";
 
 const SingleBuyProperty = () => {
   const { id } = useParams();
@@ -32,8 +33,7 @@ const SingleBuyProperty = () => {
     fetchProperty();
   }, [id, backendUrl]);
 
-  if (loading)
-    return <div className="text-center p-10">Loading Property Details...</div>;
+  if (loading) return <SkeletonPropertyDetails />;
 
   if (!currentProperty)
     return <div className="text-center p-10">Property Not Found</div>;
