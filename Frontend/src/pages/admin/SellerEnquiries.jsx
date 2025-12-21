@@ -23,7 +23,7 @@ const SellerEnquiries = () => {
   const fetchEnquiries = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${backendUrl}/enquiry/all`, {
+      const res = await axios.get(`${backendUrl}/enquiries/all`, {
         headers: { Authorization: localStorage.getItem("adminToken") },
       });
       if (res.data.success) {
@@ -45,7 +45,7 @@ const SellerEnquiries = () => {
   const handleMarkAsRead = async (id) => {
     try {
       const res = await axios.patch(
-        `${backendUrl}/enquiry/${id}/read`,
+        `${backendUrl}/enquiries/${id}/read`,
         {},
         { headers: { Authorization: localStorage.getItem("adminToken") } }
       );
@@ -61,7 +61,7 @@ const SellerEnquiries = () => {
   const handleMarkAsUnread = async (id) => {
     try {
       const res = await axios.patch(
-        `${backendUrl}/enquiry/${id}/unread`,
+        `${backendUrl}/enquiries/${id}/unread`,
         {},
         { headers: { Authorization: localStorage.getItem("adminToken") } }
       );
@@ -78,7 +78,7 @@ const SellerEnquiries = () => {
     if (!window.confirm("Are you sure you want to delete this enquiry?"))
       return;
     try {
-      const res = await axios.delete(`${backendUrl}/enquiry/${id}`, {
+      const res = await axios.delete(`${backendUrl}/enquiries/${id}`, {
         headers: { Authorization: localStorage.getItem("adminToken") },
       });
       if (res.data.success) {
