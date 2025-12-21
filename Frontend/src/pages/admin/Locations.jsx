@@ -50,10 +50,23 @@ const Locations = () => {
     }
   };
 
+  // Pagination State
+  const [cityPage, setCityPage] = useState(1);
+  const [areaPage, setAreaPage] = useState(1);
+  const itemsPerPage = 10;
+
   useEffect(() => {
     fetchCities();
     fetchAreas();
   }, [backendUrl]);
+
+  // Pagination Helpers
+  const paginate = (items, page) => {
+    const start = (page - 1) * itemsPerPage;
+    return items.slice(start, start + itemsPerPage);
+  };
+
+  const totalPages = (items) => Math.ceil(items.length / itemsPerPage);
 
   // Handlers
   const handleAddCity = async (e) => {
@@ -183,7 +196,7 @@ const Locations = () => {
             </form>
 
             {/* List Table */}
-            <div className="w-full md:w-2/3 bg-gray-50 rounded-xl border border-gray-200 overflow-hidden">
+            <div className="w-full md:w-2/3 bg-gray-50 rounded-xl border border-gray-200 overflow-hidden flex flex-col">
               <div className="overflow-x-auto">
                 <table className="table w-full">
                   <thead>
@@ -203,7 +216,7 @@ const Locations = () => {
                         </td>
                       </tr>
                     ) : (
-                      cities.map((city) => (
+                      paginate(cities, cityPage).map((city) => (
                         <tr key={city._id} className="hover">
                           <td className="font-medium text-gray-800">
                             {city.name}
@@ -222,6 +235,28 @@ const Locations = () => {
                   </tbody>
                 </table>
               </div>
+              {/* City Pagination */}
+              {cities.length > itemsPerPage && (
+                <div className="flex justify-between items-center p-4 border-t border-gray-100">
+                  <button
+                    disabled={cityPage === 1}
+                    onClick={() => setCityPage((p) => p - 1)}
+                    className="btn btn-sm btn-ghost"
+                  >
+                    Previous
+                  </button>
+                  <span className="text-sm text-gray-500">
+                    Page {cityPage} of {totalPages(cities)}
+                  </span>
+                  <button
+                    disabled={cityPage === totalPages(cities)}
+                    onClick={() => setCityPage((p) => p + 1)}
+                    className="btn btn-sm btn-ghost"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </FormSection>
@@ -271,7 +306,7 @@ const Locations = () => {
             </form>
 
             {/* List Table */}
-            <div className="w-full md:w-2/3 bg-gray-50 rounded-xl border border-gray-200 overflow-hidden">
+            <div className="w-full md:w-2/3 bg-gray-50 rounded-xl border border-gray-200 overflow-hidden flex flex-col">
               <div className="overflow-x-auto max-h-[400px]">
                 <table className="table w-full table-pin-rows">
                   <thead>
@@ -292,7 +327,7 @@ const Locations = () => {
                         </td>
                       </tr>
                     ) : (
-                      areas.map((area) => (
+                      paginate(areas, areaPage).map((area) => (
                         <tr key={area._id} className="hover">
                           <td className="font-medium text-gray-800">
                             {area.name}
@@ -316,6 +351,28 @@ const Locations = () => {
                   </tbody>
                 </table>
               </div>
+              {/* Area Pagination */}
+              {areas.length > itemsPerPage && (
+                <div className="flex justify-between items-center p-4 border-t border-gray-100 bg-white sticky bottom-0">
+                  <button
+                    disabled={areaPage === 1}
+                    onClick={() => setAreaPage((p) => p - 1)}
+                    className="btn btn-sm btn-ghost"
+                  >
+                    Previous
+                  </button>
+                  <span className="text-sm text-gray-500">
+                    Page {areaPage} of {totalPages(areas)}
+                  </span>
+                  <button
+                    disabled={areaPage === totalPages(areas)}
+                    onClick={() => setAreaPage((p) => p + 1)}
+                    className="btn btn-sm btn-ghost"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </FormSection>

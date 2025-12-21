@@ -12,6 +12,10 @@ const Amenities = () => {
   const [amenities, setAmenities] = useState([]);
   const [newAmenity, setNewAmenity] = useState("");
 
+  // Pagination State
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 10;
+
   const fetchAmenities = async () => {
     try {
       const res = await axios.get(`${backendUrl}/master/amenities`);
@@ -27,6 +31,13 @@ const Amenities = () => {
   useEffect(() => {
     fetchAmenities();
   }, [backendUrl]);
+
+  // Pagination Helper
+  const paginatedAmenities = amenities.slice(
+    (page - 1) * itemsPerPage,
+    page * itemsPerPage
+  );
+  const totalPages = Math.ceil(amenities.length / itemsPerPage);
 
   const handleAddAmenity = async (e) => {
     e.preventDefault();
@@ -108,7 +119,7 @@ const Amenities = () => {
           </form>
 
           {/* List Table */}
-          <div className="w-full md:w-2/3 bg-gray-50 rounded-xl border border-gray-200 overflow-hidden">
+          <div className="w-full md:w-2/3 bg-gray-50 rounded-xl border border-gray-200 overflow-hidden flex flex-col">
             <div className="overflow-x-auto">
               <table className="table w-full">
                 <thead>
@@ -130,7 +141,7 @@ const Amenities = () => {
                       </td>
                     </tr>
                   ) : (
-                    amenities.map((amenity) => (
+                    paginatedAmenities.map((amenity) => (
                       <tr key={amenity._id} className="hover">
                         <td className="font-medium text-gray-800">
                           {amenity.name}
@@ -149,6 +160,29 @@ const Amenities = () => {
                 </tbody>
               </table>
             </div>
+
+            {/* Pagination Controls */}
+            {amenities.length > itemsPerPage && (
+              <div className="flex justify-between items-center p-4 border-t border-gray-100">
+                <button
+                  disabled={page === 1}
+                  onClick={() => setPage((p) => p - 1)}
+                  className="btn btn-sm btn-ghost"
+                >
+                  Previous
+                </button>
+                <span className="text-sm text-gray-500">
+                  Page {page} of {totalPages}
+                </span>
+                <button
+                  disabled={page === totalPages}
+                  onClick={() => setPage((p) => p + 1)}
+                  className="btn btn-sm btn-ghost"
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </FormSection>
