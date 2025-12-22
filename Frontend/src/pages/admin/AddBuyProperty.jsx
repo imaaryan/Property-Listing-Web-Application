@@ -750,6 +750,34 @@ const AddBuyProperty = () => {
               />
             </div>
 
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <FormInput
+                label="Land Title"
+                name="landTitle"
+                value={formData.propertyDetails.landTitle}
+                onChange={handlePropertyDetailsChange}
+                placeholder="e.g. Clear"
+              />
+              <FormInput
+                label="Development Status"
+                name="developmentStatus"
+                value={formData.propertyDetails.developmentStatus}
+                onChange={handlePropertyDetailsChange}
+                placeholder="e.g. Under Construction"
+              />
+              <FormInput
+                label="Last Transaction Date"
+                name="lastLandTransaction"
+                value={
+                  formData.propertyDetails.lastLandTransaction
+                    ? formData.propertyDetails.lastLandTransaction.split("T")[0]
+                    : ""
+                }
+                onChange={handlePropertyDetailsChange}
+                type="date"
+              />
+            </div>
+
             {/* Utilities Toggle Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
               <FormSelect
