@@ -95,10 +95,16 @@ const propertySchema = new mongoose.Schema(
 
     // Internal details
     khatuniDetails: {
-      currentOwner: String,
+      currentOwner: {
+        type: String,
+        required: [true, "Current Owner Name is required"],
+      },
       previousOwner: String,
       khasraNumber: String, // Can be number or string
-      currentOwnerPhoneNumber: Number,
+      currentOwnerPhoneNumber: {
+        type: Number,
+        required: [true, "Owner Phone Number is required"],
+      },
     },
 
     propertyDetails: {
@@ -116,7 +122,10 @@ const propertySchema = new mongoose.Schema(
       waterSupply: Boolean,
       powerSupply: Boolean,
       loanAvailable: Boolean,
-      address: String,
+      address: {
+        type: String,
+        required: [true, "Full Address is required"],
+      },
       furnishing: String, // Mostly for Rent
       avalabeFor: String, // Mostly for Rent
       availability: String, // Mostly for Rent
@@ -126,8 +135,14 @@ const propertySchema = new mongoose.Schema(
     },
 
     locationOnMap: {
-      latitude: Number,
-      longitude: Number,
+      latitude: {
+        type: Number,
+        required: [true, "Location Coordinates (Latitude) are required"],
+      },
+      longitude: {
+        type: Number,
+        required: [true, "Location Coordinates (Longitude) are required"],
+      },
     },
 
     isPublished: {

@@ -824,6 +824,7 @@ const AddBuyProperty = () => {
                 value={formData.propertyDetails.address}
                 onChange={handlePropertyDetailsChange}
                 placeholder="Complete property address..."
+                required
               />
             </div>
           </FormSection>
@@ -847,6 +848,7 @@ const AddBuyProperty = () => {
                 onChange={handleLocationChange}
                 placeholder="e.g. 30.3165"
                 type="number"
+                required
               />
               <FormInput
                 label="Longitude"
@@ -855,6 +857,7 @@ const AddBuyProperty = () => {
                 onChange={handleLocationChange}
                 placeholder="e.g. 78.0322"
                 type="number"
+                required
               />
             </div>
           </FormSection>
@@ -905,6 +908,7 @@ const AddBuyProperty = () => {
                 name="currentOwner"
                 value={formData.khatuniDetails.currentOwner}
                 onChange={handleKhatuniChange}
+                required
               />
               <FormInput
                 label="Phone Number"
@@ -912,6 +916,7 @@ const AddBuyProperty = () => {
                 value={formData.khatuniDetails.currentOwnerPhoneNumber}
                 onChange={handleKhatuniChange}
                 type="number"
+                required
               />
               <FormInput
                 label="Previous Owner"
