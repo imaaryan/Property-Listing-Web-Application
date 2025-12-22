@@ -16,6 +16,51 @@ const uploadToImageKit = async (file, folder) => {
   }
 };
 
+// Robust Error Handling Helper
+const formatErrorResponse = (res, error) => {
+  if (error.name === "ValidationError") {
+    const messages = Object.values(error.errors).map((err) => {
+      // Handle nested CastError within ValidationError
+      if (err.name === "CastError") {
+        return `Invalid value provided for field: ${err.path}`;
+      }
+      return err.message;
+    });
+    if (messages.length > 1) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Please fill up all required fields",
+        });
+    }
+    return res
+      .status(400)
+      .json({ success: false, message: messages.join(", ") });
+  }
+
+  if (error.name === "CastError") {
+    return res.status(400).json({
+      success: false,
+      message: `Invalid value provided for field: ${error.path}`,
+    });
+  }
+
+  // Handle Duplicate Key Error (E11000)
+  if (error.code === 11000) {
+    const field = Object.keys(error.keyValue)[0];
+    return res.status(400).json({
+      success: false,
+      message: `Duplicate value entered for field: ${field}`,
+    });
+  }
+
+  console.error("Unhandled Error:", error);
+  return res
+    .status(500)
+    .json({ success: false, message: "Internal Server Error" });
+};
+
 export const createProperty = async (req, res) => {
   try {
     // 1. Handle Images
@@ -75,13 +120,7 @@ export const createProperty = async (req, res) => {
 
     res.status(201).json({ success: true, data: property });
   } catch (error) {
-    if (error.name === "ValidationError") {
-      const messages = Object.values(error.errors).map((err) => err.message);
-      return res
-        .status(400)
-        .json({ success: false, message: messages.join(", ") });
-    }
-    res.status(500).json({ success: false, message: error.message });
+    return formatErrorResponse(res, error);
   }
 };
 
@@ -372,13 +411,7 @@ export const updateProperty = async (req, res) => {
 
     res.status(200).json({ success: true, data: property });
   } catch (error) {
-    if (error.name === "ValidationError") {
-      const messages = Object.values(error.errors).map((err) => err.message);
-      return res
-        .status(400)
-        .json({ success: false, message: messages.join(", ") });
-    }
-    res.status(500).json({ success: false, message: error.message });
+    return formatErrorResponse(res, error);
   }
 };
 
