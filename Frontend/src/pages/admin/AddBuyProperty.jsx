@@ -620,7 +620,7 @@ const AddBuyProperty = () => {
                 <div className="w-full h-12 px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg flex items-center font-bold text-lg text-primary">
                   ₹{" "}
                   {formData.pricing.finelPricing
-                    ? formData.pricing.finelPricing.toLocaleString()
+                    ? formData.pricing.finelPricing.toLocaleString("en-IN")
                     : "0"}
                 </div>
               </div>
