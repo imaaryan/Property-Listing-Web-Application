@@ -719,18 +719,18 @@ const AddBuyProperty = () => {
                 onChange={handlePropertyDetailsChange}
                 placeholder="e.g. 30ft"
               />
-              <FormSelect
+              <FormInput
                 label="Approved By"
                 name="approvedBy"
                 value={formData.propertyDetails.approvedBy}
                 onChange={handlePropertyDetailsChange}
-                options={["MDDA", "Nagar Nigam", "Panchayat", "Other"]}
+                placeholder="Nagar Nigam"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <FormInput
-                label="Allowable Cons."
+                label="Allowable Construction Stilt"
                 name="allowableConstructionStilt"
                 value={formData.propertyDetails.allowableConstructionStilt}
                 onChange={handlePropertyDetailsChange}
