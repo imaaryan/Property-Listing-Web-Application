@@ -69,7 +69,7 @@ const Footer = () => {
       <footer className=" bg-neutral text-neutral-content items-center p-4">
         <div className="md:flex md:justify-between max-w-[1440px] mx-auto  md:px-4">
           <p className="text-sm text-center">
-            Copyright © {new Date().getFullYear()}  Khasara Khatauni - All right
+            Copyright © {new Date().getFullYear()}  Khasra Khatauni - All right
             reserved
           </p>
           <p className="text-sm text-center">
