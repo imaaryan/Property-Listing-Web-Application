@@ -138,7 +138,7 @@ const PropertySidebar = ({
         Call Current Owner
       </button>
 
-      <button
+      {/* <button
         className="btn btn-outline border-gray-400 text-gray-600 text-lg font-normal hover:bg-secondary hover:text-primary"
         onClick={() =>
           navigate(
@@ -150,7 +150,7 @@ const PropertySidebar = ({
       >
         <RiInbox2Line size={22} />
         Send Enquiry
-      </button>
+      </button> */}
 
       {propertyFor === "Buy" && (
         <button
