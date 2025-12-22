@@ -15,14 +15,17 @@ const propertySchema = new mongoose.Schema(
       maxlength: [500, "Description cannot be more than 500 characters"],
     },
     images: {
-      featuredImage: { type: String, required: true },
+      featuredImage: {
+        type: String,
+        required: [true, "Featured Image is required"],
+      },
       imageGallery: [String],
     },
     // References to other models
     areaId: {
       type: mongoose.Schema.ObjectId,
       ref: "Area",
-      required: true,
+      required: [true, "Area ID is required"],
     },
     amenitiesId: [
       {
@@ -33,7 +36,7 @@ const propertySchema = new mongoose.Schema(
 
     propertyType: {
       type: String,
-      required: true,
+      required: [true, "Property Type is required"],
       enum: [
         "Residential Plot",
         "Independent House",
@@ -50,14 +53,20 @@ const propertySchema = new mongoose.Schema(
     // --- The Discriminator Field ---
     propertyFor: {
       type: String,
-      required: true,
+      required: [true, "Property For (Buy/Rent) is required"],
       enum: ["Buy", "Rent"], // This determines the structure of 'pricing'
     },
 
     bedrooms: { type: Number, default: 0 },
     bathrooms: { type: Number, default: 0 },
-    propertySize: { type: Number, required: true }, // In sq ft
-    propertySizeInYard: { type: Number, required: true }, // In sq yard
+    propertySize: {
+      type: Number,
+      required: [true, "Property Size is required"],
+    }, // In sq ft
+    propertySizeInYard: {
+      type: Number,
+      required: [true, "Property Size in Yards is required"],
+    }, // In sq yard
 
     // --- Flexible Pricing Object ---
     // We define ALL possible fields here as optional.

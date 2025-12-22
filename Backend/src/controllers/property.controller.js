@@ -75,6 +75,12 @@ export const createProperty = async (req, res) => {
 
     res.status(201).json({ success: true, data: property });
   } catch (error) {
+    if (error.name === "ValidationError") {
+      const messages = Object.values(error.errors).map((err) => err.message);
+      return res
+        .status(400)
+        .json({ success: false, message: messages.join(", ") });
+    }
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -366,6 +372,12 @@ export const updateProperty = async (req, res) => {
 
     res.status(200).json({ success: true, data: property });
   } catch (error) {
+    if (error.name === "ValidationError") {
+      const messages = Object.values(error.errors).map((err) => err.message);
+      return res
+        .status(400)
+        .json({ success: false, message: messages.join(", ") });
+    }
     res.status(500).json({ success: false, message: error.message });
   }
 };
