@@ -13,7 +13,6 @@ import SkeletonPropertyDetails from "../../components/user/singleProperty/Skelet
 const SingleBuyProperty = () => {
   const { id } = useParams();
   const { backendUrl } = useContext(AppContext);
-  const [showEmiCalculator, setShowEmiCalculator] = useState(false);
   const [currentProperty, setCurrentProperty] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -55,7 +54,6 @@ const SingleBuyProperty = () => {
               areaName={areaName}
               cityName={cityName}
               propertyFor="Buy"
-              onOpenEmiCalculator={() => setShowEmiCalculator(true)}
             />
           </div>
 
@@ -73,6 +71,13 @@ const SingleBuyProperty = () => {
             amenities={amenities}
           />
 
+          {/* EMI Calculator */}
+          <EMICalculator
+            isOpen={true}
+            inline={true}
+            defaultPrice={currentProperty.pricing?.finelPricing || 0}
+          />
+
           {/* Property Cordinates in Map */}
           <PropertyMap currentProperty={currentProperty} />
         </div>
@@ -84,15 +89,9 @@ const SingleBuyProperty = () => {
             areaName={areaName}
             cityName={cityName}
             propertyFor="Buy"
-            onOpenEmiCalculator={() => setShowEmiCalculator(true)}
           />
         </div>
       </div>
-      <EMICalculator
-        isOpen={showEmiCalculator}
-        onClose={() => setShowEmiCalculator(false)}
-        defaultPrice={currentProperty.pricing?.finelPricing || 0}
-      />
     </>
   );
 };

@@ -152,15 +152,9 @@ const PropertySidebar = ({
         Send Enquiry
       </button> */}
 
-      {propertyFor === "Buy" && (
-        <button
-          className="btn btn-outline border-gray-400 text-gray-600 hover:bg-secondary text-lg font-normal hover:text-primary"
-          onClick={onOpenEmiCalculator}
-        >
-          <RiCalculatorLine size={22} />
-          EMI Calculator
-        </button>
-      )}
+      {propertyFor === "Buy" &&
+        // Button removed as EMI calculator is now inline
+        null}
     </div>
   );
 };
