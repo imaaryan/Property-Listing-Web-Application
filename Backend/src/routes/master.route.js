@@ -8,10 +8,6 @@ import {
   getAreas,
   updateArea,
   deleteArea,
-  addAmenity,
-  getAmenities,
-  updateAmenity,
-  deleteAmenity,
   getPropertyTypes,
 } from "../controllers/master.controller.js";
 import auth from "../middlewares/auth.middlewares.js";
@@ -30,11 +26,7 @@ masterRouter.get("/areas", getAreas); // Public
 masterRouter.delete("/area/:id", auth, deleteArea); // Admin only
 masterRouter.put("/area/:id", auth, updateArea); // Admin only
 
-// Amenity Routes
-masterRouter.post("/amenity", auth, addAmenity); // Admin only
-masterRouter.get("/amenities", getAmenities); // Public
-masterRouter.delete("/amenity/:id", auth, deleteAmenity); // Admin only
-masterRouter.put("/amenity/:id", auth, updateAmenity); // Admin only
+// Amenity routes removed
 
 // Property Type Routes
 masterRouter.get("/property-types", getPropertyTypes);

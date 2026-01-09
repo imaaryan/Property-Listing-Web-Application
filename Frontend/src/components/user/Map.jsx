@@ -2,7 +2,9 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useState, useEffect } from "react";
 import { divIcon } from "leaflet";
+import { renderToStaticMarkup } from "react-dom/server";
 import Pin from "./Pin.jsx";
+import { getIconComponent } from "../../utils/iconMapping";
 
 import { latLngBounds } from "leaflet";
 
@@ -27,7 +29,7 @@ const RecenterAutomatically = ({ center, zoom, items }) => {
   return null;
 };
 
-function Map({ items, center }) {
+function Map({ items, center, amenities = [] }) {
   const [currentLocation, setCurrentLocation] = useState(null);
 
   // Filter out items without valid location data to prevent crashes
@@ -49,6 +51,14 @@ function Map({ items, center }) {
       );
     }
   }, [center, currentLocation]);
+
+  // Merge items and amenities for bounds calculation
+  const allPoints = [
+    ...validItems,
+    ...amenities.map((a) => ({
+      locationOnMap: a.location,
+    })),
+  ];
 
   // Default: Dehradun if nothing else
   const mapCenter = center ||
@@ -72,7 +82,7 @@ function Map({ items, center }) {
 
       {/* Auto Re-center when props change */}
       <RecenterAutomatically
-        items={validItems}
+        items={allPoints.length > 0 ? allPoints : validItems}
         center={center || currentLocation}
         zoom={center ? 14 : 11}
       />
@@ -94,6 +104,45 @@ function Map({ items, center }) {
           }}
         />
       ))}
+
+      {/* Render Amenity Markers */}
+      {amenities.map((amenity, index) => {
+        const IconComponent = getIconComponent(amenity.icon);
+        const iconHtml = renderToStaticMarkup(
+          <div className="bg-white text-blue-600 p-1.5 rounded-full border-2 border-blue-600 shadow-md flex items-center justify-center w-8 h-8">
+            <IconComponent size={16} />
+          </div>
+        );
+
+        const amenityIcon = divIcon({
+          html: iconHtml,
+          className: "bg-transparent",
+          iconSize: [32, 32],
+          iconAnchor: [16, 32],
+          popupAnchor: [0, -32],
+        });
+
+        return (
+          <Marker
+            key={`amenity-${index}`}
+            position={[amenity.location.latitude, amenity.location.longitude]}
+            icon={amenityIcon}
+          >
+            <Popup>
+              <div className="p-1">
+                <h3 className="font-bold text-gray-800 text-sm mb-1">
+                  {amenity.name}
+                </h3>
+                {amenity.description && (
+                  <p className="text-xs text-gray-600 leading-snug">
+                    {amenity.description}
+                  </p>
+                )}
+              </div>
+            </Popup>
+          </Marker>
+        );
+      })}
 
       {/* User's current location */}
       {currentLocation && (

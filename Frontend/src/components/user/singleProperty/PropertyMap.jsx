@@ -19,6 +19,7 @@ const PropertyMap = ({ currentProperty }) => {
           currentProperty.locationOnMap.latitude,
           currentProperty.locationOnMap.longitude,
         ]}
+        amenities={currentProperty.nearbyAmenities || []}
       />
     </div>
   );

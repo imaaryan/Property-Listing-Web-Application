@@ -27,12 +27,10 @@ const formatErrorResponse = (res, error) => {
       return err.message;
     });
     if (messages.length > 1) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Please fill up all required fields",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Please fill up all required fields",
+      });
     }
     return res
       .status(400)
@@ -109,10 +107,10 @@ export const createProperty = async (req, res) => {
         typeof req.body.locationOnMap === "string"
           ? JSON.parse(req.body.locationOnMap)
           : req.body.locationOnMap,
-      amenitiesId:
-        typeof req.body.amenitiesId === "string"
-          ? JSON.parse(req.body.amenitiesId)
-          : req.body.amenitiesId,
+      nearbyAmenities:
+        typeof req.body.nearbyAmenities === "string"
+          ? JSON.parse(req.body.nearbyAmenities)
+          : req.body.nearbyAmenities,
     };
 
     // 3. Create Property
@@ -218,7 +216,6 @@ export const getAllProperties = async (req, res) => {
         path: "areaId",
         populate: { path: "city" },
       })
-      .populate("amenitiesId")
       .skip(skip)
       .limit(Number(limit))
       .sort({ createdAt: -1 }); // Newest first
@@ -318,12 +315,10 @@ export const getStats = async (req, res) => {
 export const getPropertyById = async (req, res) => {
   try {
     const { id } = req.params;
-    const property = await Property.findById(id)
-      .populate({
-        path: "areaId",
-        populate: { path: "city" }, // Populate City inside Area
-      })
-      .populate("amenitiesId");
+    const property = await Property.findById(id).populate({
+      path: "areaId",
+      populate: { path: "city" }, // Populate City inside Area
+    });
 
     if (!property) {
       return res
@@ -400,8 +395,11 @@ export const updateProperty = async (req, res) => {
       updateData.khatuniDetails = JSON.parse(req.body.khatuniDetails);
     if (req.body.locationOnMap && typeof req.body.locationOnMap === "string")
       updateData.locationOnMap = JSON.parse(req.body.locationOnMap);
-    if (req.body.amenitiesId && typeof req.body.amenitiesId === "string")
-      updateData.amenitiesId = JSON.parse(req.body.amenitiesId);
+    if (
+      req.body.nearbyAmenities &&
+      typeof req.body.nearbyAmenities === "string"
+    )
+      updateData.nearbyAmenities = JSON.parse(req.body.nearbyAmenities);
 
     // 3. Update Property
     property = await Property.findByIdAndUpdate(id, updateData, {

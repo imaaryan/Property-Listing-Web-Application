@@ -2,7 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AppContext } from "../../context/AppContext";
-import { RiArrowLeftLine, RiSaveLine } from "@remixicon/react";
+// Imports handled in the block above
+
 import { toast } from "react-toastify";
 
 // New Components
@@ -11,7 +12,13 @@ import FormInput from "../../components/admin/property/FormInput";
 import FormSelect from "../../components/admin/property/FormSelect";
 import FormTextarea from "../../components/admin/property/FormTextarea";
 import ImageUpload from "../../components/admin/property/ImageUpload";
-import AmenitiesSelector from "../../components/admin/property/AmenitiesSelector";
+import IconSelector from "../../components/admin/property/IconSelector";
+import {
+  RiArrowLeftLine,
+  RiSaveLine,
+  RiDeleteBinLine,
+  RiAddLine,
+} from "@remixicon/react";
 
 const AddRentProperty = () => {
   const { backendUrl } = useContext(AppContext);
@@ -21,7 +28,6 @@ const AddRentProperty = () => {
   const [loading, setLoading] = useState(false);
   const [cities, setCities] = useState([]);
   const [areas, setAreas] = useState([]);
-  const [amenitiesList, setAmenitiesList] = useState([]);
   const [propertyTypes, setPropertyTypes] = useState([]);
 
   // File States
@@ -94,7 +100,12 @@ const AddRentProperty = () => {
       longitude: "",
     },
 
-    amenitiesId: [],
+    locationOnMap: {
+      latitude: "",
+      longitude: "",
+    },
+
+    nearbyAmenities: [],
     isPublished: true,
   });
 
@@ -107,9 +118,6 @@ const AddRentProperty = () => {
 
         const typeRes = await axios.get(`${backendUrl}/master/property-types`);
         if (typeRes.data.success) setPropertyTypes(typeRes.data.data);
-
-        const amenityRes = await axios.get(`${backendUrl}/master/amenities`);
-        if (amenityRes.data.success) setAmenitiesList(amenityRes.data.data);
       } catch (error) {
         console.error("Error fetching initial data", error);
         toast.error("Failed to load form data");
@@ -167,7 +175,11 @@ const AddRentProperty = () => {
                 latitude: "",
                 longitude: "",
               },
-              amenitiesId: prop.amenitiesId?.map((a) => a._id || a) || [],
+              locationOnMap: prop.locationOnMap || {
+                latitude: "",
+                longitude: "",
+              },
+              nearbyAmenities: prop.nearbyAmenities || [],
               isPublished: prop.isPublished,
             });
 
@@ -245,17 +257,39 @@ const AddRentProperty = () => {
     }));
   };
 
-  const handleAmenityChange = (id) => {
+  // Nearby Amenities Handlers
+  const addNearbyAmenity = () => {
+    setFormData((prev) => ({
+      ...prev,
+      nearbyAmenities: [
+        ...prev.nearbyAmenities,
+        {
+          id: Date.now(),
+          name: "",
+          icon: "",
+          description: "",
+          location: { latitude: "", longitude: "" },
+        },
+      ],
+    }));
+  };
+
+  const removeNearbyAmenity = (index) => {
+    setFormData((prev) => ({
+      ...prev,
+      nearbyAmenities: prev.nearbyAmenities.filter((_, i) => i !== index),
+    }));
+  };
+
+  const updateNearbyAmenity = (index, field, value) => {
     setFormData((prev) => {
-      const isSelected = prev.amenitiesId.includes(id);
-      if (isSelected) {
-        return {
-          ...prev,
-          amenitiesId: prev.amenitiesId.filter((item) => item !== id),
-        };
+      const newAmenities = [...prev.nearbyAmenities];
+      if (field === "latitude" || field === "longitude") {
+        newAmenities[index].location[field] = value;
       } else {
-        return { ...prev, amenitiesId: [...prev.amenitiesId, id] };
+        newAmenities[index][field] = value;
       }
+      return { ...prev, nearbyAmenities: newAmenities };
     });
   };
 
@@ -304,7 +338,8 @@ const AddRentProperty = () => {
           key !== "propertyDetails" &&
           key !== "khatuniDetails" &&
           key !== "locationOnMap" &&
-          key !== "amenitiesId"
+          key !== "locationOnMap" &&
+          key !== "nearbyAmenities"
         ) {
           data.append(key, formData[key]);
         }
@@ -322,7 +357,8 @@ const AddRentProperty = () => {
       data.append("propertyDetails", JSON.stringify(formattedPropertyDetails));
       data.append("khatuniDetails", JSON.stringify(formData.khatuniDetails));
       data.append("locationOnMap", JSON.stringify(formData.locationOnMap));
-      data.append("amenitiesId", JSON.stringify(formData.amenitiesId));
+      data.append("locationOnMap", JSON.stringify(formData.locationOnMap));
+      data.append("nearbyAmenities", JSON.stringify(formData.nearbyAmenities));
 
       data.append(
         "existingGalleryImages",
@@ -569,12 +605,90 @@ const AddRentProperty = () => {
             </div>
           </FormSection>
 
-          <FormSection title="Amenities">
-            <AmenitiesSelector
-              amenitiesList={amenitiesList}
-              selectedAmenities={formData.amenitiesId}
-              onAmenityChange={handleAmenityChange}
-            />
+          {/* New Section: Nearby Amenities */}
+          <FormSection title="Nearby Amenities">
+            <div className="space-y-6">
+              {formData.nearbyAmenities.map((amenity, index) => (
+                <div
+                  key={amenity._id || amenity.id || index}
+                  className="p-4 border rounded-lg bg-gray-50 relative"
+                >
+                  <button
+                    type="button"
+                    onClick={() => removeNearbyAmenity(index)}
+                    className="absolute top-2 right-2 text-red-500 hover:text-red-700 hover:bg-red-50 p-1 rounded-full transition-colors"
+                  >
+                    <RiDeleteBinLine size={18} />
+                  </button>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <FormInput
+                      label="Amenity Name"
+                      name={`name-${index}`}
+                      value={amenity.name}
+                      onChange={(e) =>
+                        updateNearbyAmenity(index, "name", e.target.value)
+                      }
+                      placeholder="e.g. City Hospital"
+                    />
+                    <IconSelector
+                      selectedIcon={amenity.icon}
+                      onSelect={(icon) =>
+                        updateNearbyAmenity(index, "icon", icon)
+                      }
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <FormTextarea
+                      label="Description"
+                      name={`desc-${index}`}
+                      value={amenity.description}
+                      onChange={(e) =>
+                        updateNearbyAmenity(
+                          index,
+                          "description",
+                          e.target.value
+                        )
+                      }
+                      placeholder="Short description..."
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormInput
+                      label="Latitude"
+                      name={`lat-${index}`}
+                      value={amenity.location.latitude}
+                      onChange={(e) =>
+                        updateNearbyAmenity(index, "latitude", e.target.value)
+                      }
+                      placeholder="e.g. 30.1234"
+                      type="number"
+                    />
+                    <FormInput
+                      label="Longitude"
+                      name={`lng-${index}`}
+                      value={amenity.location.longitude}
+                      onChange={(e) =>
+                        updateNearbyAmenity(index, "longitude", e.target.value)
+                      }
+                      placeholder="e.g. 78.1234"
+                      type="number"
+                    />
+                  </div>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                onClick={addNearbyAmenity}
+                className="btn btn-outline btn-primary w-full gap-2 border-dashed border-2"
+              >
+                <RiAddLine size={20} />
+                Add Nearby Amenity
+              </button>
+            </div>
           </FormSection>
 
           <FormSection title="Location Coordinates">

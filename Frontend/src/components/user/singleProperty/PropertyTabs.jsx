@@ -1,7 +1,7 @@
 import React from "react";
 import Moment from "moment";
-import { FaRegCheckCircle } from "react-icons/fa";
 import PriceTrendGraph from "./PriceTrendGraph";
+import { getIconComponent } from "../../../utils/iconMapping";
 
 const PropertyTabs = ({ currentProperty, amenities, propertyFor = "Buy" }) => {
   return (
@@ -274,21 +274,30 @@ const PropertyTabs = ({ currentProperty, amenities, propertyFor = "Buy" }) => {
         {/* Amenities Tab */}
         <div className="tab-content bg-white rounded-md py-3">
           <div className="grid xl:grid-cols-4 gap-6 p-4">
-            {currentProperty.amenitiesId.map((item) => {
-              const amenity =
-                typeof item === "object"
-                  ? item
-                  : amenities.find((a) => a._id === item);
-              return amenity ? (
-                <div
-                  key={amenity._id}
-                  className="flex gap-2 text-base items-center"
-                >
-                  <FaRegCheckCircle className="text-primary" />
-                  <p>{amenity.name}</p>
-                </div>
-              ) : null;
-            })}
+            {currentProperty.nearbyAmenities &&
+              currentProperty.nearbyAmenities.map((amenity, index) => {
+                const IconComponent = getIconComponent(amenity.icon);
+                return (
+                  <div
+                    key={index}
+                    className="flex md:flex-row flex-col gap-4 p-4  rounded-lg bg-gray-50 hover:shadow-md transition-shadow"
+                  >
+                    <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                      <IconComponent size={24} />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-800">
+                        {amenity.name}
+                      </h4>
+                      {amenity.description && (
+                        <p className="text-sm text-gray-500 mt-1">
+                          {amenity.description}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
           </div>
         </div>
       </div>

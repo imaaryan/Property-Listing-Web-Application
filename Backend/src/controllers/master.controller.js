@@ -1,6 +1,5 @@
 import { City } from "../models/city.model.js";
 import { Area } from "../models/area.model.js";
-import { Amenity } from "../models/amenity.model.js";
 
 // --- City Controllers ---
 export const addCity = async (req, res) => {
@@ -119,62 +118,8 @@ export const deleteArea = async (req, res) => {
   }
 };
 
-// --- Amenity Controllers ---
-export const addAmenity = async (req, res) => {
-  try {
-    const { name } = req.body;
-    const amenity = await Amenity.create({ name });
-    res.status(201).json({ success: true, data: amenity });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+// Amenity controllers removed
 
-export const getAmenities = async (req, res) => {
-  try {
-    const amenities = await Amenity.find({});
-    res.status(200).json({ success: true, data: amenities });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-export const updateAmenity = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { name } = req.body;
-    const amenity = await Amenity.findByIdAndUpdate(
-      id,
-      { name },
-      { new: true }
-    );
-    if (!amenity) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Amenity not found" });
-    }
-    res.status(200).json({ success: true, data: amenity });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-export const deleteAmenity = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const amenity = await Amenity.findByIdAndDelete(id);
-    if (!amenity) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Amenity not found" });
-    }
-    res
-      .status(200)
-      .json({ success: true, message: "Amenity deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
 export const getPropertyTypes = async (req, res) => {
   try {
     const types = [

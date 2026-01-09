@@ -41,11 +41,7 @@ const AdminLayout = () => {
       path: "/admin/add-locations",
       icon: RiMapPinAddLine,
     },
-    {
-      name: "Add Amenities",
-      path: "/admin/add-amenities",
-      icon: RiListSettingsLine,
-    },
+
     {
       name: "Seller Enquiries",
       path: "/admin/seller-enquiries",

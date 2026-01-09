@@ -27,12 +27,6 @@ const propertySchema = new mongoose.Schema(
       ref: "Area",
       required: [true, "Area ID is required"],
     },
-    amenitiesId: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: "Amenity",
-      },
-    ],
 
     propertyType: {
       type: String,
@@ -144,6 +138,18 @@ const propertySchema = new mongoose.Schema(
         required: [true, "Location Coordinates (Longitude) are required"],
       },
     },
+
+    nearbyAmenities: [
+      {
+        name: { type: String, required: true },
+        icon: { type: String }, // Icon name from Remix Icon or similar
+        description: { type: String },
+        location: {
+          latitude: { type: Number, required: true },
+          longitude: { type: Number, required: true },
+        },
+      },
+    ],
 
     isPublished: {
       type: Boolean,
