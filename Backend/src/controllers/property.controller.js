@@ -81,6 +81,15 @@ export const createProperty = async (req, res) => {
       }
     }
 
+    // Upload Khatauni PDF
+    let khatauniPdfUrl = "";
+    if (req.files?.khatauniPdf?.[0]) {
+      khatauniPdfUrl = await uploadToImageKit(
+        req.files.khatauniPdf[0],
+        "/properties/documents"
+      );
+    }
+
     // 2. Prepare Data
     // req.body contains the text fields from the multipart/form-data
     const propertyData = {
@@ -101,8 +110,11 @@ export const createProperty = async (req, res) => {
           : req.body.propertyDetails,
       khatuniDetails:
         typeof req.body.khatuniDetails === "string"
-          ? JSON.parse(req.body.khatuniDetails)
-          : req.body.khatuniDetails,
+          ? {
+              ...JSON.parse(req.body.khatuniDetails),
+              khatauniPdf: khatauniPdfUrl,
+            }
+          : { ...req.body.khatuniDetails, khatauniPdf: khatauniPdfUrl },
       locationOnMap:
         typeof req.body.locationOnMap === "string"
           ? JSON.parse(req.body.locationOnMap)
@@ -374,6 +386,15 @@ export const updateProperty = async (req, res) => {
       }
     }
 
+    // Handle Khatauni PDF
+    let khatauniPdfUrl = property.khatuniDetails?.khatauniPdf;
+    if (req.files?.khatauniPdf?.[0]) {
+      khatauniPdfUrl = await uploadToImageKit(
+        req.files.khatauniPdf[0],
+        "/properties/documents"
+      );
+    }
+
     // 2. Prepare Update Data
     const updateData = {
       ...req.body,
@@ -391,8 +412,22 @@ export const updateProperty = async (req, res) => {
       typeof req.body.propertyDetails === "string"
     )
       updateData.propertyDetails = JSON.parse(req.body.propertyDetails);
-    if (req.body.khatuniDetails && typeof req.body.khatuniDetails === "string")
+    if (
+      req.body.khatuniDetails &&
+      typeof req.body.khatuniDetails === "string"
+    ) {
       updateData.khatuniDetails = JSON.parse(req.body.khatuniDetails);
+    }
+    // Ensure khatauniPdf is preserved or updated
+    if (updateData.khatuniDetails) {
+      updateData.khatuniDetails.khatauniPdf = khatauniPdfUrl;
+    } else if (property.khatuniDetails) {
+      // If khatuniDetails not sent in body (unlikely but possible partial update), preserve existing + new PDF
+      updateData.khatuniDetails = {
+        ...property.khatuniDetails,
+        khatauniPdf: khatauniPdfUrl,
+      };
+    }
     if (req.body.locationOnMap && typeof req.body.locationOnMap === "string")
       updateData.locationOnMap = JSON.parse(req.body.locationOnMap);
     if (

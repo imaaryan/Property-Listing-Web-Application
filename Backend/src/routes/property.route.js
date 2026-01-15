@@ -21,6 +21,7 @@ propertyRouter.post(
   upload.fields([
     { name: "featuredImage", maxCount: 1 },
     { name: "imageGallery", maxCount: 10 },
+    { name: "khatauniPdf", maxCount: 1 },
   ]),
   validatePropertyPricingExpress,
   createProperty
@@ -37,6 +38,7 @@ propertyRouter.put(
   upload.fields([
     { name: "featuredImage", maxCount: 1 },
     { name: "imageGallery", maxCount: 10 },
+    { name: "khatauniPdf", maxCount: 1 },
   ]),
   validatePropertyPricingExpress,
   updateProperty

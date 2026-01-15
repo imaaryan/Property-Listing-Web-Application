@@ -99,6 +99,7 @@ const propertySchema = new mongoose.Schema(
         type: Number,
         required: [true, "Owner Phone Number is required"],
       },
+      khatauniPdf: String, // URL to the uploaded PDF
     },
 
     propertyDetails: {

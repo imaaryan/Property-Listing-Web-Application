@@ -133,10 +133,16 @@ const PropertySidebar = ({
               <div className="mt-2">
                 <h3 className="text-md font-medium mb-2">Khatauni Details:</h3>
                 {/* PDF Thumbnail */}
-                <PDFThumbnail
-                  pdfUrl={dummyPdf}
-                  onClick={() => setIsPdfModalOpen(true)}
-                />
+                {currentProperty.khatuniDetails?.khatauniPdf ? (
+                  <PDFThumbnail
+                    pdfUrl={currentProperty.khatuniDetails.khatauniPdf}
+                    onClick={() => setIsPdfModalOpen(true)}
+                  />
+                ) : (
+                  <p className="text-sm text-gray-400 italic">
+                    No document available
+                  </p>
+                )}
               </div>
             </div>
           )}
@@ -173,7 +179,7 @@ const PropertySidebar = ({
 
       {isPdfModalOpen && (
         <PDFViewerModal
-          pdfUrl={dummyPdf}
+          pdfUrl={currentProperty.khatuniDetails?.khatauniPdf || dummyPdf}
           onClose={() => setIsPdfModalOpen(false)}
         />
       )}

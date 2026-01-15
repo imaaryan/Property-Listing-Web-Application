@@ -35,6 +35,10 @@ const AddBuyProperty = () => {
   const [existingGalleryImages, setExistingGalleryImages] = useState([]); // URLs from backend
   const [newGalleryImages, setNewGalleryImages] = useState([]); // New Files
 
+  // PDF State
+  const [khatauniPdf, setKhatauniPdf] = useState(null); // File
+  const [khatauniPdfPreview, setKhatauniPdfPreview] = useState(null); // URL
+
   // Derived previews for UI
   const galleryPreviews = [
     ...existingGalleryImages,
@@ -162,6 +166,8 @@ const AddBuyProperty = () => {
                 khasraNumber: "",
                 currentOwnerPhoneNumber: "",
               },
+              // PDF Preview
+              khatauniPdfPreview: prop.khatuniDetails?.khatauniPdf || null,
               propertyDetails: {
                 ...prop.propertyDetails,
                 // Convert booleans back to "Yes"/"No" strings if necessary for Select inputs
@@ -189,6 +195,9 @@ const AddBuyProperty = () => {
             }
             if (prop.images?.imageGallery) {
               setExistingGalleryImages(prop.images.imageGallery);
+            }
+            if (prop.khatuniDetails?.khatauniPdf) {
+              setKhatauniPdfPreview(prop.khatuniDetails.khatauniPdf);
             }
           }
         } catch (error) {
@@ -329,6 +338,21 @@ const AddBuyProperty = () => {
     }
   };
 
+  // PDF Handler
+  const handleKhatauniPdf = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.type !== "application/pdf") {
+        return toast.error("Please upload a PDF file");
+      }
+      setKhatauniPdf(file);
+      // For PDF, we can't easily create a preview URL that works in all browsers as an image,
+      // but creating an object URL allows us to link to it or show it in an iframe.
+      // However, for admin "preview", a simple file name or link is enough.
+      setKhatauniPdfPreview(URL.createObjectURL(file));
+    }
+  };
+
   const removeGalleryImage = (index) => {
     if (index < existingGalleryImages.length) {
       // Remove from existing
@@ -436,6 +460,10 @@ const AddBuyProperty = () => {
       newGalleryImages.forEach((file) => {
         submitData.append("imageGallery", file);
       });
+
+      if (khatauniPdf) {
+        submitData.append("khatauniPdf", khatauniPdf);
+      }
 
       let res;
       if (id) {
@@ -1033,6 +1061,35 @@ const AddBuyProperty = () => {
                 value={formData.khatuniDetails.khasraNumber}
                 onChange={handleKhatuniChange}
               />
+
+              {/* PDF Upload */}
+              <div className="form-control w-full">
+                <label className="label">
+                  <span className="label-text font-medium text-gray-700">
+                    Khatauni PDF
+                  </span>
+                </label>
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  onChange={handleKhatauniPdf}
+                  className="file-input file-input-bordered file-input-primary w-full"
+                />
+
+                {khatauniPdfPreview && (
+                  <div className="mt-2 text-sm">
+                    <span className="text-gray-600 mr-2">Current PDF:</span>
+                    <a
+                      href={khatauniPdfPreview}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary underline hover:text-primary-focus"
+                    >
+                      {khatauniPdf ? khatauniPdf.name : "View Uploaded PDF"}
+                    </a>
+                  </div>
+                )}
+              </div>
             </div>
           </FormSection>
         </div>
