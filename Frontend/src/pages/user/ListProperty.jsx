@@ -75,9 +75,13 @@ const ListProperty = () => {
           <h1 className="text-2xl md:text-3xl font-medium text-primary mb-3">
             List Your Property With Us
           </h1>
-          <p className="text-gray-600 max-w-md mx-auto text-base">
-            Join our exclusive network of verified sellers and connect with
-            genuine buyers instantly.
+          <h2 className="text-xl md:text-2xl font-medium text-gray-700 mb-3">
+            Connect With Genuine Buyers, Not Casual Browsers
+          </h2>
+          <p className="text-gray-600 max-w-xl mx-auto text-base">
+            Become part of a closed, verified network where transparency comes
+            first. We ensure that your listing reaches buyers who value clean
+            paperwork and real information.
           </p>
         </div>
         {/* Decorative Circles */}
@@ -90,29 +94,37 @@ const ListProperty = () => {
         {/* Left: Why Choose Us (Replaces Images) */}
         <div className="md:col-span-7 flex flex-col gap-8">
           <div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
               Why Choose Khasra Khatauni?
             </h2>
+            <div className="mb-6">
+              <p className="text-lg text-gray-600">
+                Listing a property is easy.
+              </p>
+              <p className="text-lg text-gray-800 font-semibold">
+                Listing a verified property is not.
+              </p>
+            </div>
             <div className="grid grid-cols-1 gap-6">
               {[
                 {
                   title: "Verified Network",
-                  desc: "We only deal with verified buyers and sellers to ensure safety.",
+                  desc: "We work only with verified sellers and verified buyers. Every listing goes through document checks, and every inquiry comes from real, traceable users.",
                   icon: RiShieldCheckLine,
                 },
                 {
                   title: "Expert Legal Support",
-                  desc: "Get end-to-end assistance with property documentation and verification.",
+                  desc: "Our team assists with Khasra number verification, Khatauni ownership checks, and Title clarity confirmation.",
                   icon: RiTeamLine,
                 },
                 {
                   title: "Faster Deals",
-                  desc: "Our optimized platform ensures your property gets sold quicker.",
+                  desc: "Since documents are checked early, buyers do not hesitate later. This reduces delays, repeated negotiations, and unnecessary follow-ups.",
                   icon: RiTimeLine,
                 },
                 {
                   title: "Zero Hidden Costs",
-                  desc: "Transparent pricing and processes. No surprises later.",
+                  desc: "Our pricing and processes are explained upfront, so you stay informed from the first step to closure.",
                   icon: RiCheckDoubleLine,
                 },
               ].map((item, index) => (
@@ -252,7 +264,7 @@ const ListProperty = () => {
             We Deal In Various Properties
           </h2>
           <p className="text-gray-500 mt-2">
-            Find the perfect category for your asset
+            Find the Right Category for Your Asset
           </p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -285,15 +297,23 @@ const ListProperty = () => {
             <div className="inline-block bg-white/20 backdrop-blur-sm px-4 py-1 rounded-full text-sm font-medium mb-4 border border-white/30">
               TRUST & SAFETY
             </div>
-            <h2 className="text-3xl font-bold mb-4">What is KK-Verified?</h2>
-            <p className="text-blue-100 leading-relaxed text-lg mb-6">
-              <span className="font-bold text-white">
-                Khasra Khatauni Verified
-              </span>{" "}
-              properties are strictly vetted for legal authenticity. We check
-              government records to ensure clean titles, so you can buy or sell
-              with 100% confidence.
-            </p>
+            <h2 className="text-3xl font-bold mb-4">What Is KK-Verified?</h2>
+            <div className="text-blue-100 leading-relaxed text-lg mb-6 space-y-4">
+              <p>
+                A KK-Verified property means the land records have been reviewed
+                against official government data.
+              </p>
+              <div>
+                <p className="font-semibold text-white mb-2">
+                  Before a listing is marked verified, we ensure:
+                </p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li>Ownership matches revenue records</li>
+                  <li>Titles are clear and transferable</li>
+                  <li>No active disputes are reflected in records</li>
+                </ul>
+              </div>
+            </div>
             <div className="flex gap-4">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-green-400"></div>
@@ -327,15 +347,25 @@ const ListProperty = () => {
           More About Khasra Khatauni
         </h2>
         <p className="text-gray-500 max-w-2xl mx-auto mb-8 text-lg">
-          We are dedicated to bringing transparency to the real estate market.
-          Learn more about our mission and how we protect your investments.
+          We focus on transparency, verification, and legal clarity in real
+          estate transactions. Learn how our process helps protect property
+          value and buyer confidence.
         </p>
-        <button
-          onClick={() => navigate("/about")}
-          className="btn btn-outline btn-primary px-10 rounded-full hover:px-12 transition-all duration-300"
-        >
-          Know More
-        </button>
+        <div className="flex flex-col items-center gap-6">
+          <button
+            onClick={() => navigate("/about")}
+            className="btn btn-outline btn-primary px-10 rounded-full hover:px-12 transition-all duration-300"
+          >
+            Know More
+          </button>
+
+          {/* <div className="text-gray-600 space-y-1">
+            <h3 className="text-xl font-bold text-gray-800">Khasra Khatauni</h3>
+            <p>Your trusted real estate partner in Dehradun</p>
+            <p className="font-medium">+91 3695-548555</p>
+            <p>info@khasrakhatauni.com</p>
+          </div> */}
+        </div>
       </div>
     </div>
   );
