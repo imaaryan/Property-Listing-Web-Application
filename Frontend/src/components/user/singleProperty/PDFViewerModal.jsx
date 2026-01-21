@@ -38,12 +38,6 @@ const PDFViewerModal = ({ pdfUrl, onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
       {/* Close Button */}
-      <button
-        onClick={onClose}
-        className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors"
-      >
-        <RiCloseLine size={32} />
-      </button>
 
       <div
         className="bg-white rounded-lg shadow-xl max-w-5xl w-full max-h-[90vh] flex flex-col overflow-hidden"
@@ -51,11 +45,21 @@ const PDFViewerModal = ({ pdfUrl, onClose }) => {
       >
         {/* Header / Controls */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50 flex-wrap gap-2">
+         <div className="flex w-full justify-between items-center pb-2 ">
           <h3 className="font-semibold text-lg text-gray-700">
             Khatauni Details
           </h3>
 
+            <button
+              onClick={onClose}
+              className="flex items-center gap-2 py-2 px-4 hover:bg-gray-200 bg-primary text-white rounded-full hover:text-gray-500 transition-colors"
+            >
+               <RiCloseLine size={20} /> Close
+            </button>
+         </div>
+
           <div className="flex items-center gap-4">
+
             {/* Zoom Controls */}
             <div className="flex items-center gap-1 bg-white rounded-lg border border-gray-200 p-1">
               <button
@@ -79,7 +83,7 @@ const PDFViewerModal = ({ pdfUrl, onClose }) => {
 
             <div className="h-6 w-px bg-gray-300 mx-2 hidden md:block"></div>
 
-            <span className="text-sm text-gray-600 hidden md:inline">
+            <span className="text-sm text-gray-600  md:inline">
               Page {pageNumber} of {numPages || "--"}
             </span>
 
