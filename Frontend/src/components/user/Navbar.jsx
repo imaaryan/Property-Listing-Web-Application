@@ -102,7 +102,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Sidebar */}
-          <div className="justify-self-end block md:hidden z-92">
+          <div className="justify-self-end block md:hidden z-[100]">
             <div className="grid justify-items-end drawer drawer-end">
               <input
                 id="my-drawer-5"

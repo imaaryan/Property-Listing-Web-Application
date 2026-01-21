@@ -4,6 +4,8 @@ import {
   RiCloseLine,
   RiArrowLeftSLine,
   RiArrowRightSLine,
+  RiZoomInLine,
+  RiZoomOutLine,
 } from "@remixicon/react";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -17,6 +19,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 const PDFViewerModal = ({ pdfUrl, onClose }) => {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
+  const [scale, setScale] = useState(1.0); // Start at 100%
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
@@ -28,6 +31,9 @@ const PDFViewerModal = ({ pdfUrl, onClose }) => {
 
   const previousPage = () => changePage(-1);
   const nextPage = () => changePage(1);
+
+  const zoomIn = () => setScale((prev) => Math.min(prev + 0.2, 3.0));
+  const zoomOut = () => setScale((prev) => Math.max(prev - 0.2, 0.5));
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
@@ -44,15 +50,40 @@ const PDFViewerModal = ({ pdfUrl, onClose }) => {
         onContextMenu={(e) => e.preventDefault()} // Disable right-click
       >
         {/* Header / Controls */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50 flex-wrap gap-2">
           <h3 className="font-semibold text-lg text-gray-700">
             Khatauni Details
           </h3>
 
           <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-600">
+            {/* Zoom Controls */}
+            <div className="flex items-center gap-1 bg-white rounded-lg border border-gray-200 p-1">
+              <button
+                onClick={zoomOut}
+                disabled={scale <= 0.6}
+                className="p-1 rounded hover:bg-gray-100 disabled:opacity-50 text-gray-600"
+              >
+                <RiZoomOutLine size={20} />
+              </button>
+              <span className="text-xs font-medium w-12 text-center text-gray-600">
+                {Math.round(scale * 100)}%
+              </span>
+              <button
+                onClick={zoomIn}
+                disabled={scale >= 3.0}
+                className="p-1 rounded hover:bg-gray-100 disabled:opacity-50 text-gray-600"
+              >
+                <RiZoomInLine size={20} />
+              </button>
+            </div>
+
+            <div className="h-6 w-px bg-gray-300 mx-2 hidden md:block"></div>
+
+            <span className="text-sm text-gray-600 hidden md:inline">
               Page {pageNumber} of {numPages || "--"}
             </span>
+
+            {/* Page Navigation */}
             <div className="flex items-center gap-1">
               <button
                 disabled={pageNumber <= 1}
@@ -73,29 +104,30 @@ const PDFViewerModal = ({ pdfUrl, onClose }) => {
         </div>
 
         {/* PDF Content */}
-        <div className="flex-1 overflow-auto flex justify-center bg-gray-100 p-4">
-          <Document
-            file={pdfUrl}
-            onLoadSuccess={onDocumentLoadSuccess}
-            loading={
-              <div className="flex items-center justify-center h-64 text-gray-500">
-                Loading PDF...
-              </div>
-            }
-            error={
-              <div className="flex items-center justify-center h-64 text-red-500">
-                Failed to load PDF.
-              </div>
-            }
-          >
-            <Page
-              pageNumber={pageNumber}
-              renderTextLayer={false}
-              renderAnnotationLayer={false}
-              className="shadow-lg"
-              scale={1.2}
-            />
-          </Document>
+        <div className="flex-1 overflow-auto flex bg-gray-100 p-4">
+          <div className="min-w-fit min-h-fit m-auto shadow-lg">
+            <Document
+              file={pdfUrl}
+              onLoadSuccess={onDocumentLoadSuccess}
+              loading={
+                <div className="flex items-center justify-center h-64 text-gray-500">
+                  Loading PDF...
+                </div>
+              }
+              error={
+                <div className="flex items-center justify-center h-64 text-red-500">
+                  Failed to load PDF.
+                </div>
+              }
+            >
+              <Page
+                pageNumber={pageNumber}
+                renderTextLayer={false}
+                renderAnnotationLayer={false}
+                scale={scale}
+              />
+            </Document>
+          </div>
         </div>
       </div>
     </div>
