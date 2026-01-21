@@ -122,7 +122,7 @@ const PreFooter2 = () => {
       </section>
 
       {/* 3. About Us Split Layout */}
-      <section className="bg-gray-50 rounded-3xl overflow-hidden">
+      <section className=" rounded-3xl overflow-hidden">
         <div className="grid md:grid-cols-2 items-center">
           <div className="p-10 md:p-16">
             <span className="text-primary font-bold tracking-wider text-sm uppercase mb-4 block">
@@ -144,7 +144,7 @@ const PreFooter2 = () => {
               Read Our Story
             </button>
           </div>
-          <div className="h-full min-h-[300px] bg-[#e2e7fc] relative flex items-center justify-center overflow-hidden">
+          <div className="h-full min-h-[300px] bg-[#e2e7fc] rounded-3xl relative flex items-center justify-center overflow-hidden">
             {/* Decorative Abstract Shapes */}
             <div className="absolute w-64 h-64 bg-white/40 rounded-full blur-3xl -top-10 -right-10"></div>
             <div className="absolute w-64 h-64 bg-blue-400/10 rounded-full blur-3xl bottom-10 left-10"></div>
