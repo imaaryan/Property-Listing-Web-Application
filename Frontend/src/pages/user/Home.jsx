@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, useCallback } from "react";
 import Card from "../../components/user/Card.jsx";
+import PreFooter from "../../components/user/PreFooter2.jsx";
 import SkeletonCard from "../../components/user/SkeletonCard.jsx";
 import Filter from "../../components/user/Filter.jsx";
 import { RiEqualizerLine, RiLoader4Line } from "@remixicon/react";
@@ -248,6 +249,7 @@ const Home = () => {
           </>
         )}
       </div>
+      <PreFooter />
     </>
   );
 };
