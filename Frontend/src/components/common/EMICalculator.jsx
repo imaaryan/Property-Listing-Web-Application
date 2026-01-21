@@ -68,8 +68,8 @@ const EMICalculator = ({
   const [view, setView] = useState("graph"); // 'graph' or 'schedule'
 
   // Constants for slider ranges
-  const MIN_COST = 50000;
-  const MAX_COST = 50000000; // Increased max cost for real estate
+  const MIN_COST = 100000;
+  const MAX_COST = 100000000; // Increased max cost for real estate
   const MIN_INTEREST = 5;
   const MAX_INTEREST = 20;
   const MIN_TENURE = 1;
