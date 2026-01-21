@@ -124,7 +124,7 @@ const PreFooter2 = () => {
       {/* 3. About Us Split Layout */}
       <section className=" rounded-3xl overflow-hidden">
         <div className="grid md:grid-cols-2 items-center">
-          <div className="p-10 md:p-16">
+          <div className="p-5 max-sm:pb-16 md:py-16 md:pr-20">
             <span className="text-primary font-bold tracking-wider text-sm uppercase mb-4 block">
               About Us
             </span>
